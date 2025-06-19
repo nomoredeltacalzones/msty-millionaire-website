@@ -55,12 +55,152 @@ app.use('/images', express.static(path.join(__dirname, 'assets/images')));
 
 // API Routes
 app.use('/api/proxy', require('./api/proxy'));
+app.use('/api/portfolio', require('./api/portfolio'));
 
 // Uncomment these as you implement them
 // app.use('/api/auth', require('./api/auth'));
-// app.use('/api/portfolio', require('./api/portfolio'));
 // app.use('/api/analytics', require('./api/analytics'));
 // app.use('/api/payments', require('./api/payments'));
+
+// Temporary endpoint to run portfolio SQL
+app.get('/api/run-portfolio-sql', async (req, res) => {
+    try {
+        const { Pool } = require('pg');
+        const pool = new Pool({
+            connectionString: process.env.DATABASE_URL,
+            ssl: IS_PRODUCTION ? { rejectUnauthorized: false } : false
+        });
+        
+        // The SQL from paste.txt
+        const sql = `
+-- Create portfolio history table
+CREATE TABLE IF NOT EXISTS portfolio_history (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+    date DATE NOT NULL,
+    total_value DECIMAL(12,2) NOT NULL,
+    total_invested DECIMAL(12,2) NOT NULL,
+    daily_return DECIMAL(12,2),
+    daily_return_percent DECIMAL(5,2),
+    created_at TIMESTAMP DEFAULT NOW(),
+    UNIQUE(user_id, date)
+);
+
+-- Create indexes for performance
+CREATE INDEX IF NOT EXISTS idx_portfolio_history_user_date ON portfolio_history(user_id, date DESC);
+CREATE INDEX IF NOT EXISTS idx_portfolio_history_date ON portfolio_history(date);
+
+-- Create a function to record daily portfolio snapshot
+CREATE OR REPLACE FUNCTION record_portfolio_snapshot(p_user_id INTEGER)
+RETURNS void AS $$
+DECLARE
+    v_total_value DECIMAL(12,2);
+    v_total_invested DECIMAL(12,2);
+    v_yesterday_value DECIMAL(12,2);
+    v_daily_return DECIMAL(12,2);
+    v_daily_return_percent DECIMAL(5,2);
+BEGIN
+    -- Calculate current portfolio value
+    SELECT 
+        COALESCE(SUM(shares * COALESCE(current_price, avg_cost)), 0),
+        COALESCE(SUM(shares * avg_cost), 0)
+    INTO v_total_value, v_total_invested
+    FROM portfolios
+    WHERE user_id = p_user_id;
+    
+    -- Get yesterday's value
+    SELECT total_value 
+    INTO v_yesterday_value
+    FROM portfolio_history
+    WHERE user_id = p_user_id 
+    AND date = CURRENT_DATE - INTERVAL '1 day';
+    
+    -- Calculate daily return
+    IF v_yesterday_value IS NOT NULL AND v_yesterday_value > 0 THEN
+        v_daily_return := v_total_value - v_yesterday_value;
+        v_daily_return_percent := (v_daily_return / v_yesterday_value) * 100;
+    ELSE
+        v_daily_return := 0;
+        v_daily_return_percent := 0;
+    END IF;
+    
+    -- Insert or update today's snapshot
+    INSERT INTO portfolio_history (user_id, date, total_value, total_invested, daily_return, daily_return_percent)
+    VALUES (p_user_id, CURRENT_DATE, v_total_value, v_total_invested, v_daily_return, v_daily_return_percent)
+    ON CONFLICT (user_id, date) 
+    DO UPDATE SET 
+        total_value = EXCLUDED.total_value,
+        total_invested = EXCLUDED.total_invested,
+        daily_return = EXCLUDED.daily_return,
+        daily_return_percent = EXCLUDED.daily_return_percent,
+        created_at = NOW();
+END;
+$$ LANGUAGE plpgsql;
+
+-- Create view for portfolio performance metrics
+CREATE OR REPLACE VIEW portfolio_performance AS
+WITH date_ranges AS (
+    SELECT 
+        CURRENT_DATE - INTERVAL '1 day' as one_day_ago,
+        CURRENT_DATE - INTERVAL '1 week' as one_week_ago,
+        CURRENT_DATE - INTERVAL '1 month' as one_month_ago,
+        CURRENT_DATE - INTERVAL '3 months' as three_months_ago,
+        CURRENT_DATE - INTERVAL '6 months' as six_months_ago,
+        CURRENT_DATE - INTERVAL '1 year' as one_year_ago
+)
+SELECT 
+    ph.user_id,
+    -- Current values
+    (SELECT total_value FROM portfolio_history WHERE user_id = ph.user_id ORDER BY date DESC LIMIT 1) as current_value,
+    (SELECT total_invested FROM portfolio_history WHERE user_id = ph.user_id ORDER BY date DESC LIMIT 1) as total_invested,
+    
+    -- 1 Day Performance
+    (SELECT total_value FROM portfolio_history WHERE user_id = ph.user_id AND date >= (SELECT one_day_ago FROM date_ranges) ORDER BY date ASC LIMIT 1) as value_1d_ago,
+    
+    -- 1 Week Performance
+    (SELECT total_value FROM portfolio_history WHERE user_id = ph.user_id AND date >= (SELECT one_week_ago FROM date_ranges) ORDER BY date ASC LIMIT 1) as value_1w_ago,
+    
+    -- 1 Month Performance
+    (SELECT total_value FROM portfolio_history WHERE user_id = ph.user_id AND date >= (SELECT one_month_ago FROM date_ranges) ORDER BY date ASC LIMIT 1) as value_1m_ago,
+    
+    -- 3 Month Performance
+    (SELECT total_value FROM portfolio_history WHERE user_id = ph.user_id AND date >= (SELECT three_months_ago FROM date_ranges) ORDER BY date ASC LIMIT 1) as value_3m_ago,
+    
+    -- 6 Month Performance
+    (SELECT total_value FROM portfolio_history WHERE user_id = ph.user_id AND date >= (SELECT six_months_ago FROM date_ranges) ORDER BY date ASC LIMIT 1) as value_6m_ago,
+    
+    -- 1 Year Performance
+    (SELECT total_value FROM portfolio_history WHERE user_id = ph.user_id AND date >= (SELECT one_year_ago FROM date_ranges) ORDER BY date ASC LIMIT 1) as value_1y_ago
+FROM portfolio_history ph
+GROUP BY ph.user_id;
+        `;
+        
+        await pool.query(sql);
+        
+        // Check if tables were created
+        const tableCheck = await pool.query(`
+            SELECT table_name 
+            FROM information_schema.tables 
+            WHERE table_schema = 'public' 
+            AND table_name IN ('portfolio_history')
+        `);
+        
+        pool.end();
+        
+        res.json({
+            success: true,
+            message: 'Portfolio history tables created successfully!',
+            tablesCreated: tableCheck.rows
+        });
+    } catch (error) {
+        console.error('SQL execution error:', error);
+        res.status(500).json({
+            success: false,
+            error: error.message,
+            detail: error.detail
+        });
+    }
+});
 
 // Health check endpoint - ENHANCED for Railway
 app.get('/api/health', async (req, res) => {
@@ -131,7 +271,8 @@ app.get('/api/test-db', async (req, res) => {
                 current_price DECIMAL(10,2),
                 last_updated TIMESTAMP DEFAULT NOW(),
                 created_at TIMESTAMP DEFAULT NOW(),
-                updated_at TIMESTAMP DEFAULT NOW()
+                updated_at TIMESTAMP DEFAULT NOW(),
+                UNIQUE(user_id, ticker)
             )
         `);
         
@@ -226,18 +367,25 @@ app.get('/api', (req, res) => {
         endpoints: {
             health: '/api/health',
             testDb: '/api/test-db',
+            runPortfolioSql: '/api/run-portfolio-sql',
             proxy: {
                 stock: '/api/proxy/stock/:ticker',
                 batchStocks: '/api/proxy/stocks/batch',
                 yieldmax: '/api/proxy/yieldmax/yields'
+            },
+            portfolio: {
+                holdings: '/api/portfolio/holdings',
+                summary: '/api/portfolio/summary',
+                performance: '/api/portfolio/performance',
+                history: '/api/portfolio/history',
+                updatePrices: '/api/portfolio/update-prices'
             },
             auth: {
                 login: '/api/auth/login',
                 register: '/api/auth/register',
                 logout: '/api/auth/logout',
                 me: '/api/auth/me'
-            },
-            portfolio: '/api/portfolio/*'
+            }
         }
     });
 });
@@ -386,24 +534,10 @@ server.listen(PORT, '0.0.0.0', () => {
         console.log(`\n🔧 Running in DEVELOPMENT mode`);
         console.log(`📍 Local URL: http://localhost:${PORT}`);
         console.log(`📡 API Test: http://localhost:${PORT}/api/health`);
+        console.log(`🔨 Portfolio SQL: http://localhost:${PORT}/api/run-portfolio-sql`);
     }
 });
 
 // Graceful shutdown
 process.on('SIGTERM', () => {
-    console.log('SIGTERM signal received: closing HTTP server');
-    server.close(() => {
-        console.log('HTTP server closed');
-        process.exit(0);
-    });
-});
-
-process.on('SIGINT', () => {
-    console.log('SIGINT signal received: closing HTTP server');
-    server.close(() => {
-        console.log('HTTP server closed');
-        process.exit(0);
-    });
-});
-
-module.exports = app;
+    console.log('SIGTERM signal received: closin
