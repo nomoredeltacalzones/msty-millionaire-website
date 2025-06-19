@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Settings - Manage Your Profile | MSTY Millionaire</title>
+    <meta name="description" content="Manage your MSTY Millionaire account settings, notifications, portfolio preferences, and subscription options.">
+    
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-PLACEHOLDER-ID" crossorigin="anonymous"></script>
+    
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/main.js" defer></script>
+</head>
+<body>
+    <div class="bg-animation"></div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <h1>MSTY Millionaire</h1>
+                    <div class="live-indicator">
+                        <span class="live-dot"></span>
+                        <span>Live</span>
+                    </div>
+                </div>
+                
+                <nav class="nav-menu" id="navMenu">
+                    <a href="../index.html" class="nav-link" >Dashboard</a>
+                    <a href="../calculator/index.html" class="nav-link" >Calculator</a>
+                    <a href="../education/index.html" class="nav-link" >Learn</a>
+                    <a href="../portfolio/index.html" class="nav-link" >Portfolio</a>
+                    <a href="account-dashboard.html" class="nav-link active">Account</a>
+                    <a href="../faq/index.html" class="nav-link" >FAQ</a>
+                    <a href="../contact/index.html" class="nav-link" >Contact</a>
+                </nav>
+                
+                <button class="mobile-menu-toggle" onclick="toggleMenu()">☰</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <h2 class="hero-title">Account Settings</h2>
+            <p class="hero-subtitle">Manage your profile and preferences</p>
+        </section>
+
+        <!-- Account Navigation -->
+        <section class="account-nav">
+            <a href="account-dashboard.html" class="account-nav-link">Dashboard</a>
+            <a href="account/settings.html" class="account-nav-link active">Settings</a>
+            <a href="account/watchlist.html" class="account-nav-link">Watchlist</a>
+            <a href="account/alerts.html" class="account-nav-link">Alerts</a>
+        </section>
+
+        <!-- Profile Settings -->
+        <section class="content-card">
+            <h3>Profile Information</h3>
+            
+            <form class="settings-form">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" value="JohnDoe123" class="form-input">
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" value="john.doe@example.com" class="form-input">
+                </div>
+                
+                <div class="form-group">
+                    <label for="fullname">Full Name</label>
+                    <input type="text" id="fullname" value="John Doe" class="form-input">
+                </div>
+                
+                <div class="form-group">
+                    <label for="timezone">Time Zone</label>
+                    <select id="timezone" class="form-input">
+                        <option value="EST">Eastern Time (EST)</option>
+                        <option value="CST">Central Time (CST)</option>
+                        <option value="MST">Mountain Time (MST)</option>
+                        <option value="PST" selected>Pacific Time (PST)</option>
+                    </select>
+                </div>
+                
+                <button type="submit" class="save-button">Save Profile</button>
+            </form>
+        </section>
+
+        <!-- Password Settings -->
+        <section class="content-card">
+            <h3>Change Password</h3>
+            
+            <form class="settings-form">
+                <div class="form-group">
+                    <label for="current-password">Current Password</label>
+                    <input type="password" id="current-password" class="form-input">
+                </div>
+                
+                <div class="form-group">
+                    <label for="new-password">New Password</label>
+                    <input type="password" id="new-password" class="form-input">
+                    <span class="form-hint">Minimum 8 characters, include numbers and symbols</span>
+                </div>
+                
+                <div class="form-group">
+                    <label for="confirm-password">Confirm New Password</label>
+                    <input type="password" id="confirm-password" class="form-input">
+                </div>
+                
+                <button type="submit" class="save-button">Update Password</button>
+            </form>
+        </section>
+
+        <!-- Notification Settings -->
+        <section class="content-card">
+            <h3>Notification Preferences</h3>
+            
+            <div class="notification-settings">
+                <div class="notification-item">
+                    <div class="notification-info">
+                        <h4>Price Alerts</h4>
+                        <p>Get notified when ETF prices hit your targets</p>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                
+                <div class="notification-item">
+                    <div class="notification-info">
+                        <h4>Distribution Announcements</h4>
+                        <p>Alerts for dividend declarations and payment dates</p>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                
+                <div class="notification-item">
+                    <div class="notification-info">
+                        <h4>New Fund Launches</h4>
+                        <p>Be first to know about new YieldMax ETF launches</p>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                
+                <div class="notification-item">
+                    <div class="notification-info">
+                        <h4>Weekly Newsletter</h4>
+                        <p>Market analysis and portfolio recommendations</p>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                
+                <div class="notification-item">
+                    <div class="notification-info">
+                        <h4>Research Updates</h4>
+                        <p>New research reports and analysis</p>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+            </div>
+        </section>
+
+        <!-- Portfolio Preferences -->
+        <section class="content-card">
+            <h3>Portfolio Preferences</h3>
+            
+            <form class="settings-form">
+                <div class="form-group">
+                    <label for="default-currency">Default Currency</label>
+                    <select id="default-currency" class="form-input">
+                        <option value="USD" selected>USD ($)</option>
+                        <option value="EUR">EUR (€)</option>
+                        <option value="GBP">GBP (£)</option>
+                        <option value="CAD">CAD ($)</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="display-format">Number Format</label>
+                    <select id="display-format" class="form-input">
+                        <option value="comma" selected>1,234.56</option>
+                        <option value="space">1 234.56</option>
+                        <option value="period">1.234,56</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="default-view">Default Dashboard View</label>
+                    <select id="default-view" class="form-input">
+                        <option value="overview">Overview</option>
+                        <option value="watchlist" selected>My Watchlist</option>
+                        <option value="portfolio">My Portfolio</option>
+                        <option value="all-etfs">All ETFs</option>
+                    </select>
+                </div>
+                
+                <button type="submit" class="save-button">Save Preferences</button>
+            </form>
+        </section>
+
+        <!-- Ad Banner -->
+        <div class="ad-container">
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-PLACEHOLDER-ID"
+                 data-ad-slot="1234567890"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+        </div>
+
+        <!-- Data & Privacy -->
+        <section class="content-card">
+            <h3>Data & Privacy</h3>
+            
+            <div class="privacy-options">
+                <div class="privacy-item">
+                    <h4>Download Your Data</h4>
+                    <p>Get a copy of all your account data in CSV format</p>
+                    <button class="action-button">Download Data</button>
+                </div>
+                
+                <div class="privacy-item">
+                    <h4>Delete Account</h4>
+                    <p>Permanently delete your account and all associated data</p>
+                    <button class="danger-button">Delete Account</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- API Access -->
+        <section class="content-card">
+            <h3>API Access</h3>
+            
+            <div class="api-section">
+                <p>Access MSTY Millionaire data programmatically with our API</p>
+                
+                <div class="api-key-box">
+                    <label>Your API Key</label>
+                    <div class="api-key-display">
+                        <input type="text" value="••••••••••••••••••••••••" readonly class="api-key-input">
+                        <button class="show-key-btn" onclick="toggleAPIKey()">Show</button>
+                    </div>
+                </div>
+                
+                <div class="api-actions">
+                    <button class="regenerate-btn">Regenerate Key</button>
+                    <a href="api/docs.html" class="api-docs-link">API Documentation</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <p>&copy; 2025 MSTY Millionaire. Not affiliated with YieldMax ETFs.</p>
+                <p>Contact: <a href="mailto:info@mstymillionaire.com">info@mstymillionaire.com</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        function toggleMenu() {
+            const navMenu = document.getElementById('navMenu');
+            navMenu.classList.toggle('active');
+        }
+
+        function toggleAPIKey() {
+            const input = document.querySelector('.api-key-input');
+            const button = document.querySelector('.show-key-btn');
+            
+            if (input.type === 'text') {
+                input.type = 'password';
+                input.value = '••••••••••••••••••••••••';
+                button.textContent = 'Show';
+            } else {
+                input.type = 'text';
+                input.value = 'sk_live_abcd1234efgh5678ijkl9012';
+                button.textContent = 'Hide';
+            }
+        }
+    </script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0a0e1a;
+            color: #e4e8f1;
+            line-height: 1.6;
+        }
+
+        .bg-animation {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            background: linear-gradient(135deg, #0a0e1a 0%, #162033 50%, #0a0e1a 100%);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .header {
+            background: rgba(22, 32, 51, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 20px 0;
+            border-bottom: 1px solid rgba(99, 102, 241, 0.3);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        h1 {
+            font-size: 2rem;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-link {
+            color: #94a3b8;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: #6366f1;
+        }
+
+        .hero-section {
+            text-align: center;
+            padding: 60px 0 40px;
+        }
+
+        .hero-title {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-subtitle {
+            font-size: 1.3rem;
+            color: #94a3b8;
+        }
+
+        .account-nav {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 40px;
+            background: rgba(22, 32, 51, 0.8);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 15px;
+            padding: 10px;
+        }
+
+        .account-nav-link {
+            padding: 10px 20px;
+            text-decoration: none;
+            color: #94a3b8;
+            border-radius: 10px;
+            transition: all 0.3s;
+        }
+
+        .account-nav-link.active,
+        .account-nav-link:hover {
+            background: rgba(99, 102, 241, 0.2);
+            color: #6366f1;
+        }
+
+        .content-card {
+            background: rgba(22, 32, 51, 0.8);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 20px;
+            padding: 40px;
+            margin: 40px 0;
+        }
+
+        .content-card h3 {
+            font-size: 2rem;
+            color: #6366f1;
+            margin-bottom: 30px;
+        }
+
+        .settings-form {
+            max-width: 600px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            color: #94a3b8;
+            font-weight: 500;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px 20px;
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 10px;
+            color: #e4e8f1;
+            font-size: 1rem;
+        }
+
+        .form-hint {
+            display: block;
+            margin-top: 5px;
+            font-size: 0.9rem;
+            color: #64748b;
+        }
+
+        .save-button {
+            padding: 15px 40px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            border: none;
+            border-radius: 25px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .save-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.3);
+        }
+
+        .notification-settings {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .notification-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background: rgba(99, 102, 241, 0.05);
+            border-radius: 15px;
+            border: 1px solid rgba(99, 102, 241, 0.2);
+        }
+
+        .notification-info h4 {
+            color: #e4e8f1;
+            margin-bottom: 5px;
+        }
+
+        .notification-info p {
+            color: #94a3b8;
+            font-size: 0.9rem;
+        }
+
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 30px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(99, 102, 241, 0.2);
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 22px;
+            width: 22px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .toggle-slider {
+            background-color: #6366f1;
+        }
+
+        input:checked + .toggle-slider:before {
+            transform: translateX(30px);
+        }
+
+        .privacy-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .privacy-item {
+            padding: 25px;
+            background: rgba(99, 102, 241, 0.05);
+            border-radius: 15px;
+            border: 1px solid rgba(99, 102, 241, 0.2);
+        }
+
+        .privacy-item h4 {
+            color: #e4e8f1;
+            margin-bottom: 10px;
+        }
+
+        .privacy-item p {
+            color: #94a3b8;
+            margin-bottom: 20px;
+        }
+
+        .action-button {
+            padding: 10px 25px;
+            background: transparent;
+            border: 2px solid #6366f1;
+            border-radius: 20px;
+            color: #6366f1;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .action-button:hover {
+            background: #6366f1;
+            color: white;
+        }
+
+        .danger-button {
+            padding: 10px 25px;
+            background: transparent;
+            border: 2px solid #ef4444;
+            border-radius: 20px;
+            color: #ef4444;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .danger-button:hover {
+            background: #ef4444;
+            color: white;
+        }
+
+        .api-section {
+            background: rgba(99, 102, 241, 0.05);
+            border-radius: 15px;
+            padding: 30px;
+        }
+
+        .api-key-box {
+            margin: 20px 0;
+        }
+
+        .api-key-box label {
+            display: block;
+            margin-bottom: 10px;
+            color: #94a3b8;
+        }
+
+        .api-key-display {
+            display: flex;
+            gap: 10px;
+        }
+
+        .api-key-input {
+            flex: 1;
+            padding: 12px 20px;
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 10px;
+            color: #e4e8f1;
+            font-family: monospace;
+        }
+
+        .show-key-btn {
+            padding: 12px 25px;
+            background: transparent;
+            border: 1px solid #6366f1;
+            border-radius: 10px;
+            color: #6366f1;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .show-key-btn:hover {
+            background: rgba(99, 102, 241, 0.1);
+        }
+
+        .api-actions {
+            display: flex;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .regenerate-btn {
+            padding: 10px 25px;
+            background: transparent;
+            border: 2px solid #f59e0b;
+            border-radius: 20px;
+            color: #f59e0b;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .regenerate-btn:hover {
+            background: #f59e0b;
+            color: white;
+        }
+
+        .api-docs-link {
+            padding: 10px 25px;
+            background: #6366f1;
+            border-radius: 20px;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            display: inline-flex;
+            align-items: center;
+            transition: all 0.3s;
+        }
+
+        .api-docs-link:hover {
+            background: #4f46e5;
+            transform: translateY(-2px);
+        }
+
+        .ad-container {
+            margin: 40px 0;
+            padding: 20px;
+            background: rgba(22, 32, 51, 0.6);
+            border-radius: 15px;
+            text-align: center;
+            min-height: 100px;
+        }
+
+        .footer {
+            background: rgba(22, 32, 51, 0.9);
+            padding: 40px 0;
+            margin-top: 100px;
+            text-align: center;
+        }
+
+        .live-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(34, 197, 94, 0.2);
+            padding: 5px 15px;
+            border-radius: 20px;
+        }
+
+        .live-dot {
+            width: 8px;
+            height: 8px;
+            background: #22c55e;
+            border-radius: 50%;
+            animation: blink 2s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        .mobile-menu-toggle {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+            
+            .mobile-menu-toggle {
+                display: block;
+                background: none;
+                border: none;
+                color: #fff;
+                font-size: 1.5rem;
+            }
+            
+            .hero-title {
+                font-size: 2rem;
+            }
+            
+            .account-nav {
+                flex-wrap: wrap;
+            }
+            
+            .api-key-display {
+                flex-direction: column;
+            }
+        }
+    </style>
+</body>
+</html>

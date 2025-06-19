@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YieldMax ETF Price & Distribution Alerts | MSTY Millionaire</title>
+    <meta name="description" content="Set custom alerts for YieldMax ETF price movements, distribution announcements, and yield changes. Never miss important updates.">
+    
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-YOUR-ADSENSE-ID" crossorigin="anonymous"></script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0a0e1a;
+            color: #e4e8f1;
+            line-height: 1.6;
+        }
+
+        .bg-animation {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            background: linear-gradient(135deg, #0a0e1a 0%, #162033 50%, #0a0e1a 100%);
+            overflow: hidden;
+        }
+
+        .bg-animation::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.1) 0%, transparent 70%);
+            animation: pulse 15s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.5; }
+            50% { transform: translate(-50%, -50%) scale(1.5); opacity: 0.3; }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .header {
+            background: rgba(22, 32, 51, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 20px 0;
+            border-bottom: 1px solid rgba(99, 102, 241, 0.3);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo h1 {
+            font-size: 2rem;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .live-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(34, 197, 94, 0.2);
+            padding: 5px 15px;
+            border-radius: 20px;
+        }
+
+        .live-dot {
+            width: 8px;
+            height: 8px;
+            background: #22c55e;
+            border-radius: 50%;
+            animation: blink 2s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: #94a3b8;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: #6366f1;
+        }
+
+        .mobile-menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Alert Creation Section */
+        .alerts-hero {
+            text-align: center;
+            padding: 60px 0;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .alerts-hero h2 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .alert-types {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 60px 0;
+        }
+
+        .alert-card {
+            background: rgba(22, 32, 51, 0.8);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 20px;
+            padding: 30px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .alert-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(99, 102, 241, 0.3);
+            border-color: #6366f1;
+        }
+
+        .alert-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            display: inline-block;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .alert-card h3 {
+            color: #6366f1;
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+
+        /* Alert Form */
+        .alert-form {
+            background: rgba(22, 32, 51, 0.9);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 20px;
+            padding: 40px;
+            margin: 40px 0;
+            display: none;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        .alert-form.active {
+            display: block;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            color: #94a3b8;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 15px;
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 10px;
+            color: #fff;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #6366f1;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+        }
+
+        .condition-row {
+            display: grid;
+            grid-template-columns: 1fr 150px 1fr;
+            gap: 15px;
+            align-items: center;
+        }
+
+        /* Active Alerts List */
+        .active-alerts {
+            margin: 60px 0;
+        }
+
+        .active-alerts h3 {
+            font-size: 2rem;
+            color: #fff;
+            margin-bottom: 30px;
+        }
+
+        .alerts-list {
+            display: grid;
+            gap: 20px;
+        }
+
+        .alert-item {
+            background: rgba(22, 32, 51, 0.8);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 15px;
+            padding: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .alert-item:hover {
+            border-color: #6366f1;
+            background: rgba(99, 102, 241, 0.05);
+        }
+
+        .alert-info {
+            flex: 1;
+        }
+
+        .alert-title {
+            font-size: 1.2rem;
+            color: #6366f1;
+            margin-bottom: 5px;
+        }
+
+        .alert-condition {
+            color: #94a3b8;
+        }
+
+        .alert-status {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .status-badge {
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .status-active {
+            background: rgba(34, 197, 94, 0.2);
+            color: #22c55e;
+            border: 1px solid #22c55e;
+        }
+
+        .toggle-switch {
+            position: relative;
+            width: 60px;
+            height: 30px;
+            background: rgba(99, 102, 241, 0.3);
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .toggle-switch.active {
+            background: #6366f1;
+        }
+
+        .toggle-switch::after {
+            content: '';
+            position: absolute;
+            width: 26px;
+            height: 26px;
+            background: #fff;
+            border-radius: 50%;
+            top: 2px;
+            left: 2px;
+            transition: all 0.3s ease;
+        }
+
+        .toggle-switch.active::after {
+            left: 32px;
+        }
+
+        /* Notification Settings */
+        .notification-settings {
+            background: rgba(22, 32, 51, 0.8);
+            border-radius: 20px;
+            padding: 40px;
+            margin: 40px 0;
+        }
+
+        .notification-methods {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .method-card {
+            background: rgba(99, 102, 241, 0.05);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .method-card.selected {
+            border-color: #6366f1;
+            background: rgba(99, 102, 241, 0.1);
+        }
+
+        .method-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        /* Buttons */
+        .btn-primary {
+            padding: 15px 40px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.4);
+        }
+
+        .btn-secondary {
+            padding: 15px 40px;
+            background: transparent;
+            color: #6366f1;
+            border: 2px solid #6366f1;
+            border-radius: 30px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(99, 102, 241, 0.1);
+        }
+
+        /* Alert History */
+        .alert-history {
+            margin: 60px 0;
+        }
+
+        .history-table {
+            width: 100%;
+            background: rgba(22, 32, 51, 0.8);
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        .history-table th,
+        .history-table td {
+            padding: 20px;
+            text-align: left;
+            border-bottom: 1px solid rgba(99, 102, 241, 0.2);
+        }
+
+        .history-table th {
+            background: rgba(99, 102, 241, 0.1);
+            color: #6366f1;
+            font-weight: 600;
+        }
+
+        .history-table tr:hover {
+            background: rgba(99, 102, 241, 0.05);
+        }
+
+        /* Ad Container */
+        .ad-container {
+            background: rgba(22, 32, 51, 0.6);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 40px 0;
+            text-align: center;
+            min-height: 100px;
+        }
+
+        /* Footer */
+        .footer {
+            background: rgba(22, 32, 51, 0.9);
+            padding: 40px 0;
+            margin-top: 100px;
+            text-align: center;
+            border-top: 1px solid rgba(99, 102, 241, 0.3);
+        }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+            
+            .mobile-menu-toggle {
+                display: block;
+            }
+            
+            .alerts-hero h2 {
+                font-size: 2rem;
+            }
+            
+            .condition-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .alert-item {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-animation"></div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <a href="../index.html" style="text-decoration: none;">
+                        <h1>MSTY Millionaire</h1>
+                    </a>
+                    <div class="live-indicator">
+                        <span class="live-dot"></span>
+                        <span>Live</span>
+                    </div>
+                </div>
+                
+                <nav class="nav-menu" id="navMenu">
+                    <a href="../index.html" class="nav-link" >Dashboard</a>
+                    <a href="../calculator/index.html" class="nav-link" >Calculator</a>
+                    <a href="../education/index.html" class="nav-link" >Learn</a>
+                    <a href="../portfolio/index.html" class="nav-link" >Portfolio</a>
+                    <a href="../faq/index.html" class="nav-link" >FAQ</a>
+                    <a href="../contact/index.html" class="nav-link" >Contact</a>
+                </nav>
+                
+                <button class="mobile-menu-toggle" onclick="toggleMenu()">☰</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Hero Section -->
+        <section class="alerts-hero">
+            <h2>Smart ETF Alerts</h2>
+            <p>Get notified instantly when your favorite YieldMax ETFs hit your target prices or announce distributions</p>
+        </section>
+
+        <!-- Alert Types -->
+        <section class="alert-types">
+            <div class="alert-card" onclick="showAlertForm('price')">
+                <div class="alert-icon">📈</div>
+                <h3>Price Alerts</h3>
+                <p>Get notified when an ETF reaches your target price, breaks support/resistance, or moves by a certain percentage</p>
+            </div>
+            
+            <div class="alert-card" onclick="showAlertForm('distribution')">
+                <div class="alert-icon">💰</div>
+                <h3>Distribution Alerts</h3>
+                <p>Never miss a distribution announcement, ex-dividend date, or payment date for your holdings</p>
+            </div>
+            
+            <div class="alert-card" onclick="showAlertForm('yield')">
+                <div class="alert-icon">📊</div>
+                <h3>Yield Change Alerts</h3>
+                <p>Track when yields increase or decrease beyond your specified thresholds</p>
+            </div>
+            
+            <div class="alert-card" onclick="showAlertForm('volume')">
+                <div class="alert-icon">🔊</div>
+                <h3>Volume Alerts</h3>
+                <p>Monitor unusual trading volume that might signal important market moves</p>
+            </div>
+            
+            <div class="alert-card" onclick="showAlertForm('news')">
+                <div class="alert-icon">📰</div>
+                <h3>News Alerts</h3>
+                <p>Stay updated on fund launches, strategy changes, and important announcements</p>
+            </div>
+            
+            <div class="alert-card" onclick="showAlertForm('portfolio')">
+                <div class="alert-icon">💼</div>
+                <h3>Portfolio Alerts</h3>
+                <p>Track overall portfolio performance and rebalancing opportunities</p>
+            </div>
+        </section>
+
+        <!-- Alert Form -->
+        <section class="alert-form" id="alertForm">
+            <h3>Create New Alert</h3>
+            <form onsubmit="createAlert(event)">
+                <div class="form-group">
+                    <label>Alert Name</label>
+                    <input type="text" placeholder="e.g., MSTY Price Target" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>Select ETF</label>
+                    <select required>
+                        <option value="">Choose an ETF...</option>
+                        <option value="MSTY">MSTY - MicroStrategy Income</option>
+                        <option value="TSLY">TSLY - Tesla Income</option>
+                        <option value="NVDY">NVDY - NVIDIA Income</option>
+                        <option value="PLTY">PLTY - Palantir Income</option>
+                        <option value="CONY">CONY - Coinbase Income</option>
+                        <option value="APLY">APLY - Apple Income</option>
+                        <option value="GOOY">GOOY - Google Income</option>
+                        <option value="AMZY">AMZY - Amazon Income</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>Alert Condition</label>
+                    <div class="condition-row">
+                        <select>
+                            <option>Price</option>
+                            <option>Yield</option>
+                            <option>Volume</option>
+                            <option>% Change</option>
+                        </select>
+                        <select>
+                            <option>rises above</option>
+                            <option>falls below</option>
+                            <option>equals</option>
+                            <option>changes by</option>
+                        </select>
+                        <input type="number" placeholder="Value" step="0.01" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Alert Frequency</label>
+                    <select>
+                        <option>Once (delete after trigger)</option>
+                        <option>Daily</option>
+                        <option>Every time condition is met</option>
+                        <option>Weekly summary</option>
+                    </select>
+                </div>
+                
+                <button type="submit" class="btn-primary">Create Alert</button>
+                <button type="button" class="btn-secondary" onclick="hideAlertForm()">Cancel</button>
+            </form>
+        </section>
+
+        <!-- Active Alerts -->
+        <section class="active-alerts">
+            <h3>Your Active Alerts</h3>
+            <div class="alerts-list">
+                <div class="alert-item">
+                    <div class="alert-info">
+                        <div class="alert-title">MSTY Price Target</div>
+                        <div class="alert-condition">Alert when MSTY rises above $25.00</div>
+                    </div>
+                    <div class="alert-status">
+                        <span class="status-badge status-active">Active</span>
+                        <div class="toggle-switch active" onclick="toggleAlert(this)"></div>
+                    </div>
+                </div>
+                
+                <div class="alert-item">
+                    <div class="alert-info">
+                        <div class="alert-title">PLTY Yield Alert</div>
+                        <div class="alert-condition">Alert when PLTY yield rises above 150%</div>
+                    </div>
+                    <div class="alert-status">
+                        <span class="status-badge status-active">Active</span>
+                        <div class="toggle-switch active" onclick="toggleAlert(this)"></div>
+                    </div>
+                </div>
+                
+                <div class="alert-item">
+                    <div class="alert-info">
+                        <div class="alert-title">NVDY Volume Spike</div>
+                        <div class="alert-condition">Alert when NVDY volume exceeds 2M shares</div>
+                    </div>
+                    <div class="alert-status">
+                        <span class="status-badge status-active">Active</span>
+                        <div class="toggle-switch active" onclick="toggleAlert(this)"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Ad Banner -->
+        <div class="ad-container">
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-YOUR-ADSENSE-ID"
+                 data-ad-slot="1234567890"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+        </div>
+
+        <!-- Notification Settings -->
+        <section class="notification-settings">
+            <h3>Notification Preferences</h3>
+            <p>Choose how you want to receive your alerts</p>
+            
+            <div class="notification-methods">
+                <div class="method-card selected">
+                    <div class="method-icon">📧</div>
+                    <h4>Email</h4>
+                    <p>Instant email notifications</p>
+                </div>
+                
+                <div class="method-card">
+                    <div class="method-icon">📱</div>
+                    <h4>SMS</h4>
+                    <p>Text message alerts</p>
+                    <small>(Premium feature)</small>
+                </div>
+                
+                <div class="method-card">
+                    <div class="method-icon">🔔</div>
+                    <h4>Browser</h4>
+                    <p>Push notifications</p>
+                </div>
+                
+                <div class="method-card">
+                    <div class="method-icon">📊</div>
+                    <h4>Dashboard</h4>
+                    <p>In-app notifications only</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Alert History -->
+        <section class="alert-history">
+            <h3>Recent Alert History</h3>
+            <table class="history-table">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Alert</th>
+                        <th>Trigger</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Jun 15, 2025</td>
+                        <td>TSLY Distribution Alert</td>
+                        <td>Monthly distribution announced: $0.42</td>
+                        <td>Email sent</td>
+                    </tr>
+                    <tr>
+                        <td>Jun 14, 2025</td>
+                        <td>MSTY Price Alert</td>
+                        <td>Price crossed $24.50</td>
+                        <td>Email sent</td>
+                    </tr>
+                    <tr>
+                        <td>Jun 13, 2025</td>
+                        <td>NVDY Volume Alert</td>
+                        <td>Volume: 2.3M shares</td>
+                        <td>Dashboard notification</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 MSTY Millionaire. Educational content only. Not investment advice.</p>
+            <p>Contact: <a href="mailto:alerts@mstymillionaire.com" style="color: #6366f1;">alerts@mstymillionaire.com</a></p>
+        </div>
+    </footer>
+
+    <script>
+        function showAlertForm(type) {
+            document.getElementById('alertForm').classList.add('active');
+            // Set form fields based on alert type
+        }
+        
+        function hideAlertForm() {
+            document.getElementById('alertForm').classList.remove('active');
+        }
+        
+        function createAlert(e) {
+            e.preventDefault();
+            // Alert creation logic
+            alert('Alert created successfully!');
+            hideAlertForm();
+        }
+        
+        function toggleAlert(element) {
+            element.classList.toggle('active');
+        }
+        
+        function toggleMenu() {
+            const navMenu = document.getElementById('navMenu');
+            navMenu.style.display = navMenu.style.display === 'flex' ? 'none' : 'flex';
+        }
+    </script>
+</body>
+</html>
