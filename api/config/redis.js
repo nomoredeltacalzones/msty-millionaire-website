@@ -1,21 +1,38 @@
+// api/config/redis.js
 const redis = require('redis');
-const { promisify } = require('util');
 
-const client = redis.createClient({
-    url: process.env.REDIS_URL
-});
+let client = null;
 
-client.on('error', (err) => {
-    console.error('Redis Client Error', err);
-});
+// Only create Redis client if REDIS_URL is provided
+if (process.env.REDIS_URL) {
+    try {
+        client = redis.createClient({
+            url: process.env.REDIS_URL
+        });
 
-client.on('connect', () => {
-    console.log('Redis Client Connected');
-});
+        client.on('error', (err) => {
+            console.error('Redis Client Error', err);
+        });
 
-// Connect to Redis
-(async () => {
-    await client.connect();
-})();
+        client.on('connect', () => {
+            console.log('Redis Client Connected');
+        });
+
+        // Connect to Redis
+        (async () => {
+            try {
+                await client.connect();
+            } catch (error) {
+                console.log('Redis connection failed, using memory cache instead');
+                client = null;
+            }
+        })();
+    } catch (error) {
+        console.log('Redis not configured, using memory cache');
+        client = null;
+    }
+} else {
+    console.log('REDIS_URL not found, using memory cache');
+}
 
 module.exports = client;
