@@ -1,8 +1,8 @@
 // API Configuration for Frontend
 // This file connects your Netlify frontend to your Railway backend
 
-// IMPORTANT: Update this with your actual Railway URL after deployment!
-const RAILWAY_API_URL = 'https://your-app-name.up.railway.app'; // <- REPLACE THIS!
+// Your Railway API URL
+const RAILWAY_API_URL = 'https://nodejs-production-4825.up.railway.app';
 
 // API Configuration
 const API_CONFIG = {
