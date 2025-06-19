@@ -10,8 +10,9 @@ require('dotenv').config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+const IS_PRODUCTION = process.env.NODE_ENV === 'production';
 
-// Security middleware
+// Security middleware with updated CSP for production
 app.use(helmet({
     contentSecurityPolicy: {
         directives: {
@@ -25,48 +26,123 @@ app.use(helmet({
     }
 }));
 
-// CORS configuration
+// CORS configuration - UPDATED for Railway + Netlify
 app.use(cors({
-    origin: process.env.NODE_ENV === 'production' 
-        ? ['https://mstymillionaire.com', 'https://www.mstymillionaire.com']
-        : ['http://localhost:3000', 'http://127.0.0.1:3000'],
+    origin: IS_PRODUCTION 
+        ? [
+            'https://mstymillionaire.com', 
+            'https://www.mstymillionaire.com',
+            'https://mstymillionaire.netlify.app' // If you have a Netlify subdomain
+          ]
+        : ['http://localhost:3000', 'http://localhost:8888', 'http://127.0.0.1:3000'],
     credentials: true
 }));
 
 // Compression and logging
 app.use(compression());
-app.use(morgan('combined'));
+app.use(morgan(IS_PRODUCTION ? 'combined' : 'dev'));
 
 // Body parsing
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
-// Static file serving - IMPORTANT: Serve the root directory
-app.use(express.static(path.join(__dirname)));
+// API Routes
+app.use('/api/proxy', require('./api/proxy'));
 
-// Serve subdirectories
-app.use('/assets', express.static(path.join(__dirname, 'assets')));
-app.use('/css', express.static(path.join(__dirname, 'css')));
-app.use('/js', express.static(path.join(__dirname, 'js')));
-app.use('/images', express.static(path.join(__dirname, 'images')));
-app.use('/calculator', express.static(path.join(__dirname, 'calculator')));
-app.use('/api', express.static(path.join(__dirname, 'api')));
-
-// API Routes - Uncomment when ready
+// Uncomment these as you fix them
 // app.use('/api/auth', require('./api/auth'));
 // app.use('/api/analytics', require('./api/analytics'));
 // app.use('/api/payments', require('./api/payments'));
 
-// Working API route
-app.use('/api/proxy', require('./api/proxy'));
-
-// Health check endpoint
-app.get('/api/health', (req, res) => {
+// Health check endpoint - ENHANCED for Railway
+app.get('/api/health', async (req, res) => {
+    let dbStatus = 'not connected';
+    
+    // Test database connection
+    if (process.env.DATABASE_URL) {
+        try {
+            const { Pool } = require('pg');
+            const pool = new Pool({
+                connectionString: process.env.DATABASE_URL,
+                ssl: IS_PRODUCTION ? { rejectUnauthorized: false } : false
+            });
+            
+            await pool.query('SELECT 1');
+            dbStatus = 'connected';
+            pool.end();
+        } catch (error) {
+            dbStatus = `error: ${error.message}`;
+        }
+    }
+    
     res.json({ 
-        status: 'healthy', 
+        status: 'healthy',
         timestamp: new Date(),
-        environment: process.env.NODE_ENV || 'development'
+        environment: process.env.NODE_ENV || 'development',
+        database: dbStatus,
+        port: PORT,
+        platform: process.env.RAILWAY_ENVIRONMENT || 'local'
     });
+});
+
+// Test database endpoint
+app.get('/api/test-db', async (req, res) => {
+    try {
+        const { Pool } = require('pg');
+        const pool = new Pool({
+            connectionString: process.env.DATABASE_URL,
+            ssl: IS_PRODUCTION ? { rejectUnauthorized: false } : false
+        });
+        
+        // Create tables if they don't exist
+        await pool.query(`
+            CREATE TABLE IF NOT EXISTS users (
+                id SERIAL PRIMARY KEY,
+                email VARCHAR(255) UNIQUE NOT NULL,
+                password_hash VARCHAR(255) NOT NULL,
+                full_name VARCHAR(255),
+                email_verified BOOLEAN DEFAULT false,
+                created_at TIMESTAMP DEFAULT NOW(),
+                updated_at TIMESTAMP DEFAULT NOW()
+            )
+        `);
+        
+        await pool.query(`
+            CREATE TABLE IF NOT EXISTS portfolios (
+                id SERIAL PRIMARY KEY,
+                user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+                ticker VARCHAR(10) NOT NULL,
+                shares DECIMAL(10,2) NOT NULL,
+                avg_cost DECIMAL(10,2) NOT NULL,
+                created_at TIMESTAMP DEFAULT NOW(),
+                updated_at TIMESTAMP DEFAULT NOW()
+            )
+        `);
+        
+        await pool.query(`
+            CREATE TABLE IF NOT EXISTS sessions (
+                id SERIAL PRIMARY KEY,
+                user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+                token VARCHAR(255) UNIQUE NOT NULL,
+                expires_at TIMESTAMP NOT NULL,
+                created_at TIMESTAMP DEFAULT NOW()
+            )
+        `);
+        
+        const result = await pool.query('SELECT NOW()');
+        pool.end();
+        
+        res.json({
+            success: true,
+            message: 'Database connected and tables created',
+            time: result.rows[0].now
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            error: error.message
+        });
+    }
 });
 
 // API 404 handler
@@ -74,95 +150,50 @@ app.use('/api/*', (req, res) => {
     res.status(404).json({ error: 'API endpoint not found' });
 });
 
-// Define all your HTML routes - UPDATED WITH CORRECT PATHS
-const htmlRoutes = {
-    // Main pages
-    '/': '/index.html',
-    '/home': '/index.html',
-    
-    // Calculator routes - FIXED PATHS
-    '/calculator': '/calculator/index.html',
-    '/calculator/income': '/calculator/income-calculator/index.html',
-    '/calculator/compound': '/calculator/compound-calculator/index.html',
-    '/calculator/portfolio-optimizer': '/calculator/portfolio-optimizer/index.html',
-    '/calculator/risk-assessment': '/calculator/risk-assessment/index.html',
-    '/calculator/tax': '/calculator/tax-calculator/index.html',
-    
-    // Other main sections (update these with actual file paths when available)
-    '/education': '/education/index.html',
-    '/portfolio': '/portfolio/index.html',
-    '/faq': '/faq/index.html',
-    '/contact': '/contact/index.html',
-    '/about': '/about/index.html',
-    
-    // Account pages
-    '/login': '/account-login.html',
-    '/register': '/account-register.html',
-    
-    // Legal pages
-    '/privacy': '/privacy-policy.html',
-    '/terms': '/terms-of-service.html',
-    '/disclaimer': '/investment-disclaimer.html',
-    
-    // API documentation
-    '/api/docs': '/api/documentation.html'
-};
-
-// HTML route handler - IMPROVED VERSION
-Object.entries(htmlRoutes).forEach(([route, filePath]) => {
-    app.get(route, (req, res) => {
-        const fullPath = path.join(__dirname, filePath);
-        
-        // Check if file exists
-        if (fs.existsSync(fullPath)) {
-            res.sendFile(fullPath);
-        } else {
-            console.warn(`File not found: ${fullPath} for route: ${route}`);
-            // Try to serve the 404 page, or default to index.html
-            const notFoundPath = path.join(__dirname, '404-error-page.html');
-            if (fs.existsSync(notFoundPath)) {
-                res.status(404).sendFile(notFoundPath);
-            } else {
-                res.status(404).sendFile(path.join(__dirname, 'index.html'));
+// For Railway deployment - serve API only
+if (IS_PRODUCTION) {
+    // Root endpoint for Railway
+    app.get('/', (req, res) => {
+        res.json({
+            name: 'MSTY Millionaire API',
+            version: '1.0.0',
+            status: 'running',
+            endpoints: {
+                health: '/api/health',
+                proxy: '/api/proxy/*',
+                auth: '/api/auth/*',
+                test_db: '/api/test-db'
             }
-        }
+        });
     });
-});
-
-// Handle all calculator subpages with a wildcard route
-app.get('/calculator/*', (req, res) => {
-    const requestedPath = req.path;
-    const possiblePaths = [
-        path.join(__dirname, requestedPath, 'index.html'),
-        path.join(__dirname, requestedPath + '.html'),
-        path.join(__dirname, requestedPath.replace(/\/$/, '') + '/index.html')
-    ];
+} else {
+    // In development, serve static files
+    app.use(express.static(path.join(__dirname)));
+    app.use('/assets', express.static(path.join(__dirname, 'assets')));
+    app.use('/css', express.static(path.join(__dirname, 'css')));
+    app.use('/js', express.static(path.join(__dirname, 'js')));
+    app.use('/images', express.static(path.join(__dirname, 'images')));
+    app.use('/calculator', express.static(path.join(__dirname, 'calculator')));
     
-    for (const possiblePath of possiblePaths) {
-        if (fs.existsSync(possiblePath)) {
-            return res.sendFile(possiblePath);
-        }
-    }
+    // Serve HTML routes in development
+    const htmlRoutes = {
+        '/': '/index.html',
+        '/calculator': '/calculator/index.html',
+        '/portfolio': '/portfolio/index.html',
+        // Add more routes as needed
+    };
     
-    // If no match, try to serve calculator main page
-    const calculatorIndex = path.join(__dirname, 'calculator/index.html');
-    if (fs.existsSync(calculatorIndex)) {
-        res.sendFile(calculatorIndex);
-    } else {
-        res.status(404).sendFile(path.join(__dirname, '404-error-page.html'));
-    }
-});
-
-// Catch-all route for SPA - must be after specific routes
-app.get('*', (req, res) => {
-    // Skip if it's a file request (has extension)
-    if (path.extname(req.path)) {
-        return res.status(404).send('File not found');
-    }
-    
-    // For all other routes, serve index.html
-    res.sendFile(path.join(__dirname, 'index.html'));
-});
+    Object.entries(htmlRoutes).forEach(([route, filePath]) => {
+        app.get(route, (req, res) => {
+            const fullPath = path.join(__dirname, filePath);
+            if (fs.existsSync(fullPath)) {
+                res.sendFile(fullPath);
+            } else {
+                res.status(404).send('Page not found');
+            }
+        });
+    });
+}
 
 // Error handling middleware
 app.use((err, req, res, next) => {
@@ -178,47 +209,57 @@ app.use((err, req, res, next) => {
     
     res.status(500).json({
         error: 'Something went wrong!',
-        message: process.env.NODE_ENV === 'development' ? err.message : 'Internal server error'
+        message: IS_PRODUCTION ? 'Internal server error' : err.message
     });
 });
 
 // Create HTTP server
 const server = http.createServer(app);
 
-// Setup WebSocket with Socket.IO - Comment out if not ready
-try {
-    const setupWebSocket = require('./api/websocket');
-    const io = setupWebSocket(server);
-    app.set('io', io);
-} catch (error) {
-    console.warn('WebSocket setup skipped:', error.message);
+// Setup WebSocket with Socket.IO (only if not causing issues)
+if (!IS_PRODUCTION) {
+    try {
+        const setupWebSocket = require('./api/websocket');
+        const io = setupWebSocket(server);
+        app.set('io', io);
+    } catch (error) {
+        console.log('WebSocket setup skipped:', error.message);
+    }
 }
 
 // Start server
-server.listen(PORT, () => {
+server.listen(PORT, '0.0.0.0', () => {
     console.log(`
 ╔════════════════════════════════════════════╗
-║        MSTY Millionaire Server             ║
+║        MSTY Millionaire API Server         ║
 ╠════════════════════════════════════════════╣
 ║  Status: Running ✅                        ║
 ║  Port: ${PORT}                                ║
 ║  Environment: ${process.env.NODE_ENV || 'development'}              ║
-║  URL: http://localhost:${PORT}              ║
+║  Platform: ${process.env.RAILWAY_ENVIRONMENT || 'Local'}          ║
+║  Database: ${process.env.DATABASE_URL ? 'Configured' : 'Not configured'}     ║
 ╚════════════════════════════════════════════╝
     `);
     
-    // Log available routes in development
-    if (process.env.NODE_ENV !== 'production') {
-        console.log('\nAvailable routes:');
-        Object.keys(htmlRoutes).forEach(route => {
-            console.log(`  ${route}`);
-        });
+    if (IS_PRODUCTION) {
+        console.log('\n🚀 Running in PRODUCTION mode - API only');
+    } else {
+        console.log(`\n🔧 Running in DEVELOPMENT mode`);
+        console.log(`📍 Local URL: http://localhost:${PORT}`);
     }
 });
 
 // Graceful shutdown
 process.on('SIGTERM', () => {
     console.log('SIGTERM signal received: closing HTTP server');
+    server.close(() => {
+        console.log('HTTP server closed');
+        process.exit(0);
+    });
+});
+
+process.on('SIGINT', () => {
+    console.log('SIGINT signal received: closing HTTP server');
     server.close(() => {
         console.log('HTTP server closed');
         process.exit(0);
