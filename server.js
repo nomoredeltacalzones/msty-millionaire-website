@@ -48,10 +48,13 @@ app.use('/js', express.static(path.join(__dirname, 'js')));
 app.use('/images', express.static(path.join(__dirname, 'images')));
 
 // API Routes - Add all required routes from Google Doc
+// COMMENT THESE OUT FOR NOW
+// app.use('/api/auth', require('./api/auth'));
+// app.use('/api/analytics', require('./api/analytics'));
+// app.use('/api/payments', require('./api/payments'));
+
+// KEEP ONLY THIS ONE
 app.use('/api/proxy', require('./api/proxy'));
-app.use('/api/auth', require('./api/auth'));
-app.use('/api/analytics', require('./api/analytics'));
-app.use('/api/payments', require('./api/payments'));
 
 // These routes need to be created based on your existing structure
 // Comment out if files don't exist yet
