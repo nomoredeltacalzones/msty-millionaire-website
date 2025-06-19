@@ -32,7 +32,7 @@ app.use(cors({
         ? [
             'https://mstymillionaire.com', 
             'https://www.mstymillionaire.com',
-            'https://mstymillionaire.netlify.app' // If you have a Netlify subdomain
+            'https://mstymillionaire.netlify.app'
           ]
         : ['http://localhost:3000', 'http://localhost:8888', 'http://127.0.0.1:3000'],
     credentials: true
@@ -46,11 +46,19 @@ app.use(morgan(IS_PRODUCTION ? 'combined' : 'dev'));
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
+// Serve static files (for both dev and production)
+app.use(express.static(path.join(__dirname)));
+app.use('/assets', express.static(path.join(__dirname, 'assets')));
+app.use('/css', express.static(path.join(__dirname, 'assets/css')));
+app.use('/js', express.static(path.join(__dirname, 'assets/js')));
+app.use('/images', express.static(path.join(__dirname, 'assets/images')));
+
 // API Routes
 app.use('/api/proxy', require('./api/proxy'));
 
-// Uncomment these as you fix them
+// Uncomment these as you implement them
 // app.use('/api/auth', require('./api/auth'));
+// app.use('/api/portfolio', require('./api/portfolio'));
 // app.use('/api/analytics', require('./api/analytics'));
 // app.use('/api/payments', require('./api/payments'));
 
@@ -81,11 +89,12 @@ app.get('/api/health', async (req, res) => {
         environment: process.env.NODE_ENV || 'development',
         database: dbStatus,
         port: PORT,
-        platform: process.env.RAILWAY_ENVIRONMENT || 'local'
+        platform: process.env.RAILWAY_ENVIRONMENT || 'local',
+        version: '1.0.0'
     });
 });
 
-// Test database endpoint
+// Test database endpoint with enhanced table creation
 app.get('/api/test-db', async (req, res) => {
     try {
         const { Pool } = require('pg');
@@ -94,7 +103,7 @@ app.get('/api/test-db', async (req, res) => {
             ssl: IS_PRODUCTION ? { rejectUnauthorized: false } : false
         });
         
-        // Create tables if they don't exist
+        // Create all necessary tables
         await pool.query(`
             CREATE TABLE IF NOT EXISTS users (
                 id SERIAL PRIMARY KEY,
@@ -102,6 +111,11 @@ app.get('/api/test-db', async (req, res) => {
                 password_hash VARCHAR(255) NOT NULL,
                 full_name VARCHAR(255),
                 email_verified BOOLEAN DEFAULT false,
+                verification_token VARCHAR(255),
+                reset_token VARCHAR(255),
+                reset_expires TIMESTAMP,
+                subscription_tier VARCHAR(50) DEFAULT 'free',
+                stripe_customer_id VARCHAR(255),
                 created_at TIMESTAMP DEFAULT NOW(),
                 updated_at TIMESTAMP DEFAULT NOW()
             )
@@ -114,6 +128,8 @@ app.get('/api/test-db', async (req, res) => {
                 ticker VARCHAR(10) NOT NULL,
                 shares DECIMAL(10,2) NOT NULL,
                 avg_cost DECIMAL(10,2) NOT NULL,
+                current_price DECIMAL(10,2),
+                last_updated TIMESTAMP DEFAULT NOW(),
                 created_at TIMESTAMP DEFAULT NOW(),
                 updated_at TIMESTAMP DEFAULT NOW()
             )
@@ -128,72 +144,193 @@ app.get('/api/test-db', async (req, res) => {
                 created_at TIMESTAMP DEFAULT NOW()
             )
         `);
+
+        await pool.query(`
+            CREATE TABLE IF NOT EXISTS analytics_events (
+                id SERIAL PRIMARY KEY,
+                user_id INTEGER REFERENCES users(id),
+                session_id VARCHAR(255),
+                event_name VARCHAR(100) NOT NULL,
+                event_data JSONB,
+                page_url VARCHAR(500),
+                created_at TIMESTAMP DEFAULT NOW()
+            )
+        `);
+
+        await pool.query(`
+            CREATE TABLE IF NOT EXISTS price_alerts (
+                id SERIAL PRIMARY KEY,
+                user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+                ticker VARCHAR(10) NOT NULL,
+                condition VARCHAR(20) NOT NULL,
+                target_price DECIMAL(10,2) NOT NULL,
+                is_active BOOLEAN DEFAULT true,
+                triggered_at TIMESTAMP,
+                created_at TIMESTAMP DEFAULT NOW()
+            )
+        `);
+
+        await pool.query(`
+            CREATE TABLE IF NOT EXISTS watchlists (
+                id SERIAL PRIMARY KEY,
+                user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+                ticker VARCHAR(10) NOT NULL,
+                notes TEXT,
+                created_at TIMESTAMP DEFAULT NOW(),
+                UNIQUE(user_id, ticker)
+            )
+        `);
+
+        // Create indexes
+        await pool.query(`
+            CREATE INDEX IF NOT EXISTS idx_portfolios_user_id ON portfolios(user_id);
+            CREATE INDEX IF NOT EXISTS idx_sessions_token ON sessions(token);
+            CREATE INDEX IF NOT EXISTS idx_sessions_expires ON sessions(expires_at);
+            CREATE INDEX IF NOT EXISTS idx_analytics_user_id ON analytics_events(user_id);
+            CREATE INDEX IF NOT EXISTS idx_analytics_event ON analytics_events(event_name);
+        `);
         
         const result = await pool.query('SELECT NOW()');
+        
+        // Get table count
+        const tableCount = await pool.query(`
+            SELECT COUNT(*) 
+            FROM information_schema.tables 
+            WHERE table_schema = 'public' 
+            AND table_type = 'BASE TABLE'
+        `);
+        
         pool.end();
         
         res.json({
             success: true,
             message: 'Database connected and tables created',
-            time: result.rows[0].now
+            time: result.rows[0].now,
+            tableCount: parseInt(tableCount.rows[0].count)
         });
     } catch (error) {
         res.status(500).json({
             success: false,
-            error: error.message
+            error: error.message,
+            stack: IS_PRODUCTION ? undefined : error.stack
         });
     }
 });
 
-// API 404 handler
-app.use('/api/*', (req, res) => {
-    res.status(404).json({ error: 'API endpoint not found' });
+// API Info endpoint
+app.get('/api', (req, res) => {
+    res.json({
+        name: 'MSTY Millionaire API',
+        version: '1.0.0',
+        status: 'running',
+        endpoints: {
+            health: '/api/health',
+            testDb: '/api/test-db',
+            proxy: {
+                stock: '/api/proxy/stock/:ticker',
+                batchStocks: '/api/proxy/stocks/batch',
+                yieldmax: '/api/proxy/yieldmax/yields'
+            },
+            auth: {
+                login: '/api/auth/login',
+                register: '/api/auth/register',
+                logout: '/api/auth/logout',
+                me: '/api/auth/me'
+            },
+            portfolio: '/api/portfolio/*'
+        }
+    });
 });
 
-// For Railway deployment - serve API only
-if (IS_PRODUCTION) {
-    // Root endpoint for Railway
-    app.get('/', (req, res) => {
-        res.json({
-            name: 'MSTY Millionaire API',
-            version: '1.0.0',
-            status: 'running',
-            endpoints: {
-                health: '/api/health',
-                proxy: '/api/proxy/*',
-                auth: '/api/auth/*',
-                test_db: '/api/test-db'
-            }
-        });
-    });
-} else {
-    // In development, serve static files
-    app.use(express.static(path.join(__dirname)));
-    app.use('/assets', express.static(path.join(__dirname, 'assets')));
-    app.use('/css', express.static(path.join(__dirname, 'css')));
-    app.use('/js', express.static(path.join(__dirname, 'js')));
-    app.use('/images', express.static(path.join(__dirname, 'images')));
-    app.use('/calculator', express.static(path.join(__dirname, 'calculator')));
+// HTML Routes - Complete list
+const htmlRoutes = [
+    // Main pages
+    { path: '/', file: 'index.html' },
     
-    // Serve HTML routes in development
-    const htmlRoutes = {
-        '/': '/index.html',
-        '/calculator': '/calculator/index.html',
-        '/portfolio': '/portfolio/index.html',
-        // Add more routes as needed
-    };
+    // Calculator main page and subpages
+    { path: '/calculator', file: 'calculator/index.html' },
+    { path: '/calculator/', file: 'calculator/index.html' },
+    { path: '/calculator/income', file: 'calculator/income-calculator/index.html' },
+    { path: '/calculator/income/', file: 'calculator/income-calculator/index.html' },
+    { path: '/calculator/compound', file: 'calculator/compound-calculator/index.html' },
+    { path: '/calculator/compound/', file: 'calculator/compound-calculator/index.html' },
+    { path: '/calculator/tax', file: 'calculator/tax-calculator/index.html' },
+    { path: '/calculator/tax/', file: 'calculator/tax-calculator/index.html' },
+    { path: '/calculator/risk-assessment', file: 'calculator/risk-assessment/index.html' },
+    { path: '/calculator/risk-assessment/', file: 'calculator/risk-assessment/index.html' },
+    { path: '/calculator/portfolio-optimizer', file: 'calculator/portfolio-optimizer/index.html' },
+    { path: '/calculator/portfolio-optimizer/', file: 'calculator/portfolio-optimizer/index.html' },
     
-    Object.entries(htmlRoutes).forEach(([route, filePath]) => {
-        app.get(route, (req, res) => {
-            const fullPath = path.join(__dirname, filePath);
-            if (fs.existsSync(fullPath)) {
-                res.sendFile(fullPath);
+    // Other main sections
+    { path: '/portfolio', file: 'portfolio/index.html' },
+    { path: '/portfolio/', file: 'portfolio/index.html' },
+    { path: '/education', file: 'education/index.html' },
+    { path: '/education/', file: 'education/index.html' },
+    { path: '/faq', file: 'faq/index.html' },
+    { path: '/faq/', file: 'faq/index.html' },
+    { path: '/contact', file: 'contact/index.html' },
+    { path: '/contact/', file: 'contact/index.html' },
+    
+    // Account pages
+    { path: '/login', file: 'account-login.html' },
+    { path: '/register', file: 'account-register.html' },
+    { path: '/account', file: 'account-settings.html' },
+    
+    // Legal pages
+    { path: '/privacy', file: 'privacy-policy.html' },
+    { path: '/terms', file: 'terms-of-service.html' },
+    { path: '/disclaimer', file: 'investment-disclaimer.html' },
+    
+    // API documentation
+    { path: '/api/docs', file: 'api/documentation.html' }
+];
+
+// Register all HTML routes
+htmlRoutes.forEach(route => {
+    app.get(route.path, (req, res) => {
+        const filePath = path.join(__dirname, route.file);
+        
+        if (fs.existsSync(filePath)) {
+            res.sendFile(filePath);
+        } else {
+            console.log(`File not found: ${filePath}`);
+            // Try to serve 404 page or fallback to index
+            const notFoundPath = path.join(__dirname, '404-error-page.html');
+            if (fs.existsSync(notFoundPath)) {
+                res.status(404).sendFile(notFoundPath);
             } else {
-                res.status(404).send('Page not found');
+                res.status(404).sendFile(path.join(__dirname, 'index.html'));
             }
-        });
+        }
     });
-}
+});
+
+// API 404 handler
+app.use('/api/*', (req, res) => {
+    res.status(404).json({ 
+        error: 'API endpoint not found',
+        path: req.path 
+    });
+});
+
+// Catch-all route for client-side routing
+app.get('*', (req, res) => {
+    // Skip if it's a file request (has extension)
+    if (path.extname(req.path)) {
+        return res.status(404).send('File not found');
+    }
+    
+    // For all other routes, serve index.html
+    const indexPath = path.join(__dirname, 'index.html');
+    if (fs.existsSync(indexPath)) {
+        res.sendFile(indexPath);
+    } else {
+        res.status(404).json({
+            error: 'Page not found',
+            message: IS_PRODUCTION ? 'Not found' : `Could not find ${req.path}`
+        });
+    }
+});
 
 // Error handling middleware
 app.use((err, req, res, next) => {
@@ -234,7 +371,7 @@ server.listen(PORT, '0.0.0.0', () => {
 ║        MSTY Millionaire API Server         ║
 ╠════════════════════════════════════════════╣
 ║  Status: Running ✅                        ║
-║  Port: ${PORT}                                ║
+║  Port: ${PORT}                              ║
 ║  Environment: ${process.env.NODE_ENV || 'development'}              ║
 ║  Platform: ${process.env.RAILWAY_ENVIRONMENT || 'Local'}          ║
 ║  Database: ${process.env.DATABASE_URL ? 'Configured' : 'Not configured'}     ║
@@ -242,10 +379,13 @@ server.listen(PORT, '0.0.0.0', () => {
     `);
     
     if (IS_PRODUCTION) {
-        console.log('\n🚀 Running in PRODUCTION mode - API only');
+        console.log('\n🚀 Running in PRODUCTION mode');
+        console.log('📡 API endpoints available at /api/*');
+        console.log('🌐 Frontend served from static files');
     } else {
         console.log(`\n🔧 Running in DEVELOPMENT mode`);
         console.log(`📍 Local URL: http://localhost:${PORT}`);
+        console.log(`📡 API Test: http://localhost:${PORT}/api/health`);
     }
 });
 
