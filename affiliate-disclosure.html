@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Affiliate Disclosure | MSTY Millionaire</title>
+    <meta name="description" content="Full disclosure of affiliate relationships and how MSTY Millionaire may earn commissions from recommended brokers and financial services.">
+    
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-PLACEHOLDER-ID" crossorigin="anonymous"></script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0a0e1a;
+            color: #e4e8f1;
+            line-height: 1.6;
+        }
+
+        .bg-animation {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            background: linear-gradient(135deg, #0a0e1a 0%, #162033 50%, #0a0e1a 100%);
+            overflow: hidden;
+        }
+
+        .bg-animation::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.1) 0%, transparent 70%);
+            animation: pulse 15s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.5; }
+            50% { transform: translate(-50%, -50%) scale(1.5); opacity: 0.3; }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header - Consistent with index.html */
+        .header {
+            background: rgba(22, 32, 51, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 20px 0;
+            border-bottom: 1px solid rgba(99, 102, 241, 0.3);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo h1 {
+            font-size: 2rem;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .live-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(34, 197, 94, 0.2);
+            padding: 5px 15px;
+            border-radius: 20px;
+        }
+
+        .live-dot {
+            width: 8px;
+            height: 8px;
+            background: #22c55e;
+            border-radius: 50%;
+            animation: blink 2s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-link {
+            color: #94a3b8;
+            text-decoration: none;
+            transition: color 0.3s;
+            font-weight: 500;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: #6366f1;
+        }
+
+        .mobile-menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: #e4e8f1;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Hero Section */
+        .disclosure-hero {
+            text-align: center;
+            padding: 80px 0 60px;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .disclosure-hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .disclosure-hero p {
+            color: #94a3b8;
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Content Sections */
+        .disclosure-content {
+            max-width: 800px;
+            margin: 0 auto 80px;
+        }
+
+        .disclosure-section {
+            background: rgba(22, 32, 51, 0.8);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            animation: slideIn 0.8s ease-out;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .disclosure-section:hover {
+            border-color: rgba(99, 102, 241, 0.5);
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.1);
+        }
+
+        .disclosure-section h2 {
+            color: #fff;
+            margin-bottom: 20px;
+            font-size: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .section-icon {
+            font-size: 2rem;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .disclosure-section h3 {
+            color: #6366f1;
+            margin: 30px 0 15px;
+            font-size: 1.3rem;
+        }
+
+        .disclosure-section p {
+            color: #94a3b8;
+            margin-bottom: 15px;
+            line-height: 1.8;
+        }
+
+        .disclosure-section ul {
+            list-style: none;
+            margin: 20px 0;
+        }
+
+        .disclosure-section li {
+            color: #94a3b8;
+            padding-left: 30px;
+            margin-bottom: 10px;
+            position: relative;
+        }
+
+        .disclosure-section li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #22c55e;
+            font-weight: bold;
+        }
+
+        /* Partners Table */
+        .partners-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: rgba(99, 102, 241, 0.05);
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        .partners-table th,
+        .partners-table td {
+            padding: 15px 20px;
+            text-align: left;
+            border-bottom: 1px solid rgba(99, 102, 241, 0.2);
+        }
+
+        .partners-table th {
+            background: rgba(99, 102, 241, 0.1);
+            color: #6366f1;
+            font-weight: 600;
+        }
+
+        .partners-table tr:hover {
+            background: rgba(99, 102, 241, 0.05);
+        }
+
+        .partners-table a {
+            color: #6366f1;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .partners-table a:hover {
+            color: #8b5cf6;
+        }
+
+        /* Call-out Boxes */
+        .callout-box {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.1));
+            border: 2px solid #6366f1;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .callout-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #6366f1, #8b5cf6);
+        }
+
+        .callout-box h4 {
+            color: #fff;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .callout-box p {
+            color: #e4e8f1;
+        }
+
+        /* Transparency Commitment */
+        .transparency-card {
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid #22c55e;
+            border-radius: 20px;
+            padding: 40px;
+            margin: 40px 0;
+            text-align: center;
+        }
+
+        .transparency-card h3 {
+            color: #22c55e;
+            margin-bottom: 20px;
+            font-size: 2rem;
+        }
+
+        .transparency-card p {
+            color: #e4e8f1;
+            font-size: 1.1rem;
+        }
+
+        /* Contact Section */
+        .contact-section {
+            background: rgba(22, 32, 51, 0.8);
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            margin: 40px 0;
+        }
+
+        .contact-section h3 {
+            color: #fff;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+        }
+
+        .contact-section p {
+            color: #94a3b8;
+            margin-bottom: 20px;
+        }
+
+        .contact-section a {
+            color: #6366f1;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .contact-section a:hover {
+            color: #8b5cf6;
+        }
+
+        /* Ad Container */
+        .ad-container {
+            background: rgba(22, 32, 51, 0.6);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 40px 0;
+            text-align: center;
+            min-height: 100px;
+            position: relative;
+        }
+
+        .ad-container::before {
+            content: 'Advertisement';
+            position: absolute;
+            top: 5px;
+            left: 10px;
+            font-size: 0.7rem;
+            color: #64748b;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 2px 8px;
+            border-radius: 4px;
+        }
+
+        /* Footer */
+        .footer {
+            background: rgba(22, 32, 51, 0.9);
+            padding: 40px 0;
+            margin-top: 100px;
+            text-align: center;
+            border-top: 1px solid rgba(99, 102, 241, 0.3);
+        }
+
+        .footer a {
+            color: #6366f1;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            color: #8b5cf6;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+            
+            .mobile-menu-toggle {
+                display: block;
+            }
+            
+            .disclosure-hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .disclosure-section {
+                padding: 25px;
+            }
+            
+            .partners-table {
+                font-size: 0.9rem;
+            }
+            
+            .partners-table th,
+            .partners-table td {
+                padding: 10px;
+            }
+        }
+    </style>
+    <script src="js/main.js" defer></script>
+</head>
+<body>
+    <div class="bg-animation"></div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <h1>MSTY Millionaire</h1>
+                    <div class="live-indicator">
+                        <span class="live-dot"></span>
+                        <span>Live</span>
+                    </div>
+                </div>
+                
+                <nav class="nav-menu" id="navMenu">
+                    <a href="index.html" class="nav-link" >Dashboard</a>
+                    <a href="calculator/index.html" class="nav-link" >Calculator</a>
+                    <a href="education/index.html" class="nav-link" >Learn</a>
+                    <a href="portfolio/index.html" class="nav-link" >Portfolio</a>
+                    <a href="faq/index.html" class="nav-link" >FAQ</a>
+                    <a href="contact/index.html" class="nav-link" >Contact</a>
+                </nav>
+                
+                <button class="mobile-menu-toggle" onclick="toggleMenu()">☰</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Hero Section -->
+        <section class="disclosure-hero">
+            <h1>Affiliate Disclosure</h1>
+            <p>Transparency about our partnerships and how we sustain our free educational content</p>
+        </section>
+
+        <!-- Disclosure Content -->
+        <div class="disclosure-content">
+            <!-- Transparency Commitment -->
+            <div class="transparency-card">
+                <h3>Our Commitment to Transparency</h3>
+                <p>We believe in complete transparency about how we generate revenue to maintain this free resource for YieldMax ETF investors.</p>
+            </div>
+
+            <!-- Introduction Section -->
+            <section class="disclosure-section">
+                <h2><span class="section-icon">📢</span> Full Disclosure Statement</h2>
+                <p>MSTY Millionaire participates in various affiliate marketing programs, which means we may earn commissions on qualifying purchases or account openings made through links on our website. These affiliate relationships help us maintain and improve our free educational content and tools.</p>
+                
+                <div class="callout-box">
+                    <h4>Important Note</h4>
+                    <p>Our affiliate partnerships NEVER influence our educational content, calculator results, or investment information. We maintain strict editorial independence and only recommend services we genuinely believe provide value to YieldMax ETF investors.</p>
+                </div>
+            </section>
+
+            <!-- How It Works Section -->
+            <section class="disclosure-section">
+                <h2><span class="section-icon">⚙️</span> How Affiliate Marketing Works</h2>
+                <p>When you click on certain links on our website and subsequently:</p>
+                <ul>
+                    <li>Open a brokerage account</li>
+                    <li>Purchase a financial product or service</li>
+                    <li>Subscribe to a paid service</li>
+                    <li>Complete other qualifying actions</li>
+                </ul>
+                <p>We may receive a commission at no additional cost to you. In fact, you might receive special bonuses or promotions through our links that aren't available elsewhere.</p>
+            </section>
+
+            <!-- Current Partners Section -->
+            <section class="disclosure-section">
+                <h2><span class="section-icon">🤝</span> Our Affiliate Partners</h2>
+                <p>Below is a list of companies we currently have affiliate relationships with:</p>
+                
+                <table class="partners-table">
+                    <thead>
+                        <tr>
+                            <th>Partner</th>
+                            <th>Service Type</th>
+                            <th>Disclosure</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Interactive Brokers</strong></td>
+                            <td>Brokerage Services</td>
+                            <td>Commission on new accounts</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Charles Schwab</strong></td>
+                            <td>Brokerage Services</td>
+                            <td>Referral commission</td>
+                        </tr>
+                        <tr>
+                            <td><strong>E*TRADE</strong></td>
+                            <td>Brokerage Platform</td>
+                            <td>Account opening bonus</td>
+                        </tr>
+                        <tr>
+                            <td><strong>TradingView</strong></td>
+                            <td>Charting Software</td>
+                            <td>Subscription commission</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Seeking Alpha</strong></td>
+                            <td>Market Research</td>
+                            <td>Premium membership referral</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Tax Software Partners</strong></td>
+                            <td>Tax Preparation</td>
+                            <td>Seasonal commissions</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <p style="margin-top: 20px;"><em>This list is updated regularly as partnerships change.</em></p>
+            </section>
+
+            <!-- Ad Banner -->
+            <div class="ad-container">
+                <ins class="adsbygoogle"
+                     style="display:block"
+                     data-ad-client="ca-pub-PLACEHOLDER-ID"
+                     data-ad-slot="1234567890"
+                     data-ad-format="auto"
+                     data-full-width-responsive="true"></ins>
+            </div>
+
+            <!-- What This Means Section -->
+            <section class="disclosure-section">
+                <h2><span class="section-icon">💡</span> What This Means for You</h2>
+                
+                <h3>No Extra Cost</h3>
+                <p>Using our affiliate links doesn't cost you anything extra. The commission comes from the company's marketing budget, not from your pocket.</p>
+                
+                <h3>Potential Benefits</h3>
+                <ul>
+                    <li>Exclusive sign-up bonuses through our links</li>
+                    <li>Special promotional rates or offers</li>
+                    <li>Access to educational resources and guides</li>
+                    <li>Support for our free content and tools</li>
+                </ul>
+                
+                <h3>Your Choice</h3>
+                <p>You're never obligated to use our affiliate links. If you prefer, you can always navigate directly to any service provider's website. We appreciate your support either way!</p>
+            </section>
+
+            <!-- Editorial Independence Section -->
+            <section class="disclosure-section">
+                <h2><span class="section-icon">⚖️</span> Editorial Independence</h2>
+                <p>We maintain strict editorial independence in all our content:</p>
+                <ul>
+                    <li>Educational articles are written without bias toward affiliate partners</li>
+                    <li>Calculator tools provide objective results regardless of partnerships</li>
+                    <li>Investment information is based on factual data, not affiliate relationships</li>
+                    <li>We clearly distinguish between editorial content and promotional material</li>
+                    <li>Negative aspects of partner services are disclosed when relevant</li>
+                </ul>
+                
+                <div class="callout-box">
+                    <h4>Our Promise</h4>
+                    <p>We will NEVER recommend a product or service solely because of an affiliate commission. Every recommendation is based on genuine value for YieldMax ETF investors.</p>
+                </div>
+            </section>
+
+            <!-- Other Revenue Sources Section -->
+            <section class="disclosure-section">
+                <h2><span class="section-icon">💰</span> Other Revenue Sources</h2>
+                <p>In addition to affiliate marketing, MSTY Millionaire generates revenue through:</p>
+                
+                <h3>Display Advertising</h3>
+                <p>We use Google AdSense to display relevant advertisements. These ads are clearly marked and don't affect our editorial content.</p>
+                
+                <h3>Sponsored Content</h3>
+                <p>Occasionally, we publish sponsored articles or reviews. These are always clearly labeled as "Sponsored" or "Partner Content."</p>
+                
+                <h3>Premium Tools (Future)</h3>
+                <p>We may introduce premium versions of our calculators and tools with advanced features, while maintaining free basic versions.</p>
+                
+                <h3>Educational Products (Future)</h3>
+                <p>We may develop premium courses or ebooks about YieldMax ETF investing strategies.</p>
+            </section>
+
+            <!-- FTC Compliance Section -->
+            <section class="disclosure-section">
+                <h2><span class="section-icon">⚖️</span> FTC Compliance</h2>
+                <p>This disclosure is provided in accordance with the Federal Trade Commission's 16 CFR Part 255: "Guides Concerning the Use of Endorsements and Testimonials in Advertising."</p>
+                
+                <p>We follow FTC guidelines by:</p>
+                <ul>
+                    <li>Clearly disclosing affiliate relationships</li>
+                    <li>Being honest about potential compensation</li>
+                    <li>Never making false or misleading claims</li>
+                    <li>Providing genuine recommendations based on experience or research</li>
+                    <li>Updating disclosures as relationships change</li>
+                </ul>
+            </section>
+
+            <!-- Updates Section -->
+            <section class="disclosure-section">
+                <h2><span class="section-icon">📅</span> Updates to This Disclosure</h2>
+                <p>This affiliate disclosure was last updated on <strong>June 16, 2025</strong>.</p>
+                <p>We regularly review and update this disclosure to ensure it accurately reflects our current affiliate relationships and complies with all applicable regulations.</p>
+                <p>Material changes will be noted here, and we encourage you to review this page periodically.</p>
+            </section>
+
+            <!-- Contact Section -->
+            <div class="contact-section">
+                <h3>Questions About Our Affiliate Relationships?</h3>
+                <p>We're committed to transparency and are happy to answer any questions about our affiliate partnerships or how we generate revenue.</p>
+                <p>
+                    <strong>Email:</strong> <a href="mailto:partnerships@mstymillionaire.com">partnerships@mstymillionaire.com</a><br>
+                    <strong>General Inquiries:</strong> <a href="mailto:info@mstymillionaire.com">info@mstymillionaire.com</a>
+                </p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 MSTY Millionaire. Educational content only. Not personalized investment advice.</p>
+            <p style="margin-top: 10px;">
+                <a href="legal/privacy-policy.html">Privacy Policy</a> • 
+                <a href="legal/terms.html">Terms of Service</a> • 
+                <a href="legal/disclaimer.html">Investment Disclaimer</a> • 
+                <a href="legal/affiliate-disclosure.html">Affiliate Disclosure</a>
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        function toggleMenu() {
+            const navMenu = document.getElementById('navMenu');
+            navMenu.classList.toggle('active');
+        }
+
+        // Add mobile menu styles
+        const style = document.createElement('style');
+        style.textContent = `
+            @media (max-width: 768px) {
+                .nav-menu.active {
+                    display: flex;
+                    position: absolute;
+                    top: 100%;
+                    left: 0;
+                    right: 0;
+                    background: rgba(22, 32, 51, 0.98);
+                    flex-direction: column;
+                    padding: 20px;
+                    border-bottom: 1px solid rgba(99, 102, 241, 0.3);
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>

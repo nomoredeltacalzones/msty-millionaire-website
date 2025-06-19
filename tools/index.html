@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YieldMax ETF Tools & Calculators - Investment Analysis Suite | MSTY Millionaire</title>
+    <meta name="description" content="Professional tools for YieldMax ETF investors: income calculator, portfolio optimizer, tax estimator, and distribution tracker.">
+    
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-PLACEHOLDER-ID" crossorigin="anonymous"></script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #0a0e1a;
+            color: #e4e8f1;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Animated Background */
+        .bg-animation {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            background: linear-gradient(135deg, #0a0e1a 0%, #162033 50%, #0a0e1a 100%);
+            overflow: hidden;
+        }
+
+        .bg-animation::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.1) 0%, transparent 70%);
+            animation: pulse 15s ease-in-out infinite;
+        }
+
+        .bg-animation::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><g fill="none" stroke="rgba(99,102,241,0.1)" stroke-width="1"><path d="M0 400 Q 300 200 600 400 T 1200 400"/><path d="M0 500 Q 300 300 600 500 T 1200 500"/></g></svg>');
+            animation: flow 20s linear infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.5; }
+            50% { transform: translate(-50%, -50%) scale(1.5); opacity: 0.3; }
+        }
+
+        @keyframes flow {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* Header */
+        .header {
+            background: rgba(22, 32, 51, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 20px 0;
+            border-bottom: 1px solid rgba(99, 102, 241, 0.3);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            animation: slideDown 0.5s ease-out;
+        }
+
+        @keyframes slideDown {
+            from { transform: translateY(-100%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .logo h1 {
+            font-size: 2rem;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: glow 3s ease-in-out infinite;
+        }
+
+        @keyframes glow {
+            0%, 100% { filter: brightness(1); }
+            50% { filter: brightness(1.2); }
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: #94a3b8;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: #6366f1;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #6366f1, #8b5cf6);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after, .nav-link.active::after {
+            width: 100%;
+        }
+
+        /* Main Content */
+        .tools-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .tools-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .tools-title {
+            font-size: 3.5rem;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+            animation: shimmer 3s ease-in-out infinite;
+        }
+
+        @keyframes shimmer {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: #94a3b8;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Quick Calculator Section */
+        .quick-calc-section {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.05), rgba(139, 92, 246, 0.05));
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 60px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .quick-calc-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.05) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .quick-calc-section h3 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .quick-calc-section p {
+            color: #94a3b8;
+            position: relative;
+            z-index: 1;
+        }
+
+        .quick-calc-form {
+            display: flex;
+            gap: 20px;
+            align-items: flex-end;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 30px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .calc-input-group {
+            text-align: left;
+        }
+
+        .calc-label {
+            display: block;
+            color: #94a3b8;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+        }
+
+        .calc-input, .calc-select {
+            padding: 12px 20px;
+            background: rgba(22, 32, 51, 0.8);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 10px;
+            color: #e4e8f1;
+            font-size: 1rem;
+            min-width: 200px;
+            transition: all 0.3s ease;
+        }
+
+        .calc-input:focus, .calc-select:focus {
+            outline: none;
+            border-color: #6366f1;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+            background: rgba(22, 32, 51, 0.9);
+        }
+
+        .calc-button {
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .calc-button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .calc-button:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .calc-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(99, 102, 241, 0.4);
+        }
+
+        .quick-result {
+            margin-top: 30px;
+            padding: 25px;
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            border-radius: 15px;
+            display: none;
+            position: relative;
+            z-index: 1;
+        }
+
+        .quick-result.show {
+            display: block;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .result-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #22c55e;
+            margin-bottom: 10px;
+            text-shadow: 0 0 20px rgba(34, 197, 94, 0.3);
+        }
+
+        /* Tools Grid */
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .tool-card {
+            background: rgba(22, 32, 51, 0.9);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 20px;
+            padding: 40px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 0.8s ease-out both;
+        }
+
+        .tool-card:nth-child(1) { animation-delay: 0.1s; }
+        .tool-card:nth-child(2) { animation-delay: 0.2s; }
+        .tool-card:nth-child(3) { animation-delay: 0.3s; }
+        .tool-card:nth-child(4) { animation-delay: 0.4s; }
+        .tool-card:nth-child(5) { animation-delay: 0.5s; }
+        .tool-card:nth-child(6) { animation-delay: 0.6s; }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .tool-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.05), rgba(139, 92, 246, 0.05));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .tool-card:hover::before {
+            opacity: 1;
+        }
+
+        .tool-card::after {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #6366f1, #8b5cf6, #6366f1);
+            border-radius: 20px;
+            opacity: 0;
+            z-index: -1;
+            transition: opacity 0.3s ease;
+        }
+
+        .tool-card:hover::after {
+            opacity: 0.3;
+            animation: rotate 4s linear infinite;
+        }
+
+        .tool-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.3);
+        }
+
+        .tool-icon {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            display: inline-block;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .tool-card:nth-child(2) .tool-icon { animation-delay: 0.5s; }
+        .tool-card:nth-child(3) .tool-icon { animation-delay: 1s; }
+        .tool-card:nth-child(4) .tool-icon { animation-delay: 1.5s; }
+        .tool-card:nth-child(5) .tool-icon { animation-delay: 2s; }
+        .tool-card:nth-child(6) .tool-icon { animation-delay: 2.5s; }
+
+        .tool-title {
+            font-size: 1.8rem;
+            color: #6366f1;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .tool-description {
+            color: #94a3b8;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        .tool-features {
+            list-style: none;
+            padding: 0;
+            margin: 20px 0;
+        }
+
+        .tool-features li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+            color: #94a3b8;
+            transition: all 0.3s ease;
+        }
+
+        .tool-features li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #22c55e;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .tool-card:hover .tool-features li {
+            padding-left: 30px;
+        }
+
+        .tool-card:hover .tool-features li::before {
+            transform: scale(1.2);
+        }
+
+        .tool-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            animation: pulse-badge 2s ease-in-out infinite;
+        }
+
+        .tool-badge {
+            background: linear-gradient(135deg, #22c55e 0%, #10b981 100%);
+            color: white;
+        }
+
+        .tool-badge.new {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+        }
+
+        .tool-badge.premium {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+        }
+
+        @keyframes pulse-badge {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.4); }
+            50% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(34, 197, 94, 0); }
+        }
+
+        /* Comparison Section */
+        .comparison-section {
+            background: rgba(22, 32, 51, 0.9);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 60px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .comparison-section h3 {
+            font-size: 1.8rem;
+            margin-bottom: 30px;
+            color: #e4e8f1;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .comparison-table th {
+            background: rgba(99, 102, 241, 0.1);
+            color: #6366f1;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            border-bottom: 2px solid rgba(99, 102, 241, 0.3);
+        }
+
+        .comparison-table td {
+            padding: 15px;
+            border-bottom: 1px solid rgba(99, 102, 241, 0.1);
+            color: #e4e8f1;
+            transition: all 0.3s ease;
+        }
+
+        .comparison-table tr:hover {
+            background: rgba(99, 102, 241, 0.05);
+        }
+
+        .comparison-table tr:hover td {
+            padding-left: 20px;
+        }
+
+        /* Ad Container */
+        .ad-container {
+            background: rgba(22, 32, 51, 0.6);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 40px 0;
+            text-align: center;
+            min-height: 100px;
+            position: relative;
+        }
+
+        .ad-container::before {
+            content: 'Advertisement';
+            position: absolute;
+            top: 5px;
+            left: 10px;
+            font-size: 0.7rem;
+            color: #64748b;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 2px 8px;
+            border-radius: 4px;
+        }
+
+        /* Footer */
+        .footer {
+            background: rgba(22, 32, 51, 0.9);
+            padding: 40px 0;
+            margin-top: 100px;
+            text-align: center;
+            border-top: 1px solid rgba(99, 102, 241, 0.3);
+        }
+
+        .footer-content p {
+            margin: 5px 0;
+        }
+
+        .footer a {
+            color: #6366f1;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer a:hover {
+            color: #8b5cf6;
+        }
+
+        /* Mobile Menu */
+        .mobile-menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: #e4e8f1;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: rgba(22, 32, 51, 0.95);
+                flex-direction: column;
+                padding: 20px;
+                border-bottom: 1px solid rgba(99, 102, 241, 0.3);
+            }
+            
+            .nav-menu.active {
+                display: flex;
+            }
+            
+            .mobile-menu-toggle {
+                display: block;
+            }
+            
+            .tools-title {
+                font-size: 2.5rem;
+            }
+            
+            .quick-calc-form {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .calc-input, .calc-select {
+                width: 100%;
+            }
+            
+            .comparison-table {
+                font-size: 0.9rem;
+            }
+            
+            .comparison-table th, .comparison-table td {
+                padding: 10px;
+            }
+        }
+    </style>
+    <script src="js/main.js" defer></script>
+</head>
+<body>
+    <div class="bg-animation"></div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <a href="../index.html" style="text-decoration: none;">
+                        <h1>MSTY Millionaire</h1>
+                    </a>
+                </div>
+                
+                <nav class="nav-menu" id="navMenu">
+                    <a href="index.html" class="nav-link">Home</a>
+                    <a href="../index.html" class="nav-link" >Dashboard</a>
+                    <a href="../calculator/index.html" class="nav-link" >Calculator</a>
+                    <a href="../education/index.html" class="nav-link" >Learn</a>
+                    <a href="tools-main.html" class="nav-link active">Tools</a>
+                    <a href="../portfolio/index.html" class="nav-link" >Portfolio</a>
+                </nav>
+                
+                <button class="mobile-menu-toggle" onclick="toggleMenu()">☰</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="tools-container">
+        <div class="tools-header">
+            <h2 class="tools-title">Professional Investment Tools</h2>
+            <p class="hero-subtitle">Advanced calculators and analysis tools for serious YieldMax investors</p>
+        </div>
+
+        <!-- Quick Calculator Section -->
+        <div class="quick-calc-section">
+            <h3>Quick Monthly Income Calculator</h3>
+            <p>Get instant calculations right here</p>
+            
+            <form class="quick-calc-form" onsubmit="calculateQuickIncome(event)">
+                <div class="calc-input-group">
+                    <label class="calc-label">Investment Amount</label>
+                    <input type="number" class="calc-input" id="quickAmount" placeholder="$10,000" value="10000">
+                </div>
+                
+                <div class="calc-input-group">
+                    <label class="calc-label">Select ETF</label>
+                    <select class="calc-select" id="quickETF">
+                        <option value="139.94">PLTY (139.94%)</option>
+                        <option value="90.27">MSTY (90.27%)</option>
+                        <option value="85.21">NVDY (85.21%)</option>
+                        <option value="82.15">GOOY (82.15%)</option>
+                        <option value="72.38">CONY (72.38%)</option>
+                        <option value="67.43">TSLY (67.43%)</option>
+                    </select>
+                </div>
+                
+                <button type="submit" class="calc-button">Calculate Income</button>
+            </form>
+            
+            <div class="quick-result" id="quickResult">
+                <div class="result-value" id="monthlyIncome">$1,166</div>
+                <p>Estimated Monthly Income</p>
+                <p style="color: #94a3b8; font-size: 0.9rem; margin-top: 10px;">Annual income: <span id="annualIncome">$13,992</span></p>
+            </div>
+        </div>
+
+        <!-- Tools Grid -->
+        <div class="tools-grid">
+            <a href="tools/income-calculator.html" class="tool-card">
+                <span class="tool-badge">Popular</span>
+                <div class="tool-icon">💰</div>
+                <h3 class="tool-title">Advanced Income Calculator</h3>
+                <p class="tool-description">Comprehensive income projections with multiple ETFs, reinvestment options, and tax considerations</p>
+                <ul class="tool-features">
+                    <li>Multi-ETF portfolio analysis</li>
+                    <li>Compound vs. cash-out options</li>
+                    <li>Tax impact calculations</li>
+                    <li>Historical yield tracking</li>
+                </ul>
+            </a>
+
+            <a href="tools/portfolio-optimizer.html" class="tool-card">
+                <span class="tool-badge new">NEW</span>
+                <div class="tool-icon">🎯</div>
+                <h3 class="tool-title">AI Portfolio Optimizer</h3>
+                <p class="tool-description">Machine learning algorithms to optimize your YieldMax portfolio for maximum risk-adjusted returns</p>
+                <ul class="tool-features">
+                    <li>Risk tolerance assessment</li>
+                    <li>Optimal allocation suggestions</li>
+                    <li>Correlation analysis</li>
+                    <li>Rebalancing recommendations</li>
+                </ul>
+            </a>
+
+            <a href="tools/tax-calculator.html" class="tool-card">
+                <div class="tool-icon">📊</div>
+                <h3 class="tool-title">Tax Impact Calculator</h3>
+                <p class="tool-description">Estimate your tax liability from YieldMax distributions and plan your tax strategy</p>
+                <ul class="tool-features">
+                    <li>Federal & state tax calculations</li>
+                    <li>Ordinary vs. qualified dividends</li>
+                    <li>Tax-loss harvesting opportunities</li>
+                    <li>Year-end tax planning</li>
+                </ul>
+            </a>
+
+            <a href="tools/compound-calculator.html" class="tool-card">
+                <div class="tool-icon">📈</div>
+                <h3 class="tool-title">Compound Growth Calculator</h3>
+                <p class="tool-description">Visualize long-term wealth building through dividend reinvestment</p>
+                <ul class="tool-features">
+                    <li>DRIP simulation</li>
+                    <li>Growth projections</li>
+                    <li>Interactive charts</li>
+                    <li>Scenario comparison</li>
+                </ul>
+            </a>
+
+            <a href="tools/distribution-tracker.html" class="tool-card">
+                <div class="tool-icon">📅</div>
+                <h3 class="tool-title">Distribution Tracker</h3>
+                <p class="tool-description">Track all your distributions, payment history, and upcoming dividends in one place</p>
+                <ul class="tool-features">
+                    <li>Payment calendar</li>
+                    <li>Historical distributions</li>
+                    <li>Yield trend analysis</li>
+                    <li>Export to spreadsheet</li>
+                </ul>
+            </a>
+
+            <a href="tools/risk-assessment.html" class="tool-card">
+                <span class="tool-badge premium">Premium</span>
+                <div class="tool-icon">🛡️</div>
+                <h3 class="tool-title">Risk Assessment Tool</h3>
+                <p class="tool-description">Advanced risk analytics including volatility, drawdown analysis, and stress testing</p>
+                <ul class="tool-features">
+                    <li>Volatility measurements</li>
+                    <li>Maximum drawdown analysis</li>
+                    <li>Correlation matrices</li>
+                    <li>Stress test scenarios</li>
+                </ul>
+            </a>
+        </div>
+
+        <!-- Tool Comparison -->
+        <div class="comparison-section">
+            <h3>Tool Feature Comparison</h3>
+            
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Tool</th>
+                        <th>Best For</th>
+                        <th>Key Features</th>
+                        <th>Access</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Income Calculator</strong></td>
+                        <td>Quick income estimates</td>
+                        <td>Multi-ETF, tax options</td>
+                        <td style="color: #22c55e;">Free</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Portfolio Optimizer</strong></td>
+                        <td>Allocation strategy</td>
+                        <td>AI-powered recommendations</td>
+                        <td style="color: #22c55e;">Free</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Tax Calculator</strong></td>
+                        <td>Tax planning</td>
+                        <td>Federal/state calculations</td>
+                        <td style="color: #22c55e;">Free</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Compound Calculator</strong></td>
+                        <td>Long-term projections</td>
+                        <td>DRIP simulations</td>
+                        <td style="color: #22c55e;">Free</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Distribution Tracker</strong></td>
+                        <td>Payment monitoring</td>
+                        <td>Historical tracking</td>
+                        <td style="color: #22c55e;">Free</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Risk Assessment</strong></td>
+                        <td>Advanced risk analysis</td>
+                        <td>Professional metrics</td>
+                        <td style="color: #f59e0b;">Premium</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Ad Banner -->
+        <div class="ad-container">
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-PLACEHOLDER-ID"
+                 data-ad-slot="1234567890"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <p>&copy; 2025 MSTY Millionaire. Tools are for educational purposes only.</p>
+                <p><a href="investment-disclaimer.html">Investment Disclaimer</a> | <a href="privacy-policy-page.html">Privacy Policy</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        function toggleMenu() {
+            const navMenu = document.getElementById('navMenu');
+            navMenu.classList.toggle('active');
+        }
+
+        // Initialize AdSense
+        (adsbygoogle = window.adsbygoogle || []).push({});
+        
+        // Quick calculator functionality
+        function calculateQuickIncome(event) {
+            event.preventDefault();
+            
+            const amount = parseFloat(document.getElementById('quickAmount').value) || 0;
+            const yieldRate = parseFloat(document.getElementById('quickETF').value) || 0;
+            
+            const monthlyIncome = (amount * (yieldRate / 100)) / 12;
+            const annualIncome = monthlyIncome * 12;
+            
+            document.getElementById('monthlyIncome').textContent = `$${monthlyIncome.toFixed(0).toLocaleString()}`;
+            document.getElementById('annualIncome').textContent = `$${annualIncome.toFixed(0).toLocaleString()}`;
+            
+            const resultDiv = document.getElementById('quickResult');
+            resultDiv.classList.add('show');
+        }
+    </script>
+</body>
+</html>

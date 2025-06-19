@@ -1,0 +1,1002 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YieldMax Community - Forums, Success Stories & Portfolio Ideas | MSTY Millionaire</title>
+    <meta name="description" content="Join the YieldMax investor community. Share strategies, read success stories, discuss portfolio ideas, and connect with fellow high-yield investors.">
+    
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-PLACEHOLDER-ID" crossorigin="anonymous"></script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #0a0e1a;
+            color: #e4e8f1;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Animated Background */
+        .bg-animation {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            background: linear-gradient(135deg, #0a0e1a 0%, #162033 50%, #0a0e1a 100%);
+            overflow: hidden;
+        }
+
+        .bg-animation::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.1) 0%, transparent 70%);
+            animation: pulse 15s ease-in-out infinite;
+        }
+
+        .bg-animation::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><g fill="none" stroke="rgba(99,102,241,0.1)" stroke-width="1"><path d="M0 400 Q 300 200 600 400 T 1200 400"/><path d="M0 500 Q 300 300 600 500 T 1200 500"/></g></svg>');
+            animation: flow 20s linear infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.5; }
+            50% { transform: translate(-50%, -50%) scale(1.5); opacity: 0.3; }
+        }
+
+        @keyframes flow {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* Header */
+        .header {
+            background: rgba(22, 32, 51, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 20px 0;
+            border-bottom: 1px solid rgba(99, 102, 241, 0.3);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            animation: slideDown 0.5s ease-out;
+        }
+
+        @keyframes slideDown {
+            from { transform: translateY(-100%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .logo h1 {
+            font-size: 2rem;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: glow 3s ease-in-out infinite;
+        }
+
+        @keyframes glow {
+            0%, 100% { filter: brightness(1); }
+            50% { filter: brightness(1.2); }
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: #94a3b8;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: #6366f1;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #6366f1, #8b5cf6);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after, .nav-link.active::after {
+            width: 100%;
+        }
+
+        /* Main Content */
+        .community-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .community-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .community-title {
+            font-size: 3.5rem;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+            animation: shimmer 3s ease-in-out infinite;
+        }
+
+        @keyframes shimmer {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: #94a3b8;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .community-stats {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            text-align: center;
+            animation: fadeInUp 0.8s ease-out both;
+        }
+
+        .stat-item:nth-child(1) { animation-delay: 0.1s; }
+        .stat-item:nth-child(2) { animation-delay: 0.2s; }
+        .stat-item:nth-child(3) { animation-delay: 0.3s; }
+        .stat-item:nth-child(4) { animation-delay: 0.4s; }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #6366f1;
+            text-shadow: 0 0 20px rgba(99, 102, 241, 0.3);
+        }
+
+        .stat-label {
+            color: #94a3b8;
+            font-size: 0.9rem;
+        }
+
+        /* Community Grid */
+        .community-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .community-card {
+            background: rgba(22, 32, 51, 0.9);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 20px;
+            padding: 35px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+            position: relative;
+            overflow: hidden;
+            animation: slideIn 0.8s ease-out both;
+        }
+
+        .community-card:nth-child(1) { animation-delay: 0.1s; }
+        .community-card:nth-child(2) { animation-delay: 0.2s; }
+        .community-card:nth-child(3) { animation-delay: 0.3s; }
+        .community-card:nth-child(4) { animation-delay: 0.4s; }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .community-card::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            border-radius: 20px;
+            opacity: 0;
+            z-index: -1;
+            transition: opacity 0.3s ease;
+        }
+
+        .community-card:hover::before {
+            opacity: 0.3;
+            animation: rotate 4s linear infinite;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .community-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.3);
+        }
+
+        .card-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            display: inline-block;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .community-card:nth-child(2) .card-icon { animation-delay: 0.5s; }
+        .community-card:nth-child(3) .card-icon { animation-delay: 1s; }
+        .community-card:nth-child(4) .card-icon { animation-delay: 1.5s; }
+
+        .card-title {
+            font-size: 1.8rem;
+            color: #6366f1;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .card-description {
+            color: #94a3b8;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        .card-activity {
+            display: flex;
+            gap: 20px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(99, 102, 241, 0.2);
+        }
+
+        .activity-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #94a3b8;
+            font-size: 0.9rem;
+        }
+
+        .badge-hot, .badge-new {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            animation: pulse-badge 2s ease-in-out infinite;
+        }
+
+        .badge-hot {
+            background: linear-gradient(135deg, #f59e0b 0%, #ef4444 100%);
+            color: white;
+        }
+
+        .badge-new {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            color: white;
+        }
+
+        @keyframes pulse-badge {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.4); }
+            50% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(245, 158, 11, 0); }
+        }
+
+        /* Recent Discussions */
+        .recent-discussions {
+            background: rgba(22, 32, 51, 0.9);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 20px;
+            padding: 35px;
+            margin-bottom: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .recent-discussions::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.05) 0%, transparent 70%);
+            animation: rotate 30s linear infinite;
+        }
+
+        .recent-discussions h3 {
+            font-size: 1.8rem;
+            color: #e4e8f1;
+            position: relative;
+            z-index: 1;
+        }
+
+        .discussion-list {
+            margin-top: 25px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .discussion-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background: rgba(99, 102, 241, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+            border: 1px solid rgba(99, 102, 241, 0.2);
+        }
+
+        .discussion-item:hover {
+            background: rgba(99, 102, 241, 0.1);
+            transform: translateX(5px);
+            border-color: #6366f1;
+            box-shadow: 0 5px 15px rgba(99, 102, 241, 0.2);
+        }
+
+        .discussion-content {
+            flex: 1;
+        }
+
+        .discussion-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #e4e8f1;
+            margin-bottom: 5px;
+        }
+
+        .discussion-meta {
+            display: flex;
+            gap: 15px;
+            color: #94a3b8;
+            font-size: 0.85rem;
+        }
+
+        .discussion-stats {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .stat-badge {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 5px 12px;
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 20px;
+            font-size: 0.85rem;
+            color: #94a3b8;
+            transition: all 0.3s ease;
+        }
+
+        .discussion-item:hover .stat-badge {
+            background: rgba(99, 102, 241, 0.2);
+            color: #e4e8f1;
+        }
+
+        /* Featured Section */
+        .featured-section {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.1));
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .featured-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent 30%, rgba(99, 102, 241, 0.1) 50%, transparent 70%);
+            animation: shine 3s ease-in-out infinite;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .featured-section h3 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+            color: #e4e8f1;
+        }
+
+        .featured-section > p {
+            color: #94a3b8;
+            position: relative;
+            z-index: 1;
+        }
+
+        .featured-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .featured-card {
+            background: rgba(22, 32, 51, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 15px;
+            padding: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .featured-card:hover {
+            transform: translateY(-3px);
+            border-color: #6366f1;
+            box-shadow: 0 5px 20px rgba(99, 102, 241, 0.2);
+        }
+
+        .member-avatar {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            border-radius: 50%;
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+            font-weight: bold;
+            box-shadow: 0 0 20px rgba(99, 102, 241, 0.4);
+        }
+
+        .member-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #e4e8f1;
+            margin-bottom: 5px;
+        }
+
+        .member-achievement {
+            color: #22c55e;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+
+        .member-stats {
+            color: #94a3b8;
+            font-size: 0.85rem;
+        }
+
+        /* Join CTA */
+        .join-cta {
+            background: rgba(22, 32, 51, 0.9);
+            backdrop-filter: blur(10px);
+            border: 2px solid #6366f1;
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .join-cta::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.1) 0%, transparent 70%);
+            animation: pulse 10s ease-in-out infinite;
+        }
+
+        .cta-title {
+            font-size: 2rem;
+            color: #6366f1;
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .join-cta p {
+            color: #94a3b8;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 15px 40px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .cta-button:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(99, 102, 241, 0.4);
+        }
+
+        /* Ad Container */
+        .ad-container {
+            background: rgba(22, 32, 51, 0.6);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 40px 0;
+            text-align: center;
+            min-height: 100px;
+            position: relative;
+        }
+
+        .ad-container::before {
+            content: 'Advertisement';
+            position: absolute;
+            top: 5px;
+            left: 10px;
+            font-size: 0.7rem;
+            color: #64748b;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 2px 8px;
+            border-radius: 4px;
+        }
+
+        /* Footer */
+        .footer {
+            background: rgba(22, 32, 51, 0.9);
+            padding: 40px 0;
+            margin-top: 100px;
+            text-align: center;
+            border-top: 1px solid rgba(99, 102, 241, 0.3);
+        }
+
+        .footer-content p {
+            margin: 5px 0;
+        }
+
+        .footer a {
+            color: #6366f1;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer a:hover {
+            color: #8b5cf6;
+        }
+
+        /* Mobile Menu */
+        .mobile-menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: #e4e8f1;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: rgba(22, 32, 51, 0.95);
+                flex-direction: column;
+                padding: 20px;
+                border-bottom: 1px solid rgba(99, 102, 241, 0.3);
+            }
+            
+            .nav-menu.active {
+                display: flex;
+            }
+            
+            .mobile-menu-toggle {
+                display: block;
+            }
+            
+            .community-title {
+                font-size: 2.5rem;
+            }
+            
+            .community-stats {
+                gap: 20px;
+            }
+            
+            .stat-number {
+                font-size: 1.5rem;
+            }
+            
+            .community-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .discussion-item {
+                flex-direction: column;
+                gap: 15px;
+                align-items: flex-start;
+            }
+            
+            .discussion-stats {
+                width: 100%;
+                justify-content: flex-start;
+            }
+            
+            .featured-content {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+    <script src="js/main.js" defer></script>
+</head>
+<body>
+    <div class="bg-animation"></div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <a href="index.html" style="text-decoration: none;">
+                        <h1>MSTY Millionaire</h1>
+                    </a>
+                </div>
+                
+                <nav class="nav-menu" id="navMenu">
+                    <a href="index.html" class="nav-link">Home</a>
+                    <a href="index.html" class="nav-link" >Dashboard</a>
+                    <a href="calculator/index.html" class="nav-link" >Calculator</a>
+                    <a href="education/index.html" class="nav-link" >Learn</a>
+                    <a href="community-main.html" class="nav-link active">Community</a>
+                    <a href="portfolio/index.html" class="nav-link" >Portfolio</a>
+                </nav>
+                
+                <button class="mobile-menu-toggle" onclick="toggleMenu()">☰</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="community-container">
+        <div class="community-header">
+            <h2 class="community-title">YieldMax Investor Community</h2>
+            <p class="hero-subtitle">Connect, share, and learn with fellow high-yield ETF investors</p>
+            
+            <div class="community-stats">
+                <div class="stat-item">
+                    <div class="stat-number">12,847</div>
+                    <div class="stat-label">Active Members</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">3,291</div>
+                    <div class="stat-label">Discussions</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">847</div>
+                    <div class="stat-label">Success Stories</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">156</div>
+                    <div class="stat-label">Portfolio Ideas</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Community Sections Grid -->
+        <div class="community-grid">
+            <a href="community/forum.html" class="community-card">
+                <span class="badge-hot">HOT</span>
+                <div class="card-icon">💬</div>
+                <h3 class="card-title">Discussion Forum</h3>
+                <p class="card-description">Ask questions, share insights, and discuss strategies with thousands of YieldMax investors</p>
+                <div class="card-activity">
+                    <div class="activity-item">
+                        <span>👥</span>
+                        <span>2,847 Online</span>
+                    </div>
+                    <div class="activity-item">
+                        <span>📝</span>
+                        <span>142 New Today</span>
+                    </div>
+                </div>
+            </a>
+
+            <a href="community/success-stories.html" class="community-card">
+                <div class="card-icon">🏆</div>
+                <h3 class="card-title">Success Stories</h3>
+                <p class="card-description">Real investors sharing their journey to financial freedom with YieldMax ETFs</p>
+                <div class="card-activity">
+                    <div class="activity-item">
+                        <span>⭐</span>
+                        <span>Featured Weekly</span>
+                    </div>
+                    <div class="activity-item">
+                        <span>💰</span>
+                        <span>$10K+ Monthly</span>
+                    </div>
+                </div>
+            </a>
+
+            <a href="community/portfolio-ideas.html" class="community-card">
+                <span class="badge-new">NEW</span>
+                <div class="card-icon">📊</div>
+                <h3 class="card-title">Portfolio Ideas</h3>
+                <p class="card-description">Browse and share complete portfolio allocations optimized for different goals</p>
+                <div class="card-activity">
+                    <div class="activity-item">
+                        <span>🎯</span>
+                        <span>156 Portfolios</span>
+                    </div>
+                    <div class="activity-item">
+                        <span>📈</span>
+                        <span>Backtested</span>
+                    </div>
+                </div>
+            </a>
+
+            <a href="community/weekly-newsletter.html" class="community-card">
+                <div class="card-icon">📧</div>
+                <h3 class="card-title">Weekly Newsletter</h3>
+                <p class="card-description">Curated insights, top discussions, and market updates delivered to your inbox</p>
+                <div class="card-activity">
+                    <div class="activity-item">
+                        <span>📨</span>
+                        <span>28K Subscribers</span>
+                    </div>
+                    <div class="activity-item">
+                        <span>🔔</span>
+                        <span>Every Friday</span>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <!-- Recent Discussions -->
+        <div class="recent-discussions">
+            <h3>🔥 Trending Discussions</h3>
+            
+            <div class="discussion-list">
+                <a href="/community/forum/discussion/plty-analysis" class="discussion-item">
+                    <div class="discussion-content">
+                        <div class="discussion-title">PLTY hitting 140% yield - sustainable or too good to be true?</div>
+                        <div class="discussion-meta">
+                            <span>Posted by IncomeFocused • 2 hours ago</span>
+                            <span>in Strategy Discussion</span>
+                        </div>
+                    </div>
+                    <div class="discussion-stats">
+                        <span class="stat-badge">💬 127 replies</span>
+                        <span class="stat-badge">👍 342</span>
+                    </div>
+                </a>
+
+                <a href="/community/forum/discussion/new-etf-alert" class="discussion-item">
+                    <div class="discussion-content">
+                        <div class="discussion-title">BREAKING: YieldMax launching META covered call ETF next month</div>
+                        <div class="discussion-meta">
+                            <span>Posted by ETFHunter • 5 hours ago</span>
+                            <span>in News & Announcements</span>
+                        </div>
+                    </div>
+                    <div class="discussion-stats">
+                        <span class="stat-badge">💬 89 replies</span>
+                        <span class="stat-badge">👍 567</span>
+                    </div>
+                </a>
+
+                <a href="/community/forum/discussion/tax-strategy" class="discussion-item">
+                    <div class="discussion-content">
+                        <div class="discussion-title">Tax-efficient strategies for high-yield ETF distributions</div>
+                        <div class="discussion-meta">
+                            <span>Posted by TaxSmart2025 • 1 day ago</span>
+                            <span>in Tax Planning</span>
+                        </div>
+                    </div>
+                    <div class="discussion-stats">
+                        <span class="stat-badge">💬 64 replies</span>
+                        <span class="stat-badge">👍 189</span>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <!-- Featured Members -->
+        <div class="featured-section">
+            <h3>⭐ Community Champions</h3>
+            <p>Top contributors helping thousands achieve their income goals</p>
+            
+            <div class="featured-content">
+                <div class="featured-card">
+                    <div class="member-avatar">YM</div>
+                    <div class="member-name">YieldMaster</div>
+                    <div class="member-achievement">$15K Monthly Income</div>
+                    <div class="member-stats">1,247 helpful posts • 5K followers</div>
+                </div>
+                
+                <div class="featured-card">
+                    <div class="member-avatar">DG</div>
+                    <div class="member-name">DividendGuru</div>
+                    <div class="member-achievement">Portfolio Expert</div>
+                    <div class="member-stats">892 helpful posts • 3.2K followers</div>
+                </div>
+                
+                <div class="featured-card">
+                    <div class="member-avatar">IF</div>
+                    <div class="member-name">IncomeFreedom</div>
+                    <div class="member-achievement">Early Retiree at 45</div>
+                    <div class="member-stats">567 helpful posts • 2.8K followers</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Join CTA -->
+        <div class="join-cta">
+            <h3 class="cta-title">Ready to Join Our Community?</h3>
+            <p>Get instant access to discussions, exclusive content, and connect with successful investors</p>
+            <a href="account-register.html" class="cta-button">Join Free Today</a>
+            <p style="color: #94a3b8; font-size: 0.9rem; margin-top: 15px; position: relative; z-index: 1;">Already a member? <a href="account-login.html" style="color: #6366f1;">Sign In</a></p>
+        </div>
+
+        <!-- Ad Banner -->
+        <div class="ad-container">
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-PLACEHOLDER-ID"
+                 data-ad-slot="1234567890"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <p>&copy; 2025 MSTY Millionaire. Community content is user-generated.</p>
+                <p><a href="community/guidelines.html">Community Guidelines</a> | <a href="privacy-policy-page.html">Privacy Policy</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        function toggleMenu() {
+            const navMenu = document.getElementById('navMenu');
+            navMenu.classList.toggle('active');
+        }
+
+        // Initialize AdSense
+        (adsbygoogle = window.adsbygoogle || []).push({});
+        
+        // Simulate real-time activity updates
+        function updateActivityStats() {
+            const onlineCount = document.querySelector('.activity-item span:last-child');
+            if (onlineCount && onlineCount.textContent.includes('Online')) {
+                const currentCount = parseInt(onlineCount.textContent.replace(/[^0-9]/g, ''));
+                const change = Math.floor(Math.random() * 20) - 10;
+                const newCount = Math.max(2000, currentCount + change);
+                onlineCount.textContent = `${newCount.toLocaleString()} Online`;
+            }
+        }
+        
+        // Update every 30 seconds
+        setInterval(updateActivityStats, 30000);
+        
+        // Newsletter signup
+        function subscribeNewsletter() {
+            const email = prompt('Enter your email for weekly updates:');
+            if (email && email.includes('@')) {
+                alert('Thank you! You\'ve been subscribed to our weekly newsletter.');
+            }
+        }
+    </script>
+</body>
+</html>

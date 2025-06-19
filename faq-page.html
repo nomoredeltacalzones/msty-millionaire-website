@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ - YieldMax ETF Questions | MSTY Millionaire</title>
+    <meta name="description" content="Frequently asked questions about YieldMax ETFs, distributions, risks, taxes, and investment strategies for MSTY, TSLY, NVDY and more.">
+    
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-PLACEHOLDER-ID" crossorigin="anonymous"></script>
+    
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/main.js" defer></script>
+</head>
+<body>
+    <div class="bg-animation"></div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <a href="index.html" style="text-decoration: none;">
+                        <h1>MSTY Millionaire</h1>
+                    </a>
+                </div>
+                
+                <nav class="nav-menu" id="navMenu">
+                    <a href="index.html" class="nav-link" >Dashboard</a>
+                    <a href="calculator/index.html" class="nav-link" >Calculator</a>
+                    <a href="education/index.html" class="nav-link" >Learn</a>
+                    <a href="portfolio/index.html" class="nav-link" >Portfolio</a>
+                    <a href="faq/index.html" class="nav-link active">FAQ</a>
+                    <a href="contact/index.html" class="nav-link" >Contact</a>
+                </nav>
+                
+                <button class="mobile-menu-toggle" onclick="toggleMenu()">☰</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">
+        <div class="page-header">
+            <h1 class="page-title">Frequently Asked Questions</h1>
+            <p class="page-subtitle">Everything you need to know about YieldMax ETFs and high-yield investing</p>
+        </div>
+
+        <!-- FAQ Categories -->
+        <div class="faq-categories">
+            <button class="category-btn active" onclick="filterFAQ('all')">All Questions</button>
+            <button class="category-btn" onclick="filterFAQ('basics')">YieldMax Basics</button>
+            <button class="category-btn" onclick="filterFAQ('distributions')">Distributions</button>
+            <button class="category-btn" onclick="filterFAQ('risks')">Risks & Taxes</button>
+            <button class="category-btn" onclick="filterFAQ('strategies')">Strategies</button>
+        </div>
+
+        <!-- Ad Banner -->
+        <div class="ad-container">
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-PLACEHOLDER-ID"
+                 data-ad-slot="1234567890"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+        </div>
+
+        <!-- FAQ Content -->
+        <div class="faq-container">
+            <!-- YieldMax Basics -->
+            <div class="faq-section" data-category="basics">
+                <h2 class="section-title">YieldMax Basics</h2>
+                
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleAnswer(this)">
+                        <span>What are YieldMax ETFs?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>YieldMax ETFs are exchange-traded funds that use a covered call option strategy to generate monthly income from stocks that typically don't pay dividends. They sell call options on stocks like Tesla (TSLY), Nvidia (NVDY), and MicroStrategy (MSTY) to create high distribution yields, often ranging from 30% to over 100% annually.</p>
+                        <p>Key features:</p>
+                        <ul>
+                            <li>Monthly distributions (some weekly)</li>
+                            <li>Option premium income strategy</li>
+                            <li>Capped upside potential</li>
+                            <li>Full downside exposure</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleAnswer(this)">
+                        <span>How do YieldMax ETFs generate such high yields?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>YieldMax ETFs generate high yields through a covered call strategy:</p>
+                        <ol>
+                            <li><strong>Synthetic Position:</strong> They create synthetic long positions using options</li>
+                            <li><strong>Sell Call Options:</strong> They sell short-term call options (usually weekly) to collect premiums</li>
+                            <li><strong>High Volatility:</strong> The underlying stocks (TSLA, NVDA, etc.) have high implied volatility, which increases option premiums</li>
+                            <li><strong>Monthly Distributions:</strong> They distribute the collected premiums to shareholders monthly</li>
+                        </ol>
+                        <p><strong>Important:</strong> These high yields come with significant risks, including potential loss of principal and capped upside gains.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleAnswer(this)">
+                        <span>What's the difference between MSTY, TSLY, and NVDY?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Each YieldMax ETF targets a different underlying stock:</p>
+                        <table class="comparison-table">
+                            <tr>
+                                <th>ETF</th>
+                                <th>Underlying</th>
+                                <th>Typical Yield</th>
+                                <th>Volatility</th>
+                            </tr>
+                            <tr>
+                                <td>MSTY</td>
+                                <td>MicroStrategy (MSTR)</td>
+                                <td>80-100%+</td>
+                                <td>Very High</td>
+                            </tr>
+                            <tr>
+                                <td>TSLY</td>
+                                <td>Tesla (TSLA)</td>
+                                <td>60-80%</td>
+                                <td>High</td>
+                            </tr>
+                            <tr>
+                                <td>NVDY</td>
+                                <td>NVIDIA (NVDA)</td>
+                                <td>70-90%</td>
+                                <td>High</td>
+                            </tr>
+                            <tr>
+                                <td>PLTY</td>
+                                <td>Palantir (PLTR)</td>
+                                <td>120-140%</td>
+                                <td>Extreme</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Distributions Section -->
+            <div class="faq-section" data-category="distributions">
+                <h2 class="section-title">Distributions & Payments</h2>
+                
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleAnswer(this)">
+                        <span>When do YieldMax ETFs pay distributions?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>YieldMax has a staggered distribution schedule:</p>
+                        <ul>
+                            <li><strong>YMAX & YMAG:</strong> Weekly distributions (Mondays)</li>
+                            <li><strong>Most ETFs:</strong> Monthly distributions on different dates</li>
+                            <li><strong>At least 8 ETFs</strong> distribute every week</li>
+                        </ul>
+                        <p>Check the official YieldMax distribution calendar for specific dates. Ex-dividend dates are typically one business day before the payment date.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleAnswer(this)">
+                        <span>Why do distribution amounts vary so much?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Distribution amounts vary based on:</p>
+                        <ol>
+                            <li><strong>Option Premiums:</strong> Higher volatility = higher premiums</li>
+                            <li><strong>Market Conditions:</strong> Bull/bear markets affect option values</li>
+                            <li><strong>Strike Prices:</strong> How far out-of-the-money calls are sold</li>
+                            <li><strong>Time Decay:</strong> Shorter expiration = faster decay</li>
+                        </ol>
+                        <p><strong>Warning:</strong> Distributions can be $0 in some months if market conditions are unfavorable.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleAnswer(this)">
+                        <span>What percentage is return of capital vs. income?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Most YieldMax distributions include significant return of capital (ROC):</p>
+                        <ul>
+                            <li>Typical breakdown: 70-95% ROC, 5-30% income</li>
+                            <li>ROC reduces your cost basis (tax implications)</li>
+                            <li>Not all income is "earned" - some is just returning your investment</li>
+                            <li>Check Form 1099-DIV for exact percentages</li>
+                        </ul>
+                        <p><strong>Tax Note:</strong> ROC is not immediately taxable but reduces your cost basis, potentially creating larger capital gains when you sell.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Risks Section -->
+            <div class="faq-section" data-category="risks">
+                <h2 class="section-title">Risks & Tax Considerations</h2>
+                
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleAnswer(this)">
+                        <span>What are the main risks of YieldMax ETFs?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p><strong>Major risks include:</strong></p>
+                        <ol>
+                            <li><strong>Capped Upside:</strong> You won't fully participate in stock rallies</li>
+                            <li><strong>Full Downside:</strong> You experience all losses if the stock drops</li>
+                            <li><strong>NAV Decay:</strong> The fund value can decrease over time</li>
+                            <li><strong>Distribution Risk:</strong> Payments can vary widely or be $0</li>
+                            <li><strong>Tax Complexity:</strong> Mix of income, ROC, and capital gains</li>
+                            <li><strong>High Expense Ratios:</strong> Typically 0.99% annually</li>
+                        </ol>
+                        <div class="warning-box">
+                            <strong>⚠️ Warning:</strong> These are complex, high-risk investments. You can lose significant principal even while receiving distributions.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleAnswer(this)">
+                        <span>How are YieldMax ETFs taxed?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>YieldMax ETF distributions typically consist of:</p>
+                        <ul>
+                            <li><strong>Ordinary Income:</strong> Taxed at your regular income rate</li>
+                            <li><strong>Return of Capital (ROC):</strong> Not immediately taxed but reduces cost basis</li>
+                            <li><strong>Capital Gains:</strong> Taxed at capital gains rates (rare)</li>
+                        </ul>
+                        <p><strong>Important considerations:</strong></p>
+                        <ul>
+                            <li>Most distributions are 70-95% ROC</li>
+                            <li>ROC reduces your cost basis, creating larger taxable gains when selling</li>
+                            <li>Consider holding in tax-advantaged accounts (IRA, Roth IRA)</li>
+                            <li>Consult a tax professional for your specific situation</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Strategy Section -->
+            <div class="faq-section" data-category="strategies">
+                <h2 class="section-title">Investment Strategies</h2>
+                
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleAnswer(this)">
+                        <span>Should I reinvest distributions or take cash?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>The choice depends on your goals:</p>
+                        <h4>Reinvesting Distributions:</h4>
+                        <ul>
+                            <li>✅ Compounds returns over time</li>
+                            <li>✅ Dollar-cost averaging into positions</li>
+                            <li>❌ May compound losses in declining markets</li>
+                            <li>❌ Increases exposure to high-risk assets</li>
+                        </ul>
+                        <h4>Taking Cash:</h4>
+                        <ul>
+                            <li>✅ Provides regular income stream</li>
+                            <li>✅ Reduces risk by taking profits</li>
+                            <li>❌ Misses compounding opportunities</li>
+                            <li>❌ May trigger more frequent tax events</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleAnswer(this)">
+                        <span>What's a good portfolio allocation for YieldMax ETFs?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p><strong>Conservative approach (5-10% of portfolio):</strong></p>
+                        <ul>
+                            <li>Small allocation for income generation</li>
+                            <li>Diversify across multiple YieldMax ETFs</li>
+                            <li>Balance with traditional investments</li>
+                        </ul>
+                        <p><strong>Moderate approach (10-20% of portfolio):</strong></p>
+                        <ul>
+                            <li>Mix of YMAX (diversified) and individual ETFs</li>
+                            <li>Consider ULTY for lower volatility</li>
+                            <li>Regular rebalancing</li>
+                        </ul>
+                        <p><strong>Aggressive approach (20%+ of portfolio):</strong></p>
+                        <ul>
+                            <li>Focus on highest yielding ETFs (PLTY, MSTY)</li>
+                            <li>Active management required</li>
+                            <li>High risk tolerance necessary</li>
+                        </ul>
+                        <div class="warning-box">
+                            <strong>Note:</strong> Even aggressive investors should maintain diversification. Never invest more than you can afford to lose.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleAnswer(this)">
+                        <span>When should I buy/sell YieldMax ETFs?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p><strong>Consider buying when:</strong></p>
+                        <ul>
+                            <li>Implied volatility is high (higher premiums)</li>
+                            <li>ETFs trade at a discount to NAV</li>
+                            <li>You need income and understand the risks</li>
+                            <li>As part of a diversified income strategy</li>
+                        </ul>
+                        <p><strong>Consider selling when:</strong></p>
+                        <ul>
+                            <li>NAV has significantly declined</li>
+                            <li>Distributions consistently disappoint</li>
+                            <li>Tax consequences become unfavorable</li>
+                            <li>Your risk tolerance changes</li>
+                        </ul>
+                        <p><strong>Timing tip:</strong> These ETFs tend to underperform in strong bull markets (capped upside) but may provide better relative value in sideways or volatile markets.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ad Banner -->
+        <div class="ad-container">
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-PLACEHOLDER-ID"
+                 data-ad-slot="0987654321"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+        </div>
+
+        <!-- CTA Section -->
+        <section class="cta-section">
+            <h2>Ready to Calculate Your Income?</h2>
+            <p>Use our advanced calculator to estimate monthly income from YieldMax ETFs</p>
+            <a href="calculator-page.html" class="cta-button">Income Calculator</a>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <p>&copy; 2025 MSTY Millionaire. Not affiliated with YieldMax ETFs.</p>
+                <p>Contact: <a href="mailto:info@mstymillionaire.com">info@mstymillionaire.com</a></p>
+                <p class="disclaimer">Investment information is for educational purposes only. Consult a financial advisor.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Toggle FAQ answers
+        function toggleAnswer(button) {
+            const answer = button.nextElementSibling;
+            const icon = button.querySelector('.faq-icon');
+            
+            if (answer.classList.contains('active')) {
+                answer.classList.remove('active');
+                icon.textContent = '+';
+            } else {
+                // Close all other answers
+                document.querySelectorAll('.faq-answer.active').forEach(a => {
+                    a.classList.remove('active');
+                    a.previousElementSibling.querySelector('.faq-icon').textContent = '+';
+                });
+                
+                answer.classList.add('active');
+                icon.textContent = '-';
+            }
+        }
+
+        // Filter FAQ by category
+        function filterFAQ(category) {
+            // Update active button
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Show/hide sections
+            const sections = document.querySelectorAll('.faq-section');
+            sections.forEach(section => {
+                if (category === 'all' || section.dataset.category === category) {
+                    section.style.display = 'block';
+                } else {
+                    section.style.display = 'none';
+                }
+            });
+        }
+
+        // Mobile menu toggle
+        function toggleMenu() {
+            const navMenu = document.getElementById('navMenu');
+            navMenu.classList.toggle('active');
+        }
+    </script>
+
+    <style>
+        /* Copy base styles from index */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0a0e1a;
+            color: #e4e8f1;
+            line-height: 1.6;
+        }
+
+        .bg-animation {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            background: linear-gradient(135deg, #0a0e1a 0%, #162033 50%, #0a0e1a 100%);
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header styles same as index */
+        .header {
+            background: rgba(22, 32, 51, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 20px 0;
+            border-bottom: 1px solid rgba(99, 102, 241, 0.3);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        h1 {
+            font-size: 2rem;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-link {
+            color: #94a3b8;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: #6366f1;
+        }
+
+        /* Page Header */
+        .page-header {
+            text-align: center;
+            padding: 60px 0 40px;
+        }
+
+        .page-title {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .page-subtitle {
+            font-size: 1.2rem;
+            color: #94a3b8;
+        }
+
+        /* FAQ Categories */
+        .faq-categories {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+
+        .category-btn {
+            padding: 10px 20px;
+            background: rgba(22, 32, 51, 0.8);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 25px;
+            color: #94a3b8;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .category-btn:hover, .category-btn.active {
+            background: rgba(99, 102, 241, 0.2);
+            border-color: #6366f1;
+            color: #fff;
+        }
+
+        /* FAQ Sections */
+        .faq-section {
+            margin-bottom: 60px;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            color: #6366f1;
+            margin-bottom: 30px;
+            padding-left: 20px;
+            border-left: 4px solid #6366f1;
+        }
+
+        /* FAQ Items */
+        .faq-item {
+            background: rgba(22, 32, 51, 0.6);
+            border-radius: 15px;
+            margin-bottom: 20px;
+            overflow: hidden;
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            transition: all 0.3s;
+        }
+
+        .faq-item:hover {
+            border-color: rgba(99, 102, 241, 0.4);
+        }
+
+        .faq-question {
+            width: 100%;
+            padding: 25px;
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-align: left;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s;
+        }
+
+        .faq-question:hover {
+            background: rgba(99, 102, 241, 0.1);
+        }
+
+        .faq-icon {
+            font-size: 1.5rem;
+            color: #6366f1;
+            transition: transform 0.3s;
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.5s ease;
+        }
+
+        .faq-answer.active {
+            max-height: 1000px;
+            padding: 0 25px 25px;
+        }
+
+        .faq-answer p {
+            margin-bottom: 15px;
+        }
+
+        .faq-answer ul, .faq-answer ol {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+
+        .faq-answer li {
+            margin-bottom: 8px;
+        }
+
+        /* Comparison Table */
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        .comparison-table th {
+            background: rgba(99, 102, 241, 0.2);
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .comparison-table td {
+            padding: 15px;
+            border-bottom: 1px solid rgba(99, 102, 241, 0.1);
+        }
+
+        .comparison-table tr:hover {
+            background: rgba(99, 102, 241, 0.05);
+        }
+
+        /* Warning Box */
+        .warning-box {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            border-radius: 10px;
+            padding: 15px;
+            margin: 20px 0;
+            color: #fca5a5;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            text-align: center;
+            padding: 60px 40px;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
+            border-radius: 20px;
+            margin: 60px 0;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 15px 40px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: bold;
+            margin-top: 20px;
+            transition: all 0.3s;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.4);
+        }
+
+        /* Ad Container */
+        .ad-container {
+            margin: 40px 0;
+            padding: 20px;
+            background: rgba(22, 32, 51, 0.6);
+            border-radius: 15px;
+            text-align: center;
+            min-height: 100px;
+        }
+
+        /* Footer */
+        .footer {
+            background: rgba(22, 32, 51, 0.9);
+            padding: 40px 0;
+            margin-top: 100px;
+            text-align: center;
+        }
+
+        .disclaimer {
+            font-size: 0.9rem;
+            color: #64748b;
+            margin-top: 10px;
+        }
+
+        .mobile-menu-toggle {
+            display: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .page-title {
+                font-size: 2rem;
+            }
+            
+            .faq-categories {
+                justify-content: flex-start;
+                overflow-x: auto;
+                padding-bottom: 10px;
+            }
+            
+            .category-btn {
+                white-space: nowrap;
+            }
+            
+            .nav-menu {
+                display: none;
+            }
+            
+            .mobile-menu-toggle {
+                display: block;
+                background: none;
+                border: none;
+                color: #fff;
+                font-size: 1.5rem;
+            }
+            
+            .comparison-table {
+                font-size: 0.9rem;
+            }
+            
+            .comparison-table th, .comparison-table td {
+                padding: 10px;
+            }
+        }
+    </style>
+</body>
+</html>

@@ -1,0 +1,49 @@
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://mstymillionaire.com/sitemap.xml
+
+# Disallow admin and private areas
+Disallow: /admin/
+Disallow: /private/
+Disallow: /api/
+Disallow: /.netlify/
+
+# Allow important pages
+Allow: /index.html
+Allow: /calculator-page.html
+Allow: /education-v2.html
+Allow: /portfolio-v2.html
+Allow: /faq-page.html
+Allow: /contact-page.html
+Allow: /about-page.html
+
+# Allow CSS and JS files
+Allow: /css/
+Allow: /js/
+Allow: /images/
+
+# Crawl delay (optional)
+Crawl-delay: 1
+
+# Specific bot instructions
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Slurp
+Allow: /
+
+# Block bad bots
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: DotBot
+Disallow: /
+

@@ -1,0 +1,54 @@
+# Notification Configuration
+# MSTY Millionaire Platform
+
+[notifications]
+enabled = true
+email_provider = "sendgrid"
+sms_provider = "twilio"
+
+[email]
+from_address = "notifications@mstymillionaire.com"
+from_name = "MSTY Millionaire"
+reply_to = "support@mstymillionaire.com"
+
+[alerts]
+price_alerts = true
+distribution_alerts = true
+portfolio_alerts = true
+news_alerts = true
+
+[alert_types]
+price_above = "Price Above Target"
+price_below = "Price Below Target"
+volume_spike = "Volume Spike Alert"
+distribution_announced = "Distribution Announced"
+nav_decay_warning = "NAV Decay Warning"
+
+[delivery_methods]
+email = true
+sms = false
+push = true
+in_app = true
+
+[frequency_limits]
+max_daily_alerts = 10
+max_weekly_digest = 1
+cooldown_minutes = 15
+
+[templates]
+price_alert = "price_alert_template.html"
+distribution_alert = "distribution_alert_template.html"
+portfolio_summary = "portfolio_summary_template.html"
+weekly_digest = "weekly_digest_template.html"
+
+[webhook]
+enabled = false
+url = ""
+secret = ""
+
+[logging]
+level = "info"
+file = "notifications.log"
+max_size = "10MB"
+max_files = 5
+

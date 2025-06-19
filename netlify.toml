@@ -1,0 +1,188 @@
+[build]
+  # Build command (empty for static sites)
+  command = ""
+  
+  # Directory to publish
+  publish = "."
+  
+  # Functions directory (for future serverless functions)
+  functions = "netlify/functions"
+
+[build.environment]
+  # Node version for build process
+  NODE_VERSION = "18"
+
+# Redirect rules for clean URLs and SPA behavior
+[[redirects]]
+  from = "/dashboard"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/calculator"
+  to = "/calculator-page.html"
+  status = 200
+
+[[redirects]]
+  from = "/education"
+  to = "/education-v2.html"
+  status = 200
+
+[[redirects]]
+  from = "/portfolio"
+  to = "/portfolio-v2.html"
+  status = 200
+
+[[redirects]]
+  from = "/faq"
+  to = "/faq-page.html"
+  status = 200
+
+[[redirects]]
+  from = "/contact"
+  to = "/contact-page.html"
+  status = 200
+
+[[redirects]]
+  from = "/about"
+  to = "/about-page.html"
+  status = 200
+
+[[redirects]]
+  from = "/blog"
+  to = "/blog-main-page-fixed.html"
+  status = 200
+
+[[redirects]]
+  from = "/tools"
+  to = "/tools-main.html"
+  status = 200
+
+[[redirects]]
+  from = "/resources"
+  to = "/resources-main.html"
+  status = 200
+
+[[redirects]]
+  from = "/community"
+  to = "/community-main.html"
+  status = 200
+
+[[redirects]]
+  from = "/newsletter"
+  to = "/weekly-newsletter.html"
+  status = 200
+
+[[redirects]]
+  from = "/login"
+  to = "/account-login.html"
+  status = 200
+
+[[redirects]]
+  from = "/register"
+  to = "/account-register.html"
+  status = 200
+
+[[redirects]]
+  from = "/privacy"
+  to = "/privacy-policy-page.html"
+  status = 200
+
+[[redirects]]
+  from = "/terms"
+  to = "/terms-of-service.html"
+  status = 200
+
+[[redirects]]
+  from = "/disclaimer"
+  to = "/investment-disclaimer.html"
+  status = 200
+
+# Handle 404 errors
+[[redirects]]
+  from = "/*"
+  to = "/404-error-page.html"
+  status = 404
+
+# Security headers
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+
+# Cache static assets
+[[headers]]
+  for = "/css/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000"
+
+[[headers]]
+  for = "/js/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000"
+
+[[headers]]
+  for = "/images/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000"
+
+# HTML files - shorter cache
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=3600"
+
+# API routes (for future implementation)
+[[headers]]
+  for = "/api/*"
+  [headers.values]
+    Access-Control-Allow-Origin = "*"
+    Access-Control-Allow-Methods = "GET, POST, PUT, DELETE, OPTIONS"
+    Access-Control-Allow-Headers = "Content-Type, Authorization"
+
+# Form handling (Netlify Forms)
+[build.processing]
+  skip_processing = false
+
+[build.processing.css]
+  bundle = true
+  minify = true
+
+[build.processing.js]
+  bundle = true
+  minify = true
+
+[build.processing.html]
+  pretty_urls = true
+
+[build.processing.images]
+  compress = true
+
+# Environment-specific settings
+[context.production.environment]
+  NODE_ENV = "production"
+
+[context.deploy-preview.environment]
+  NODE_ENV = "development"
+
+[context.branch-deploy.environment]
+  NODE_ENV = "development"
+
+# Plugin configuration
+[[plugins]]
+  package = "@netlify/plugin-sitemap"
+
+[[plugins]]
+  package = "netlify-plugin-minify-html"
+  [plugins.inputs]
+    contexts = ["production"]
+
+# Edge functions (for future use)
+[[edge_functions]]
+  function = "api-proxy"
+  path = "/api/*"
+

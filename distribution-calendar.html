@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YieldMax Distribution Calendar - Payment Schedule | MSTY Millionaire</title>
+    <meta name="description" content="Track YieldMax ETF distribution dates, payment schedules, and dividend calendars for MSTY, TSLY, NVDY and all high-yield funds.">
+    
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-PLACEHOLDER-ID" crossorigin="anonymous"></script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #0a0e1a;
+            color: #e4e8f1;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Animated Background */
+        .bg-animation {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            background: linear-gradient(135deg, #0a0e1a 0%, #162033 50%, #0a0e1a 100%);
+            overflow: hidden;
+        }
+
+        .bg-animation::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.1) 0%, transparent 70%);
+            animation: pulse 15s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.5; }
+            50% { transform: translate(-50%, -50%) scale(1.5); opacity: 0.3; }
+        }
+
+        /* Header */
+        .header {
+            background: rgba(22, 32, 51, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 20px 0;
+            border-bottom: 1px solid rgba(99, 102, 241, 0.3);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            animation: slideDown 0.5s ease-out;
+        }
+
+        @keyframes slideDown {
+            from { transform: translateY(-100%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .logo h1 {
+            font-size: 2rem;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: glow 3s ease-in-out infinite;
+        }
+
+        @keyframes glow {
+            0%, 100% { filter: brightness(1); }
+            50% { filter: brightness(1.2); }
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: #94a3b8;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: #6366f1;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #6366f1, #8b5cf6);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after, .nav-link.active::after {
+            width: 100%;
+        }
+
+        /* Page Header */
+        .page-header {
+            text-align: center;
+            padding: 60px 0 40px;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .page-title {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .page-subtitle {
+            font-size: 1.2rem;
+            color: #94a3b8;
+        }
+
+        /* Calendar Controls */
+        .calendar-controls {
+            background: rgba(22, 32, 51, 0.8);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            animation: fadeIn 0.8s ease-out 0.3s both;
+        }
+
+        .month-navigation {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .nav-btn {
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            color: #6366f1;
+            padding: 10px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.2rem;
+        }
+
+        .nav-btn:hover {
+            background: rgba(99, 102, 241, 0.3);
+            transform: scale(1.1);
+        }
+
+        .current-month {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #fff;
+        }
+
+        .view-options {
+            display: flex;
+            gap: 10px;
+        }
+
+        .view-btn {
+            padding: 10px 20px;
+            background: rgba(22, 32, 51, 0.8);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 10px;
+            color: #94a3b8;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .view-btn.active,
+        .view-btn:hover {
+            background: rgba(99, 102, 241, 0.2);
+            border-color: #6366f1;
+            color: #fff;
+        }
+
+        /* Calendar Grid */
+        .calendar-section {
+            background: rgba(22, 32, 51, 0.8);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 40px;
+            animation: fadeIn 0.8s ease-out 0.5s both;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .day-header {
+            background: rgba(99, 102, 241, 0.1);
+            padding: 15px;
+            text-align: center;
+            font-weight: bold;
+            color: #6366f1;
+            border-radius: 10px;
+        }
+
+        .calendar-day {
+            background: rgba(22, 32, 51, 0.6);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 10px;
+            padding: 15px;
+            min-height: 120px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .calendar-day:hover {
+            background: rgba(99, 102, 241, 0.1);
+            border-color: #6366f1;
+            transform: scale(1.02);
+        }
+
+        .day-number {
+            font-weight: bold;
+            color: #e4e8f1;
+            margin-bottom: 10px;
+        }
+
+        .today {
+            background: rgba(99, 102, 241, 0.2);
+            border-color: #6366f1;
+        }
+
+        .today .day-number {
+            color: #6366f1;
+        }
+
+        .distribution-item {
+            background: rgba(34, 197, 94, 0.2);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            border-radius: 5px;
+            padding: 5px 8px;
+            margin: 2px 0;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .distribution-item:hover {
+            background: rgba(34, 197, 94, 0.3);
+            transform: translateX(2px);
+        }
+
+        .distribution-ticker {
+            font-weight: bold;
+            color: #22c55e;
+        }
+
+        .distribution-amount {
+            color: #94a3b8;
+            font-size: 0.8rem;
+        }
+
+        /* Distribution List */
+        .distribution-list-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .upcoming-distributions,
+        .recent-distributions {
+            background: rgba(22, 32, 51, 0.8);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 20px;
+            padding: 30px;
+            animation: fadeIn 0.8s ease-out 0.7s both;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(99, 102, 241, 0.2);
+        }
+
+        .section-header h2 {
+            font-size: 1.5rem;
+            color: #6366f1;
+        }
+
+        .distribution-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .distribution-card {
+            background: rgba(99, 102, 241, 0.05);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 12px;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            gap: 20px;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .distribution-card:hover {
+            background: rgba(99, 102, 241, 0.1);
+            border-color: #6366f1;
+            transform: translateX(5px);
+        }
+
+        .dist-date {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #6366f1;
+            text-align: center;
+        }
+
+        .dist-month {
+            font-size: 0.9rem;
+            color: #94a3b8;
+            text-align: center;
+        }
+
+        .dist-info {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .dist-ticker {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #e4e8f1;
+        }
+
+        .dist-name {
+            color: #94a3b8;
+            font-size: 0.9rem;
+        }
+
+        .dist-amount {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #22c55e;
+        }
+
+        .dist-yield {
+            font-size: 0.9rem;
+            color: #94a3b8;
+        }
+
+        /* Legend */
+        .legend-section {
+            background: rgba(22, 32, 51, 0.6);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 40px;
+            text-align: center;
+            animation: fadeIn 0.8s ease-out 0.9s both;
+        }
+
+        .legend-items {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 5px;
+        }
+
+        .legend-color.distribution {
+            background: rgba(34, 197, 94, 0.3);
+            border: 1px solid rgba(34, 197, 94, 0.5);
+        }
+
+        .legend-color.ex-dividend {
+            background: rgba(99, 102, 241, 0.3);
+            border: 1px solid rgba(99, 102, 241, 0.5);
+        }
+
+        .legend-color.payment {
+            background: rgba(236, 72, 153, 0.3);
+            border: 1px solid rgba(236, 72, 153, 0.5);
+        }
+
+        /* Ad Container */
+        .ad-container {
+            background: rgba(22, 32, 51, 0.6);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 40px 0;
+            text-align: center;
+            min-height: 100px;
+            position: relative;
+        }
+
+        .ad-container::before {
+            content: 'Advertisement';
+            position: absolute;
+            top: 5px;
+            left: 10px;
+            font-size: 0.7rem;
+            color: #64748b;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 2px 8px;
+            border-radius: 4px;
+        }
+
+        /* Footer */
+        .footer {
+            background: rgba(22, 32, 51, 0.9);
+            padding: 40px 0;
+            margin-top: 100px;
+            text-align: center;
+            border-top: 1px solid rgba(99, 102, 241, 0.3);
+        }
+
+        .footer a {
+            color: #6366f1;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            color: #8b5cf6;
+        }
+
+        /* Mobile Menu */
+        .mobile-menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: #e4e8f1;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: rgba(22, 32, 51, 0.95);
+                flex-direction: column;
+                padding: 20px;
+                border-bottom: 1px solid rgba(99, 102, 241, 0.3);
+            }
+            
+            .nav-menu.active {
+                display: flex;
+            }
+            
+            .mobile-menu-toggle {
+                display: block;
+            }
+            
+            .page-title {
+                font-size: 2rem;
+            }
+            
+            .calendar-grid {
+                grid-template-columns: repeat(7, 1fr);
+                gap: 5px;
+            }
+            
+            .calendar-day {
+                padding: 10px 5px;
+                min-height: 80px;
+            }
+            
+            .distribution-list-section {
+                grid-template-columns: 1fr;
+            }
+            
+            .day-header {
+                padding: 10px 5px;
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+    <script src="js/main.js" defer></script>
+</head>
+<body>
+    <div class="bg-animation"></div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <a href="index.html" style="text-decoration: none;">
+                        <h1>MSTY Millionaire</h1>
+                    </a>
+                </div>
+                
+                <nav class="nav-menu" id="navMenu">
+                    <a href="index.html" class="nav-link" >Dashboard</a>
+                    <a href="calculator/index.html" class="nav-link" >Calculator</a>
+                    <a href="education/index.html" class="nav-link" >Learn</a>
+                    <a href="portfolio/index.html" class="nav-link" >Portfolio</a>
+                    <a href="faq/index.html" class="nav-link" >FAQ</a>
+                    <a href="contact/index.html" class="nav-link" >Contact</a>
+                </nav>
+                
+                <button class="mobile-menu-toggle" onclick="toggleMenu()">☰</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">
+        <div class="page-header">
+            <h1 class="page-title">Distribution Calendar</h1>
+            <p class="page-subtitle">Track payment dates and distribution schedules for all YieldMax ETFs</p>
+        </div>
+
+        <!-- Calendar Controls -->
+        <div class="calendar-controls">
+            <div class="month-navigation">
+                <button class="nav-btn" onclick="changeMonth(-1)">←</button>
+                <h2 class="current-month" id="currentMonth">June 2025</h2>
+                <button class="nav-btn" onclick="changeMonth(1)">→</button>
+            </div>
+            <div class="view-options">
+                <button class="view-btn active" onclick="setView('month')">Month View</button>
+                <button class="view-btn" onclick="setView('list')">List View</button>
+                <button class="view-btn" onclick="setView('my-funds')">My Funds Only</button>
+            </div>
+        </div>
+
+        <!-- Calendar Grid -->
+        <section class="calendar-section">
+            <div class="calendar-grid" id="calendarGrid">
+                <!-- Day Headers -->
+                <div class="day-header">Sun</div>
+                <div class="day-header">Mon</div>
+                <div class="day-header">Tue</div>
+                <div class="day-header">Wed</div>
+                <div class="day-header">Thu</div>
+                <div class="day-header">Fri</div>
+                <div class="day-header">Sat</div>
+                
+                <!-- Calendar Days will be generated by JavaScript -->
+            </div>
+        </section>
+
+        <!-- Distribution Lists -->
+        <div class="distribution-list-section">
+            <!-- Upcoming Distributions -->
+            <section class="upcoming-distributions">
+                <div class="section-header">
+                    <h2>📅 Upcoming Distributions</h2>
+                    <span style="color: #22c55e;">Next 7 Days</span>
+                </div>
+                <div class="distribution-list">
+                    <div class="distribution-card">
+                        <div>
+                            <div class="dist-date">18</div>
+                            <div class="dist-month">JUN</div>
+                        </div>
+                        <div class="dist-info">
+                            <div class="dist-ticker">MSTY</div>
+                            <div class="dist-name">MicroStrategy Option Income</div>
+                        </div>
+                        <div>
+                            <div class="dist-amount">$0.82</div>
+                            <div class="dist-yield">90.27% APY</div>
+                        </div>
+                    </div>
+                    
+                    <div class="distribution-card">
+                        <div>
+                            <div class="dist-date">20</div>
+                            <div class="dist-month">JUN</div>
+                        </div>
+                        <div class="dist-info">
+                            <div class="dist-ticker">TSLY</div>
+                            <div class="dist-name">Tesla Option Income</div>
+                        </div>
+                        <div>
+                            <div class="dist-amount">$0.65</div>
+                            <div class="dist-yield">67.43% APY</div>
+                        </div>
+                    </div>
+                    
+                    <div class="distribution-card">
+                        <div>
+                            <div class="dist-date">22</div>
+                            <div class="dist-month">JUN</div>
+                        </div>
+                        <div class="dist-info">
+                            <div class="dist-ticker">NVDY</div>
+                            <div class="dist-name">NVIDIA Option Income</div>
+                        </div>
+                        <div>
+                            <div class="dist-amount">$0.94</div>
+                            <div class="dist-yield">85.21% APY</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Recent Distributions -->
+            <section class="recent-distributions">
+                <div class="section-header">
+                    <h2>💰 Recent Payments</h2>
+                    <span style="color: #94a3b8;">Last 7 Days</span>
+                </div>
+                <div class="distribution-list">
+                    <div class="distribution-card" style="opacity: 0.8;">
+                        <div>
+                            <div class="dist-date">15</div>
+                            <div class="dist-month">JUN</div>
+                        </div>
+                        <div class="dist-info">
+                            <div class="dist-ticker">PLTY</div>
+                            <div class="dist-name">Palantir Option Income</div>
+                        </div>
+                        <div>
+                            <div class="dist-amount">$1.12</div>
+                            <div class="dist-yield">139.94% APY</div>
+                        </div>
+                    </div>
+                    
+                    <div class="distribution-card" style="opacity: 0.8;">
+                        <div>
+                            <div class="dist-date">13</div>
+                            <div class="dist-month">JUN</div>
+                        </div>
+                        <div class="dist-info">
+                            <div class="dist-ticker">CONY</div>
+                            <div class="dist-name">Coinbase Option Income</div>
+                        </div>
+                        <div>
+                            <div class="dist-amount">$0.71</div>
+                            <div class="dist-yield">73.56% APY</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Ad Banner -->
+        <div class="ad-container">
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-PLACEHOLDER-ID"
+                 data-ad-slot="1234567890"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+            <script>
+                 (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+        </div>
+
+        <!-- Legend -->
+        <section class="legend-section">
+            <h3 style="color: #6366f1; margin-bottom: 20px;">Calendar Legend</h3>
+            <div class="legend-items">
+                <div class="legend-item">
+                    <div class="legend-color distribution"></div>
+                    <span>Distribution Payment Date</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color ex-dividend"></div>
+                    <span>Ex-Dividend Date</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color payment"></div>
+                    <span>Weekly Payer (YMAX/YMAG)</span>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 MSTY Millionaire. Distribution dates are estimates and subject to change.</p>
+            <p>Always verify with official YieldMax announcements.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Calendar data
+        const distributions = {
+            '2025-06-18': [{ ticker: 'MSTY', amount: '$0.82' }],
+            '2025-06-20': [{ ticker: 'TSLY', amount: '$0.65' }],
+            '2025-06-22': [{ ticker: 'NVDY', amount: '$0.94' }],
+            '2025-06-25': [{ ticker: 'PLTY', amount: '$1.12' }, { ticker: 'CONY', amount: '$0.71' }],
+            '2025-06-27': [{ ticker: 'YMAX', amount: '$0.45' }],
+        };
+
+        let currentDate = new Date();
+        let currentMonth = currentDate.getMonth();
+        let currentYear = currentDate.getFullYear();
+
+        function generateCalendar(month, year) {
+            const firstDay = new Date(year, month, 1).getDay();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+            const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
+                               'July', 'August', 'September', 'October', 'November', 'December'];
+            
+            document.getElementById('currentMonth').textContent = `${monthNames[month]} ${year}`;
+            
+            const grid = document.getElementById('calendarGrid');
+            // Keep headers, remove days
+            const headers = grid.querySelectorAll('.day-header');
+            grid.innerHTML = '';
+            headers.forEach(header => grid.appendChild(header));
+            
+            // Add empty cells for days before month starts
+            for (let i = 0; i < firstDay; i++) {
+                const emptyDay = document.createElement('div');
+                emptyDay.className = 'calendar-day';
+                emptyDay.style.opacity = '0.3';
+                grid.appendChild(emptyDay);
+            }
+            
+            // Add days of the month
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dayElement = document.createElement('div');
+                dayElement.className = 'calendar-day';
+                
+                // Check if today
+                const today = new Date();
+                if (year === today.getFullYear() && month === today.getMonth() && day === today.getDate()) {
+                    dayElement.classList.add('today');
+                }
+                
+                // Add day number
+                const dayNumber = document.createElement('div');
+                dayNumber.className = 'day-number';
+                dayNumber.textContent = day;
+                dayElement.appendChild(dayNumber);
+                
+                // Check for distributions
+                const dateString = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+                if (distributions[dateString]) {
+                    distributions[dateString].forEach(dist => {
+                        const distItem = document.createElement('div');
+                        distItem.className = 'distribution-item';
+                        distItem.innerHTML = `
+                            <div class="distribution-ticker">${dist.ticker}</div>
+                            <div class="distribution-amount">${dist.amount}</div>
+                        `;
+                        dayElement.appendChild(distItem);
+                    });
+                }
+                
+                grid.appendChild(dayElement);
+            }
+        }
+
+        function changeMonth(direction) {
+            currentMonth += direction;
+            if (currentMonth > 11) {
+                currentMonth = 0;
+                currentYear++;
+            } else if (currentMonth < 0) {
+                currentMonth = 11;
+                currentYear--;
+            }
+            generateCalendar(currentMonth, currentYear);
+        }
+
+        function setView(view) {
+            // Update active button
+            document.querySelectorAll('.view-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // In a real app, this would change the view
+            if (view === 'list') {
+                alert('List view coming soon!');
+            } else if (view === 'my-funds') {
+                alert('Please log in to see your funds');
+            }
+        }
+
+        // Mobile menu
+        function toggleMenu() {
+            const navMenu = document.getElementById('navMenu');
+            navMenu.classList.toggle('active');
+        }
+
+        // Initialize calendar
+        generateCalendar(currentMonth, currentYear);
+    </script>
+</body>
+</html>
