@@ -1,11 +1,15 @@
-// Create this file: assets/js/api-config.js
+// API Configuration for Frontend
+// This file connects your Netlify frontend to your Railway backend
+
+// IMPORTANT: Update this with your actual Railway URL after deployment!
+const RAILWAY_API_URL = 'https://your-app-name.up.railway.app'; // <- REPLACE THIS!
 
 // API Configuration
 const API_CONFIG = {
-    // Update this with your actual Railway URL
+    // Automatic environment detection
     baseURL: window.location.hostname === 'localhost' 
         ? 'http://localhost:3000/api'
-        : 'https://your-app-name.up.railway.app/api', // REPLACE with your Railway URL
+        : `${RAILWAY_API_URL}/api`,
     
     timeout: 30000,
     
@@ -51,7 +55,7 @@ class APIClient {
             
             if (!response.ok) {
                 const error = await response.json().catch(() => ({}));
-                throw new Error(error.message || `HTTP ${response.status}`);
+                throw new Error(error.message || error.error || `HTTP ${response.status}`);
             }
             
             return await response.json();
@@ -90,6 +94,18 @@ class APIClient {
 
 // Create global API client instance
 window.apiClient = new APIClient();
+
+// Test API connection
+async function testAPIConnection() {
+    try {
+        const response = await apiClient.get('/health');
+        console.log('✅ API Connected:', response);
+        return true;
+    } catch (error) {
+        console.error('❌ API Connection Failed:', error);
+        return false;
+    }
+}
 
 // Portfolio API functions
 const PortfolioAPI = {
@@ -141,6 +157,11 @@ const StockAPI = {
     // Get YieldMax yields
     async getYieldMaxData() {
         return apiClient.get('/proxy/yieldmax/yields');
+    },
+
+    // Get company info
+    async getCompanyInfo(ticker) {
+        return apiClient.get(`/proxy/company/${ticker}`);
     }
 };
 
@@ -151,6 +172,8 @@ const AuthAPI = {
         const response = await apiClient.post('/auth/login', { email, password });
         if (response.token) {
             apiClient.setToken(response.token);
+            // Save user data
+            localStorage.setItem('user', JSON.stringify(response.user));
         }
         return response;
     },
@@ -164,6 +187,7 @@ const AuthAPI = {
         });
         if (response.token) {
             apiClient.setToken(response.token);
+            localStorage.setItem('user', JSON.stringify(response.user));
         }
         return response;
     },
@@ -174,6 +198,7 @@ const AuthAPI = {
             await apiClient.post('/auth/logout');
         } finally {
             apiClient.clearToken();
+            localStorage.removeItem('user');
             window.location.href = '/';
         }
     },
@@ -181,6 +206,35 @@ const AuthAPI = {
     // Get current user
     async getCurrentUser() {
         return apiClient.get('/auth/me');
+    },
+
+    // Check if logged in
+    isLoggedIn() {
+        return !!localStorage.getItem('auth_token');
+    },
+
+    // Get stored user data
+    getStoredUser() {
+        const userData = localStorage.getItem('user');
+        return userData ? JSON.parse(userData) : null;
+    }
+};
+
+// Calculator API functions
+const CalculatorAPI = {
+    // Calculate income
+    async calculateIncome(data) {
+        return apiClient.post('/calculate/income', data);
+    },
+
+    // Calculate compound growth
+    async calculateCompound(data) {
+        return apiClient.post('/calculate/compound', data);
+    },
+
+    // Calculate tax implications
+    async calculateTax(data) {
+        return apiClient.post('/calculate/tax', data);
     }
 };
 
@@ -188,3 +242,15 @@ const AuthAPI = {
 window.PortfolioAPI = PortfolioAPI;
 window.StockAPI = StockAPI;
 window.AuthAPI = AuthAPI;
+window.CalculatorAPI = CalculatorAPI;
+
+// Initialize API connection test on page load
+document.addEventListener('DOMContentLoaded', () => {
+    testAPIConnection().then(connected => {
+        if (connected) {
+            console.log('🚀 API connection established');
+        } else {
+            console.warn('⚠️ API connection failed - check your Railway URL');
+        }
+    });
+});
