@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - Page Not Found | MSTY Millionaire</title>
+    <meta name="description" content="Oops! The page you're looking for doesn't exist. Let's get you back on track.">
+    <meta name="robots" content="noindex, nofollow">
+    
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-PLACEHOLDER-ID" crossorigin="anonymous"></script>
+    
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/market-status.css">
+    <script src="js/main.js" defer></script>
+</head>
+<body>
+    <div class="bg-animation"></div>
+
+    <!-- Updated Header Structure for All Pages -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo-section">
+                    <div class="logo">
+                        <a href="/index.html" style="text-decoration: none;">
+                            <h1>MSTY Millionaire</h1>
+                        </a>
+                    </div>
+                    <div class="market-indicator">
+                        <span class="market-status-dot"></span>
+                        <span class="market-status-text">Live</span>
+                    </div>
+                </div>
+                <nav class="nav-menu" id="navMenu">
+                    <a href="/index.html" class="nav-link">Dashboard</a>
+                    <a href="/calculator/" class="nav-link">Calculator</a>
+                    <a href="/education/" class="nav-link">Learn</a>
+                    <a href="/portfolio/" class="nav-link">Portfolio</a>
+                    <a href="/faq/" class="nav-link">FAQ</a>
+                    <a href="/contact/" class="nav-link">Contact</a>
+                </nav>
+                <button class="mobile-menu-toggle" onclick="toggleMenu()">☰</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Error Section -->
+        <section class="error-section">
+            <div class="error-content">
+                <div class="error-code">404</div>
+                <h2 class="error-title">Page Not Found</h2>
+                <p class="error-message">Looks like this ETF hasn't launched yet! The page you're looking for doesn't exist or has been moved.</p>
+                
+                <div class="error-animation">
+                    <div class="chart-line"></div>
+                    <div class="chart-dot"></div>
+                </div>
+                
+                <div class="action-buttons">
+                    <a href="index.html" class="primary-button">Go to Dashboard</a>
+                    <button onclick="goBack()" class="secondary-button">Go Back</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Helpful Links -->
+        <section class="helpful-section">
+            <h3>Here are some helpful links:</h3>
+            <div class="helpful-grid">
+                <a href="calculator-page.html" class="helpful-card">
+                    <div class="card-icon">🧮</div>
+                    <h4>Income Calculator</h4>
+                    <p>Calculate your potential monthly income</p>
+                </a>
+                
+                <a href="dashboard/live-tracker.html" class="helpful-card">
+                    <div class="card-icon">📊</div>
+                    <h4>Live Tracker</h4>
+                    <p>Real-time ETF prices and yields</p>
+                </a>
+                
+                <a href="education-v2.html" class="helpful-card">
+                    <div class="card-icon">📚</div>
+                    <h4>Learn</h4>
+                    <p>Educational resources and guides</p>
+                </a>
+                
+                <a href="faq-page.html" class="helpful-card">
+                    <div class="card-icon">❓</div>
+                    <h4>FAQ</h4>
+                    <p>Frequently asked questions</p>
+                </a>
+            </div>
+        </section>
+
+        <!-- Search Section -->
+        <section class="search-404">
+            <h3>Try searching for what you need:</h3>
+            <form action="/search/" method="GET" class="search-form">
+                <input type="text" name="q" placeholder="Search for ETFs, calculators, guides..." class="search-input">
+                <button type="submit" class="search-button">Search</button>
+            </form>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <p>&copy; 2025 MSTY Millionaire. Not affiliated with YieldMax ETFs.</p>
+                <p>Contact: <a href="mailto:info@mstymillionaire.com">info@mstymillionaire.com</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        function updateMarketStatus() {
+            const now = new Date();
+            const easternTime = new Date(now.toLocaleString("en-US", {timeZone: "America/New_York"}));
+            const easternHours = easternTime.getHours();
+            const easternMinutes = easternTime.getMinutes();
+            const easternTime24 = easternHours + easternMinutes / 60;
+            const easternDay = easternTime.getDay();
+            const isWeekday = easternDay >= 1 && easternDay <= 5;
+            const isMarketHours = easternTime24 >= 9.5 && easternTime24 < 16;
+            const isMarketOpen = isWeekday && isMarketHours;
+            const statusDot = document.querySelector('.market-status-dot');
+            const statusText = document.querySelector('.market-status-text');
+            const indicator = document.querySelector('.market-indicator');
+            if (statusDot && statusText && indicator) {
+                if (isMarketOpen) {
+                    statusDot.style.background = '#22c55e';
+                    statusDot.style.animation = 'blink 2s infinite';
+                    statusText.textContent = 'Live';
+                    indicator.style.background = 'rgba(34, 197, 94, 0.2)';
+                } else {
+                    statusDot.style.background = '#ef4444';
+                    statusDot.style.animation = 'none';
+                    statusText.textContent = 'Markets Closed';
+                    indicator.style.background = 'rgba(239, 68, 68, 0.2)';
+                }
+            }
+        }
+        updateMarketStatus();
+        setInterval(updateMarketStatus, 60000);
+        document.addEventListener('visibilitychange', () => {
+            if (!document.hidden) {
+                updateMarketStatus();
+            }
+        });
+        function toggleMenu() {
+            const navMenu = document.getElementById('navMenu');
+            navMenu.classList.toggle('active');
+        }
+
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0a0e1a;
+            color: #e4e8f1;
+            line-height: 1.6;
+        }
+
+        .bg-animation {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            background: linear-gradient(135deg, #0a0e1a 0%, #162033 50%, #0a0e1a 100%);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .header {
+            background: rgba(22, 32, 51, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 20px 0;
+            border-bottom: 1px solid rgba(99, 102, 241, 0.3);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        h1 {
+            font-size: 2rem;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-link {
+            color: #94a3b8;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-link:hover {
+            color: #6366f1;
+        }
+
+        .nav-link.active {
+            color: #6366f1;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #6366f1, #8b5cf6);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            width: 100%;
+        }
+
+        .error-section {
+            text-align: center;
+            padding: 100px 0;
+        }
+
+        .error-code {
+            font-size: 10rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1;
+            margin-bottom: 20px;
+        }
+
+        .error-title {
+            font-size: 3rem;
+            color: #e4e8f1;
+            margin-bottom: 20px;
+        }
+
+        .error-message {
+            font-size: 1.3rem;
+            color: #94a3b8;
+            max-width: 600px;
+            margin: 0 auto 50px;
+        }
+
+        .error-animation {
+            width: 300px;
+            height: 150px;
+            margin: 50px auto;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .chart-line {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #ef4444, transparent);
+            animation: moveLine 3s infinite;
+        }
+
+        .chart-dot {
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            width: 10px;
+            height: 10px;
+            background: #ef4444;
+            border-radius: 50%;
+            transform: translateX(-50%);
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes moveLine {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(-30px); }
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 40px;
+        }
+
+        .primary-button, .secondary-button {
+            padding: 15px 40px;
+            border-radius: 30px;
+            font-weight: bold;
+            text-decoration: none;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .primary-button {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            border: none;
+        }
+
+        .secondary-button {
+            background: transparent;
+            color: #6366f1;
+            border: 2px solid #6366f1;
+        }
+
+        .primary-button:hover, .secondary-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.3);
+        }
+
+        .helpful-section {
+            margin: 80px 0;
+        }
+
+        .helpful-section h3 {
+            font-size: 2rem;
+            color: #6366f1;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .helpful-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .helpful-card {
+            background: rgba(22, 32, 51, 0.8);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.3s;
+        }
+
+        .helpful-card:hover {
+            transform: translateY(-5px);
+            border-color: #6366f1;
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.3);
+        }
+
+        .card-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        .helpful-card h4 {
+            color: #6366f1;
+            margin-bottom: 10px;
+        }
+
+        .search-404 {
+            background: rgba(22, 32, 51, 0.8);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 20px;
+            padding: 40px;
+            margin: 40px 0;
+            text-align: center;
+        }
+
+        .search-404 h3 {
+            color: #6366f1;
+            margin-bottom: 30px;
+        }
+
+        .search-form {
+            display: flex;
+            gap: 20px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 15px 20px;
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 10px;
+            color: #e4e8f1;
+            font-size: 1rem;
+        }
+
+        .search-button {
+            padding: 15px 30px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .search-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(99, 102, 241, 0.3);
+        }
+
+        .footer {
+            background: rgba(22, 32, 51, 0.9);
+            padding: 40px 0;
+            margin-top: 100px;
+            text-align: center;
+        }
+
+        .live-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(34, 197, 94, 0.2);
+            padding: 5px 15px;
+            border-radius: 20px;
+        }
+
+        .live-dot {
+            width: 8px;
+            height: 8px;
+            background: #22c55e;
+            border-radius: 50%;
+            animation: blink 2s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        .mobile-menu-toggle {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+            
+            .mobile-menu-toggle {
+                display: block;
+                background: none;
+                border: none;
+                color: #fff;
+                font-size: 1.5rem;
+            }
+            
+            .error-code {
+                font-size: 6rem;
+            }
+            
+            .error-title {
+                font-size: 2rem;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .search-form {
+                flex-direction: column;
+            }
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .market-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(34, 197, 94, 0.2);
+            padding: 5px 15px;
+            border-radius: 20px;
+            transition: background 0.3s ease;
+        }
+
+        .market-status-dot {
+            width: 8px;
+            height: 8px;
+            background: #22c55e;
+            border-radius: 50%;
+            transition: background 0.3s ease;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        .market-status-text {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #e4e8f1;
+        }
+
+        @media (max-width: 768px) {
+            .logo-section {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            .market-indicator {
+                font-size: 0.8rem;
+                padding: 4px 12px;
+            }
+            .market-status-dot {
+                width: 6px;
+                height: 6px;
+            }
+        }
+    </style>
+</body>
+<script src="/js/market-status.js"></script>
+</body>
+</html>
