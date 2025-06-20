@@ -7,122 +7,66 @@ class PortfolioPerformance {
         this.currentPeriod = '1M';
         this.performanceData = null;
         this.historyData = null;
-        
-        this.init();
     }
 
     async init() {
-        await this.loadPerformanceData();
-        await this.loadHistoryData();
+        // Mock data for demonstration since API is not live
+        this.historyData = this.getMockHistoryData('1M'); 
+        
         this.setupEventListeners();
-        this.renderPerformanceCards();
         this.renderChart();
     }
 
-    async loadPerformanceData() {
-        try {
-            const response = await window.apiProxy.get('/api/portfolio/performance');
-            this.performanceData = response;
-        } catch (error) {
-            console.error('Failed to load performance data:', error);
-            this.showError('Failed to load portfolio performance');
-        }
-    }
-
-    async loadHistoryData(period = '1M') {
-        try {
-            const response = await window.apiProxy.get(`/api/portfolio/history?period=${period}`);
-            this.historyData = response.history;
-        } catch (error) {
-            console.error('Failed to load history data:', error);
-        }
+    getMockHistoryData(period) {
+        const data = {
+            '1M': { labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'], values: [10000, 10200, 10150, 10300], invested: [9900, 9900, 9900, 9900] },
+            '3M': { labels: ['Jan', 'Feb', 'Mar'], values: [9800, 10000, 10300], invested: [9700, 9700, 9700] },
+            '6M': { labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'], values: [9800, 10000, 10300, 10500, 10400, 10700], invested: [9700, 9700, 9700, 9700, 9700, 9700] },
+            '1Y': { labels: ['Q1', 'Q2', 'Q3', 'Q4'], values: [9500, 10300, 10800, 11200], invested: [9400, 9400, 9400, 9400] },
+            'All':{ labels: ['2023', '2024', '2025'], values: [8000, 9500, 11200], invested: [7900, 7900, 7900] }
+        };
+        const selected = data[period] || data['1M'];
+        
+        return selected.labels.map((label, index) => ({
+            date: label, // Using labels as dates for simplicity
+            value: selected.values[index],
+            invested: selected.invested[index]
+        }));
     }
 
     setupEventListeners() {
-        // Period selector buttons
         document.querySelectorAll('.period-btn').forEach(btn => {
-            btn.addEventListener('click', async (e) => {
-                // Update active state
+            btn.addEventListener('click', (e) => {
                 document.querySelectorAll('.period-btn').forEach(b => b.classList.remove('active'));
                 e.target.classList.add('active');
                 
-                // Load new data
                 this.currentPeriod = e.target.dataset.period;
-                await this.loadHistoryData(this.currentPeriod);
+                this.historyData = this.getMockHistoryData(this.currentPeriod);
                 this.renderChart();
             });
         });
     }
 
-    renderPerformanceCards() {
-        if (!this.performanceData) return;
-
-        // Update summary values
-        const currentValue = this.performanceData.current_value || 0;
-        const totalInvested = this.performanceData.total_invested || 0;
-        const totalReturn = this.performanceData.gain_all || 0;
-        const totalReturnPercent = this.performanceData.gain_all_percent || 0;
-
-        document.getElementById('current-value').textContent = this.formatCurrency(currentValue);
-        document.getElementById('total-invested').textContent = this.formatCurrency(totalInvested);
-        document.getElementById('total-return').textContent = 
-            (totalReturn >= 0 ? '+' : '') + this.formatCurrency(totalReturn);
-        document.getElementById('total-return').className = 
-            'value ' + (totalReturn >= 0 ? 'positive' : 'negative');
-        document.getElementById('total-return-percent').textContent = 
-            (totalReturnPercent >= 0 ? '+' : '') + totalReturnPercent.toFixed(2) + '%';
-        document.getElementById('total-return-percent').className = 
-            'value ' + (totalReturnPercent >= 0 ? 'positive' : 'negative');
-
-        const periods = [
-            { key: '1d', label: '1 Day' },
-            { key: '1w', label: '1 Week' },
-            { key: '1m', label: '1 Month' },
-            { key: '3m', label: '3 Months' },
-            { key: '6m', label: '6 Months' },
-            { key: '1y', label: '1 Year' },
-            { key: 'all', label: 'All Time' }
-        ];
-
-        const container = document.getElementById('performance-cards');
-        if (!container) return;
-
-        container.innerHTML = periods.map(period => {
-            const gain = this.performanceData[`gain_${period.key}`] || 0;
-            const gainPercent = this.performanceData[`gain_${period.key}_percent`] || 0;
-            const isPositive = gain >= 0;
-
-            return `
-                <div class="performance-card">
-                    <div class="period-label">${period.label}</div>
-                    <div class="performance-value ${isPositive ? 'positive' : 'negative'}">
-                        ${isPositive ? '+' : ''}${this.formatCurrency(gain)}
-                    </div>
-                    <div class="performance-percent ${isPositive ? 'positive' : 'negative'}">
-                        ${isPositive ? '+' : ''}${gainPercent.toFixed(2)}%
-                    </div>
-                </div>
-            `;
-        }).join('');
-    }
-
     renderChart() {
-        const canvas = document.getElementById('portfolio-chart');
-        if (!canvas || !this.historyData || this.historyData.length === 0) return;
+        let canvas = document.getElementById('portfolioChart');
+        if (!canvas) {
+            // If the canvas is named 'portfolio-chart' in some files
+            canvas = document.getElementById('portfolio-chart');
+            if (!canvas) return;
+        }
 
-        // Destroy existing chart
+        if (!this.historyData || this.historyData.length === 0) return;
+
         if (this.chart) {
             this.chart.destroy();
         }
 
         const ctx = canvas.getContext('2d');
         
-        // Prepare data
-        const labels = this.historyData.map(d => this.formatDate(d.date));
+        const labels = this.historyData.map(d => d.date);
         const values = this.historyData.map(d => d.value);
         const invested = this.historyData.map(d => d.invested);
 
-        // Create gradient
         const gradient = ctx.createLinearGradient(0, 0, 0, 400);
         gradient.addColorStop(0, 'rgba(99, 102, 241, 0.3)');
         gradient.addColorStop(1, 'rgba(99, 102, 241, 0)');
@@ -187,7 +131,7 @@ class PortfolioPerformance {
                         callbacks: {
                             label: (context) => {
                                 const label = context.dataset.label || '';
-                                const value = this.formatCurrency(context.parsed.y);
+                                const value = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(context.parsed.y);
                                 return `${label}: ${value}`;
                             }
                         }
@@ -195,86 +139,27 @@ class PortfolioPerformance {
                 },
                 scales: {
                     x: {
-                        grid: {
-                            color: 'rgba(99, 102, 241, 0.1)',
-                            drawBorder: false
-                        },
-                        ticks: {
-                            color: '#94a3b8',
-                            maxTicksLimit: 8
-                        }
+                        grid: { color: 'rgba(99, 102, 241, 0.1)', drawBorder: false },
+                        ticks: { color: '#94a3b8', maxTicksLimit: 8 }
                     },
                     y: {
-                        grid: {
-                            color: 'rgba(99, 102, 241, 0.1)',
-                            drawBorder: false
-                        },
+                        grid: { color: 'rgba(99, 102, 241, 0.1)', drawBorder: false },
                         ticks: {
                             color: '#94a3b8',
-                            callback: (value) => this.formatCurrency(value, true)
+                            callback: (value) => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', notation: 'compact', maximumFractionDigits: 1 }).format(value)
                         }
                     }
                 }
             }
         });
     }
-
-    formatCurrency(amount, compact = false) {
-        if (compact && Math.abs(amount) >= 1000) {
-            const formatter = new Intl.NumberFormat('en-US', {
-                style: 'currency',
-                currency: 'USD',
-                notation: 'compact',
-                maximumFractionDigits: 1
-            });
-            return formatter.format(amount);
-        }
-        
-        return new Intl.NumberFormat('en-US', {
-            style: 'currency',
-            currency: 'USD'
-        }).format(amount);
-    }
-
-    formatDate(dateString) {
-        const date = new Date(dateString);
-        const now = new Date();
-        const diffDays = Math.floor((now - date) / (1000 * 60 * 60 * 24));
-        
-        if (diffDays < 7) {
-            return date.toLocaleDateString('en-US', { weekday: 'short' });
-        } else if (diffDays < 365) {
-            return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-        } else {
-            return date.toLocaleDateString('en-US', { year: 'numeric', month: 'short' });
-        }
-    }
-
-    showError(message) {
-        const container = document.getElementById('performance-error');
-        if (container) {
-            container.textContent = message;
-            container.style.display = 'block';
-        }
-    }
-
-    async refreshPerformance() {
-        // Update prices first
-        await window.apiProxy.post('/api/portfolio/update-prices');
-        
-        // Reload data
-        await this.loadPerformanceData();
-        await this.loadHistoryData(this.currentPeriod);
-        
-        // Re-render
-        this.renderPerformanceCards();
-        this.renderChart();
-    }
 }
 
-// Initialize when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
-    if (document.getElementById('portfolio-performance-section')) {
+    // Check for a unique ID for the portfolio section
+    const portfolioSection = document.querySelector('#portfolio-performance-section, .performance-section');
+    if (portfolioSection) {
         window.portfolioPerformance = new PortfolioPerformance();
+        window.portfolioPerformance.init();
     }
 });
