@@ -94,6 +94,30 @@
             50% { filter: brightness(1.2); }
         }
 
+        .live-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(34, 197, 94, 0.2);
+            padding: 5px 15px;
+            border-radius: 20px;
+            border: 1px solid rgba(34, 197, 94, 0.3);
+        }
+
+        .live-dot {
+            width: 8px;
+            height: 8px;
+            background: #22c55e;
+            border-radius: 50%;
+            animation: blink 2s infinite;
+            box-shadow: 0 0 10px #22c55e;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
         .nav-menu {
             display: flex;
             gap: 30px;
@@ -549,19 +573,18 @@
     <header class="header">
         <div class="container">
             <div class="header-content">
-                <div class="logo-section">
-                    <div class="logo">
-                        <a href="/index.html" style="text-decoration: none;">
-                            <h1>MSTY Millionaire</h1>
-                        </a>
-                    </div>
-                    <div class="market-indicator">
-                        <span class="market-status-dot"></span>
-                        <span class="market-status-text">Live</span>
+                <div class="logo">
+                    <a href="../../index.html" style="text-decoration: none;">
+                        <h1>MSTY Millionaire</h1>
+                    </a>
+                    <div class="live-indicator">
+                        <span class="live-dot"></span>
+                        <span>Live Data</span>
                     </div>
                 </div>
                 <nav class="nav-menu" id="navMenu">
-                    <a href="/index.html" class="nav-link">Dashboard</a>
+                    <a href="../../" class="nav-link">Home</a>
+                    <a href="../" class="nav-link">Dashboard</a>
                     <a href="/calculator/" class="nav-link">Calculator</a>
                     <a href="/education/" class="nav-link">Learn</a>
                     <a href="/portfolio/" class="nav-link">Portfolio</a>

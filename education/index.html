@@ -94,6 +94,30 @@
             50% { filter: brightness(1.2); }
         }
 
+        .live-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(34, 197, 94, 0.2);
+            padding: 5px 15px;
+            border-radius: 20px;
+            border: 1px solid rgba(34, 197, 94, 0.3);
+        }
+
+        .live-dot {
+            width: 8px;
+            height: 8px;
+            background: #22c55e;
+            border-radius: 50%;
+            animation: blink 2s infinite;
+            box-shadow: 0 0 10px #22c55e;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
         .nav-menu {
             display: flex;
             gap: 30px;
@@ -170,7 +194,6 @@
             position: relative;
             border: 2px solid rgba(99, 102, 241, 0.3);
             transition: all 0.3s ease;
-            overflow: hidden;
             animation: fadeIn 0.8s ease-out;
         }
 
@@ -182,12 +205,13 @@
             width: 100%;
             height: 3px;
             background: linear-gradient(90deg, transparent, var(--path-color), transparent);
+            background-size: 300% 100%;
             animation: slide 3s linear infinite;
         }
 
         @keyframes slide {
-            from { transform: translateX(-100%); }
-            to { transform: translateX(100%); }
+            from { background-position: 100% 0; }
+            to { background-position: -100% 0; }
         }
 
         .learning-path.beginner {
@@ -660,17 +684,19 @@
                     <a href="../index.html" style="text-decoration: none;">
                         <h1>MSTY Millionaire</h1>
                     </a>
+                    <div class="live-indicator">
+                        <span class="live-dot"></span>
+                        <span>Live Data</span>
+                    </div>
                 </div>
-                
                 <nav class="nav-menu" id="navMenu">
-                    <a href="/index.html" class="nav-link">Dashboard</a>
-                    <a href="/calculator/" class="nav-link">Calculator</a>
-                    <a href="/education/" class="nav-link active">Learn</a>
-                    <a href="/portfolio/" class="nav-link">Portfolio</a>
-                    <a href="/faq/" class="nav-link">FAQ</a>
-                    <a href="/contact/" class="nav-link">Contact</a>
+                    <a href="../" class="nav-link">Home</a>
+                    <a href="../dashboard/index.html" class="nav-link">Dashboard</a>
+                    <a href="../calculator/index.html" class="nav-link">Calculator</a>
+                    <a href="#" class="nav-link active">Learn</a>
+                    <a href="../portfolio/index.html" class="nav-link">Portfolio</a>
+                    <a href="../faq/index.html" class="nav-link">FAQ</a>
                 </nav>
-                
                 <button class="mobile-menu-toggle" onclick="toggleMenu()">☰</button>
             </div>
         </div>
@@ -872,10 +898,41 @@
         }
 
         // Email submission
-        function handleEmailSubmit(event) {
+        async function handleEmailSubmit(event) {
             event.preventDefault();
-            alert('Thanks for subscribing to our education newsletter!');
-            event.target.reset();
+            const form = event.target;
+            const emailInput = form.querySelector('input[type="email"]');
+            const button = form.querySelector('button');
+            const originalButtonText = button.textContent;
+            const email = emailInput.value;
+
+            button.disabled = true;
+            button.textContent = 'Subscribing...';
+
+            try {
+                // NOTE: This endpoint doesn't exist yet. We'll create it in the next step.
+                const response = await fetch('/api/newsletter/subscribe', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email }),
+                });
+
+                if (response.ok) {
+                    alert('Thanks for subscribing! Please check your email to confirm.');
+                    form.reset();
+                } else {
+                    const errorData = await response.json();
+                    alert(`Subscription failed: ${errorData.message || 'Please try again.'}`);
+                }
+            } catch (error) {
+                console.error('Subscription error:', error);
+                alert('Subscription failed. Please check your connection and try again.');
+            } finally {
+                button.disabled = false;
+                button.textContent = originalButtonText;
+            }
         }
     </script>
 </body>

@@ -155,6 +155,11 @@ h1 {
     color: #fff;
 }
 
+.calc-inline select option {
+    background: #162033;
+    color: #e4e8f1;
+}
+
 .calc-result {
     font-size: 1.5rem;
     color: #22c55e;

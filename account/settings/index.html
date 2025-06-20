@@ -17,258 +17,212 @@
     <div class="bg-animation"></div>
 
     <!-- Header -->
-    <header class="header">
-        <div class="container">
-            <div class="header-content">
-                <div class="logo">
-                    <h1>MSTY Millionaire</h1>
-                    <div class="live-indicator">
-                        <span class="live-dot"></span>
-                        <span>Live</span>
-                    </div>
-                </div>
-                
-                <nav class="nav-menu" id="navMenu">
-                    <a href="../index.html" class="nav-link" >Dashboard</a>
-                    <a href="../calculator/index.html" class="nav-link" >Calculator</a>
-                    <a href="../education/index.html" class="nav-link" >Learn</a>
-                    <a href="../portfolio/index.html" class="nav-link" >Portfolio</a>
-                    <a href="account-dashboard.html" class="nav-link active">Account</a>
-                    <a href="../faq/index.html" class="nav-link" >FAQ</a>
-                    <a href="../contact/index.html" class="nav-link" >Contact</a>
-                </nav>
-                
-                <button class="mobile-menu-toggle" onclick="toggleMenu()">☰</button>
-            </div>
-        </div>
-    </header>
+    <header class="header"></header>
 
     <!-- Main Content -->
-    <main class="container">
-        <!-- Hero Section -->
-        <section class="hero-section">
-            <h2 class="hero-title">Account Settings</h2>
-            <p class="hero-subtitle">Manage your profile and preferences</p>
-        </section>
+    <main class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="dashboard-sidebar"></aside>
 
-        <!-- Account Navigation -->
-        <section class="account-nav">
-            <a href="account-dashboard.html" class="account-nav-link">Dashboard</a>
-            <a href="account/settings.html" class="account-nav-link active">Settings</a>
-            <a href="account/watchlist.html" class="account-nav-link">Watchlist</a>
-            <a href="account/alerts.html" class="account-nav-link">Alerts</a>
-        </section>
+        <!-- Settings Content -->
+        <div class="dashboard-content">
+            <section class="welcome-section">
+                <h2>Account Settings</h2>
+                <p>Manage your profile, password, and preferences.</p>
+            </section>
 
-        <!-- Profile Settings -->
-        <section class="content-card">
-            <h3>Profile Information</h3>
-            
-            <form class="settings-form">
-                <div class="form-group">
-                    <label for="username">Username</label>
-                    <input type="text" id="username" value="JohnDoe123" class="form-input">
-                </div>
-                
-                <div class="form-group">
-                    <label for="email">Email Address</label>
-                    <input type="email" id="email" value="john.doe@example.com" class="form-input">
-                </div>
-                
-                <div class="form-group">
-                    <label for="fullname">Full Name</label>
-                    <input type="text" id="fullname" value="John Doe" class="form-input">
-                </div>
-                
-                <div class="form-group">
-                    <label for="timezone">Time Zone</label>
-                    <select id="timezone" class="form-input">
-                        <option value="EST">Eastern Time (EST)</option>
-                        <option value="CST">Central Time (CST)</option>
-                        <option value="MST">Mountain Time (MST)</option>
-                        <option value="PST" selected>Pacific Time (PST)</option>
-                    </select>
-                </div>
-                
-                <button type="submit" class="save-button">Save Profile</button>
-            </form>
-        </section>
+            <!-- Profile Settings -->
+            <section class="content-card">
+                <h3>Profile Information</h3>
+                <form class="settings-form" id="profileForm">
+                    <div class="form-group">
+                        <label for="fullName">Full Name</label>
+                        <input type="text" id="fullName" name="fullName" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" name="email" class="form-input" disabled>
+                        <span class="form-hint">Email cannot be changed.</span>
+                    </div>
+                    <button type="submit" class="save-button">Save Profile</button>
+                </form>
+            </section>
 
-        <!-- Password Settings -->
-        <section class="content-card">
-            <h3>Change Password</h3>
-            
-            <form class="settings-form">
-                <div class="form-group">
-                    <label for="current-password">Current Password</label>
-                    <input type="password" id="current-password" class="form-input">
-                </div>
-                
-                <div class="form-group">
-                    <label for="new-password">New Password</label>
-                    <input type="password" id="new-password" class="form-input">
-                    <span class="form-hint">Minimum 8 characters, include numbers and symbols</span>
-                </div>
-                
-                <div class="form-group">
-                    <label for="confirm-password">Confirm New Password</label>
-                    <input type="password" id="confirm-password" class="form-input">
-                </div>
-                
-                <button type="submit" class="save-button">Update Password</button>
-            </form>
-        </section>
+            <!-- Password Settings -->
+            <section class="content-card">
+                <h3>Change Password</h3>
+                <form class="settings-form" id="passwordForm">
+                    <div class="form-group">
+                        <label for="currentPassword">Current Password</label>
+                        <input type="password" id="currentPassword" name="currentPassword" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="newPassword">New Password</label>
+                        <input type="password" id="newPassword" name="newPassword" class="form-input" required>
+                        <span class="form-hint">Minimum 8 characters.</span>
+                    </div>
+                    <div class="form-group">
+                        <label for="confirmPassword">Confirm New Password</label>
+                        <input type="password" id="confirmPassword" name="confirmPassword" class="form-input" required>
+                    </div>
+                    <button type="submit" class="save-button">Update Password</button>
+                </form>
+            </section>
 
-        <!-- Notification Settings -->
-        <section class="content-card">
-            <h3>Notification Preferences</h3>
-            
-            <div class="notification-settings">
-                <div class="notification-item">
-                    <div class="notification-info">
-                        <h4>Price Alerts</h4>
-                        <p>Get notified when ETF prices hit your targets</p>
-                    </div>
-                    <label class="toggle-switch">
-                        <input type="checkbox" checked>
-                        <span class="toggle-slider"></span>
-                    </label>
-                </div>
+            <!-- Notification Settings -->
+            <section class="content-card">
+                <h3>Notification Preferences</h3>
                 
-                <div class="notification-item">
-                    <div class="notification-info">
-                        <h4>Distribution Announcements</h4>
-                        <p>Alerts for dividend declarations and payment dates</p>
+                <div class="notification-settings">
+                    <div class="notification-item">
+                        <div class="notification-info">
+                            <h4>Price Alerts</h4>
+                            <p>Get notified when ETF prices hit your targets</p>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
                     </div>
-                    <label class="toggle-switch">
-                        <input type="checkbox" checked>
-                        <span class="toggle-slider"></span>
-                    </label>
+                    
+                    <div class="notification-item">
+                        <div class="notification-info">
+                            <h4>Distribution Announcements</h4>
+                            <p>Alerts for dividend declarations and payment dates</p>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    
+                    <div class="notification-item">
+                        <div class="notification-info">
+                            <h4>New Fund Launches</h4>
+                            <p>Be first to know about new YieldMax ETF launches</p>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    
+                    <div class="notification-item">
+                        <div class="notification-info">
+                            <h4>Weekly Newsletter</h4>
+                            <p>Market analysis and portfolio recommendations</p>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    
+                    <div class="notification-item">
+                        <div class="notification-info">
+                            <h4>Research Updates</h4>
+                            <p>New research reports and analysis</p>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
                 </div>
+            </section>
+
+            <!-- Portfolio Preferences -->
+            <section class="content-card">
+                <h3>Portfolio Preferences</h3>
                 
-                <div class="notification-item">
-                    <div class="notification-info">
-                        <h4>New Fund Launches</h4>
-                        <p>Be first to know about new YieldMax ETF launches</p>
+                <form class="settings-form">
+                    <div class="form-group">
+                        <label for="default-currency">Default Currency</label>
+                        <select id="default-currency" class="form-input">
+                            <option value="USD" selected>USD ($)</option>
+                            <option value="EUR">EUR (€)</option>
+                            <option value="GBP">GBP (£)</option>
+                            <option value="CAD">CAD ($)</option>
+                        </select>
                     </div>
-                    <label class="toggle-switch">
-                        <input type="checkbox" checked>
-                        <span class="toggle-slider"></span>
-                    </label>
-                </div>
-                
-                <div class="notification-item">
-                    <div class="notification-info">
-                        <h4>Weekly Newsletter</h4>
-                        <p>Market analysis and portfolio recommendations</p>
+                    
+                    <div class="form-group">
+                        <label for="display-format">Number Format</label>
+                        <select id="display-format" class="form-input">
+                            <option value="comma" selected>1,234.56</option>
+                            <option value="space">1 234.56</option>
+                            <option value="period">1.234,56</option>
+                        </select>
                     </div>
-                    <label class="toggle-switch">
-                        <input type="checkbox">
-                        <span class="toggle-slider"></span>
-                    </label>
-                </div>
-                
-                <div class="notification-item">
-                    <div class="notification-info">
-                        <h4>Research Updates</h4>
-                        <p>New research reports and analysis</p>
+                    
+                    <div class="form-group">
+                        <label for="default-view">Default Dashboard View</label>
+                        <select id="default-view" class="form-input">
+                            <option value="overview">Overview</option>
+                            <option value="watchlist" selected>My Watchlist</option>
+                            <option value="portfolio">My Portfolio</option>
+                            <option value="all-etfs">All ETFs</option>
+                        </select>
                     </div>
-                    <label class="toggle-switch">
-                        <input type="checkbox">
-                        <span class="toggle-slider"></span>
-                    </label>
-                </div>
+                    
+                    <button type="submit" class="save-button">Save Preferences</button>
+                </form>
+            </section>
+
+            <!-- Ad Banner -->
+            <div class="ad-container">
+                <ins class="adsbygoogle"
+                     style="display:block"
+                     data-ad-client="ca-pub-PLACEHOLDER-ID"
+                     data-ad-slot="1234567890"
+                     data-ad-format="auto"
+                     data-full-width-responsive="true"></ins>
             </div>
-        </section>
 
-        <!-- Portfolio Preferences -->
-        <section class="content-card">
-            <h3>Portfolio Preferences</h3>
-            
-            <form class="settings-form">
-                <div class="form-group">
-                    <label for="default-currency">Default Currency</label>
-                    <select id="default-currency" class="form-input">
-                        <option value="USD" selected>USD ($)</option>
-                        <option value="EUR">EUR (€)</option>
-                        <option value="GBP">GBP (£)</option>
-                        <option value="CAD">CAD ($)</option>
-                    </select>
-                </div>
+            <!-- Data & Privacy -->
+            <section class="content-card">
+                <h3>Data & Privacy</h3>
                 
-                <div class="form-group">
-                    <label for="display-format">Number Format</label>
-                    <select id="display-format" class="form-input">
-                        <option value="comma" selected>1,234.56</option>
-                        <option value="space">1 234.56</option>
-                        <option value="period">1.234,56</option>
-                    </select>
+                <div class="privacy-options">
+                    <div class="privacy-item">
+                        <h4>Download Your Data</h4>
+                        <p>Get a copy of all your account data in CSV format</p>
+                        <button class="action-button">Download Data</button>
+                    </div>
+                    
+                    <div class="privacy-item">
+                        <h4>Delete Account</h4>
+                        <p>Permanently delete your account and all associated data</p>
+                        <button class="danger-button">Delete Account</button>
+                    </div>
                 </div>
-                
-                <div class="form-group">
-                    <label for="default-view">Default Dashboard View</label>
-                    <select id="default-view" class="form-input">
-                        <option value="overview">Overview</option>
-                        <option value="watchlist" selected>My Watchlist</option>
-                        <option value="portfolio">My Portfolio</option>
-                        <option value="all-etfs">All ETFs</option>
-                    </select>
-                </div>
-                
-                <button type="submit" class="save-button">Save Preferences</button>
-            </form>
-        </section>
+            </section>
 
-        <!-- Ad Banner -->
-        <div class="ad-container">
-            <ins class="adsbygoogle"
-                 style="display:block"
-                 data-ad-client="ca-pub-PLACEHOLDER-ID"
-                 data-ad-slot="1234567890"
-                 data-ad-format="auto"
-                 data-full-width-responsive="true"></ins>
+            <!-- API Access -->
+            <section class="content-card">
+                <h3>API Access</h3>
+                
+                <div class="api-section">
+                    <p>Access MSTY Millionaire data programmatically with our API</p>
+                    
+                    <div class="api-key-box">
+                        <label>Your API Key</label>
+                        <div class="api-key-display">
+                            <input type="text" value="••••••••••••••••••••••••" readonly class="api-key-input">
+                            <button class="show-key-btn" onclick="toggleAPIKey()">Show</button>
+                        </div>
+                    </div>
+                    
+                    <div class="api-actions">
+                        <button class="regenerate-btn">Regenerate Key</button>
+                        <a href="api/docs.html" class="api-docs-link">API Documentation</a>
+                    </div>
+                </div>
+            </section>
         </div>
-
-        <!-- Data & Privacy -->
-        <section class="content-card">
-            <h3>Data & Privacy</h3>
-            
-            <div class="privacy-options">
-                <div class="privacy-item">
-                    <h4>Download Your Data</h4>
-                    <p>Get a copy of all your account data in CSV format</p>
-                    <button class="action-button">Download Data</button>
-                </div>
-                
-                <div class="privacy-item">
-                    <h4>Delete Account</h4>
-                    <p>Permanently delete your account and all associated data</p>
-                    <button class="danger-button">Delete Account</button>
-                </div>
-            </div>
-        </section>
-
-        <!-- API Access -->
-        <section class="content-card">
-            <h3>API Access</h3>
-            
-            <div class="api-section">
-                <p>Access MSTY Millionaire data programmatically with our API</p>
-                
-                <div class="api-key-box">
-                    <label>Your API Key</label>
-                    <div class="api-key-display">
-                        <input type="text" value="••••••••••••••••••••••••" readonly class="api-key-input">
-                        <button class="show-key-btn" onclick="toggleAPIKey()">Show</button>
-                    </div>
-                </div>
-                
-                <div class="api-actions">
-                    <button class="regenerate-btn">Regenerate Key</button>
-                    <a href="api/docs.html" class="api-docs-link">API Documentation</a>
-                </div>
-            </div>
-        </section>
     </main>
+
+    <div id="toast" class="toast"></div>
 
     <!-- Footer -->
     <footer class="footer">
@@ -753,5 +707,8 @@
             }
         }
     </style>
+
+    <script src="../layout.js"></script>
+    <script src="settings.js"></script>
 </body>
 </html>

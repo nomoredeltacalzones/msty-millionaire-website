@@ -56,9 +56,12 @@ app.use('/images', express.static(path.join(__dirname, 'assets/images')));
 // API Routes
 app.use('/api/proxy', require('./api/proxy'));
 app.use('/api/portfolio', require('./api/portfolio'));
+app.use('/api/newsletter', require('./api/newsletter'));
+app.use('/api/user', require('./api/user'));
+app.use('/api/watchlist', require('./api/watchlist'));
 
 // Uncomment these as you implement them
-// app.use('/api/auth', require('./api/auth'));
+app.use('/api/auth', require('./api/auth'));
 // app.use('/api/analytics', require('./api/analytics'));
 // app.use('/api/payments', require('./api/payments'));
 
@@ -252,102 +255,56 @@ app.get('/api/test-db', async (req, res) => {
                 full_name VARCHAR(255),
                 email_verified BOOLEAN DEFAULT false,
                 verification_token VARCHAR(255),
-                reset_token VARCHAR(255),
-                reset_expires TIMESTAMP,
                 subscription_tier VARCHAR(50) DEFAULT 'free',
                 stripe_customer_id VARCHAR(255),
-                created_at TIMESTAMP DEFAULT NOW(),
-                updated_at TIMESTAMP DEFAULT NOW()
-            )
-        `);
-        
-        await pool.query(`
-            CREATE TABLE IF NOT EXISTS portfolios (
-                id SERIAL PRIMARY KEY,
-                user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
-                ticker VARCHAR(10) NOT NULL,
-                shares DECIMAL(10,2) NOT NULL,
-                avg_cost DECIMAL(10,2) NOT NULL,
-                current_price DECIMAL(10,2),
-                last_updated TIMESTAMP DEFAULT NOW(),
-                created_at TIMESTAMP DEFAULT NOW(),
-                updated_at TIMESTAMP DEFAULT NOW(),
-                UNIQUE(user_id, ticker)
-            )
-        `);
-        
-        await pool.query(`
+                created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+                updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+            );
+
             CREATE TABLE IF NOT EXISTS sessions (
                 id SERIAL PRIMARY KEY,
                 user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
-                token VARCHAR(255) UNIQUE NOT NULL,
-                expires_at TIMESTAMP NOT NULL,
-                created_at TIMESTAMP DEFAULT NOW()
-            )
-        `);
+                token TEXT NOT NULL,
+                expires_at TIMESTAMP WITH TIME ZONE NOT NULL,
+                created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+            );
 
-        await pool.query(`
+            CREATE TABLE IF NOT EXISTS password_resets (
+                id SERIAL PRIMARY KEY,
+                user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+                token VARCHAR(255) NOT NULL,
+                expires_at TIMESTAMP WITH TIME ZONE NOT NULL,
+                created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+            );
+            
             CREATE TABLE IF NOT EXISTS analytics_events (
                 id SERIAL PRIMARY KEY,
                 user_id INTEGER REFERENCES users(id),
-                session_id VARCHAR(255),
                 event_name VARCHAR(100) NOT NULL,
                 event_data JSONB,
-                page_url VARCHAR(500),
-                created_at TIMESTAMP DEFAULT NOW()
-            )
-        `);
+                created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+            );
 
-        await pool.query(`
-            CREATE TABLE IF NOT EXISTS price_alerts (
-                id SERIAL PRIMARY KEY,
-                user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
-                ticker VARCHAR(10) NOT NULL,
-                condition VARCHAR(20) NOT NULL,
-                target_price DECIMAL(10,2) NOT NULL,
-                is_active BOOLEAN DEFAULT true,
-                triggered_at TIMESTAMP,
-                created_at TIMESTAMP DEFAULT NOW()
-            )
-        `);
-
-        await pool.query(`
-            CREATE TABLE IF NOT EXISTS watchlists (
-                id SERIAL PRIMARY KEY,
-                user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
-                ticker VARCHAR(10) NOT NULL,
-                notes TEXT,
-                created_at TIMESTAMP DEFAULT NOW(),
-                UNIQUE(user_id, ticker)
-            )
-        `);
-
-        // Create indexes
-        await pool.query(`
-            CREATE INDEX IF NOT EXISTS idx_portfolios_user_id ON portfolios(user_id);
-            CREATE INDEX IF NOT EXISTS idx_sessions_token ON sessions(token);
-            CREATE INDEX IF NOT EXISTS idx_sessions_expires ON sessions(expires_at);
-            CREATE INDEX IF NOT EXISTS idx_analytics_user_id ON analytics_events(user_id);
-            CREATE INDEX IF NOT EXISTS idx_analytics_event ON analytics_events(event_name);
+            -- Create indexes for performance
+            CREATE INDEX IF NOT EXISTS idx_users_email ON users(email);
+            CREATE INDEX IF NOT EXISTS idx_sessions_user_id ON sessions(user_id);
+            CREATE INDEX IF NOT EXISTS idx_password_resets_user_id ON password_resets(user_id);
         `);
         
-        const result = await pool.query('SELECT NOW()');
-        
-        // Get table count
-        const tableCount = await pool.query(`
-            SELECT COUNT(*) 
+        // Check if tables were created
+        const tableCheck = await pool.query(`
+            SELECT table_name 
             FROM information_schema.tables 
             WHERE table_schema = 'public' 
-            AND table_type = 'BASE TABLE'
+            AND table_name IN ('users', 'sessions', 'password_resets', 'analytics_events')
         `);
         
         pool.end();
         
         res.json({
             success: true,
-            message: 'Database connected and tables created',
-            time: result.rows[0].now,
-            tableCount: parseInt(tableCount.rows[0].count)
+            message: 'Database tables for authentication created successfully!',
+            tablesCreated: tableCheck.rows
         });
     } catch (error) {
         res.status(500).json({

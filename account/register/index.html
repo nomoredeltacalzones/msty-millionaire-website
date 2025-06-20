@@ -773,38 +773,50 @@
         });
 
         // Form submission
-        document.getElementById('registerForm').addEventListener('submit', function(e) {
+        document.getElementById('registerForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             
-            // Get form data
-            const formData = {
-                name: document.getElementById('name').value,
-                email: document.getElementById('email').value,
-                password: document.getElementById('password').value,
-                confirmPassword: document.getElementById('confirm-password').value,
-                newsletter: document.querySelector('input[name="newsletter"]').checked,
-                terms: document.querySelector('input[name="terms"]').checked
-            };
-            
-            // Validate passwords match
-            if (formData.password !== formData.confirmPassword) {
-                alert('Passwords do not match!');
+            const fullNameInput = document.getElementById('name');
+            const emailInput = document.getElementById('email');
+            const passwordInput = document.getElementById('password');
+            const confirmPasswordInput = document.getElementById('confirm-password');
+
+            // Simple validation
+            if (passwordInput.value !== confirmPasswordInput.value) {
+                alert("Passwords do not match!");
                 return;
             }
-            
-            // In production, this would send to registration API
-            console.log('Registration attempt:', formData);
-            
-            // Show loading state
-            const submitBtn = this.querySelector('.submit-btn');
-            submitBtn.textContent = 'Creating Account...';
-            submitBtn.disabled = true;
-            
-            // Simulate API call
-            setTimeout(() => {
-                alert('Account created successfully! Welcome to MSTY Millionaire!');
-                window.location.href = '/account/dashboard/';
-            }, 1500);
+
+            const userData = {
+                fullName: fullNameInput.value,
+                email: emailInput.value,
+                password: passwordInput.value,
+            };
+
+            try {
+                const response = await fetch('/api/auth/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(userData),
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    // Store token and redirect
+                    localStorage.setItem('authToken', result.token);
+                    // Redirect to the dashboard or a "welcome" page
+                    window.location.href = '/account/dashboard/'; 
+                } else {
+                    // Display error message
+                    alert(`Registration failed: ${result.error}`);
+                }
+            } catch (error) {
+                console.error('Registration error:', error);
+                alert('An error occurred during registration. Please try again.');
+            }
         });
 
         // Social register handlers

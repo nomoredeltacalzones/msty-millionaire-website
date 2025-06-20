@@ -100,24 +100,28 @@
             50% { filter: brightness(1.2); }
         }
 
-        .market-indicator {
-            display: flex;
+        .live-indicator {
+            display: inline-flex;
             align-items: center;
-            gap: 5px;
+            gap: 8px;
+            background: rgba(34, 197, 94, 0.2);
+            padding: 5px 15px;
+            border-radius: 20px;
+            border: 1px solid rgba(34, 197, 94, 0.3);
         }
 
-        .market-status-dot {
+        .live-dot {
             width: 8px;
             height: 8px;
             background: #22c55e;
             border-radius: 50%;
-            transition: background 0.3s ease;
+            animation: blink 2s infinite;
+            box-shadow: 0 0 10px #22c55e;
         }
 
-        .market-status-text {
-            font-size: 0.9rem;
-            font-weight: 500;
-            color: #e4e8f1;
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
         }
 
         .nav-menu {
@@ -621,11 +625,6 @@
                 grid-template-columns: repeat(2, 1fr);
             }
         }
-
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.3; }
-        }
     </style>
     <script src="js/main.js" defer></script>
 </head>
@@ -636,25 +635,23 @@
     <header class="header">
         <div class="container">
             <div class="header-content">
-                <div class="logo-section">
-                    <div class="logo">
-                        <a href="/index.html" style="text-decoration: none;">
-                            <h1>MSTY Millionaire</h1>
-                        </a>
-                    </div>
-                    <div class="market-indicator">
-                        <span class="market-status-dot"></span>
-                        <span class="market-status-text">Live</span>
+                <div class="logo">
+                    <a href="../index.html" style="text-decoration: none;">
+                        <h1>MSTY Millionaire</h1>
+                    </a>
+                    <div class="live-indicator">
+                        <span class="live-dot"></span>
+                        <span>Live Data</span>
                     </div>
                 </div>
                 
                 <nav class="nav-menu" id="navMenu">
-                    <a href="/index.html" class="nav-link">Dashboard</a>
-                    <a href="/calculator/" class="nav-link active">Calculator</a>
-                    <a href="/education/" class="nav-link">Learn</a>
-                    <a href="/portfolio/" class="nav-link">Portfolio</a>
-                    <a href="/faq/" class="nav-link">FAQ</a>
-                    <a href="/contact/" class="nav-link">Contact</a>
+                    <a href="../" class="nav-link">Home</a>
+                    <a href="../dashboard/index.html" class="nav-link">Dashboard</a>
+                    <a href="#" class="nav-link active">Calculator</a>
+                    <a href="../education/index.html" class="nav-link">Learn</a>
+                    <a href="../portfolio/index.html" class="nav-link">Portfolio</a>
+                    <a href="../faq/index.html" class="nav-link">FAQ</a>
                 </nav>
                 
                 <button class="mobile-menu-toggle" onclick="toggleMenu()">☰</button>
@@ -988,18 +985,16 @@
             const isMarketHours = easternTime24 >= 9.5 && easternTime24 < 16;
             const isMarketOpen = isWeekday && isMarketHours;
             
-            const statusDot = document.querySelector('.market-status-dot');
-            const statusText = document.querySelector('.market-status-text');
-            const indicator = document.querySelector('.market-indicator');
+            const statusDot = document.querySelector('.live-dot');
+            const statusText = document.querySelector('.live-indicator span');
+            const indicator = document.querySelector('.live-indicator');
             
             if (statusDot && statusText && indicator) {
                 if (isMarketOpen) {
-                    statusDot.style.background = '#22c55e';
                     statusDot.style.animation = 'blink 2s infinite';
                     statusText.textContent = 'Live';
                     indicator.style.background = 'rgba(34, 197, 94, 0.2)';
                 } else {
-                    statusDot.style.background = '#ef4444';
                     statusDot.style.animation = 'none';
                     statusText.textContent = 'Markets Closed';
                     indicator.style.background = 'rgba(239, 68, 68, 0.2)';

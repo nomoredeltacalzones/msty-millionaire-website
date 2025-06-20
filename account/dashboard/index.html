@@ -53,19 +53,19 @@
         <!-- Sidebar -->
         <aside class="dashboard-sidebar">
             <nav class="sidebar-nav">
-                <a href="account-dashboard.html" class="sidebar-link active">
+                <a href="../dashboard/" class="sidebar-link active">
                     <span class="link-icon">📊</span>
                     <span>Dashboard</span>
                 </a>
-                <a href="account/watchlist.html" class="sidebar-link">
+                <a href="../watchlist/" class="sidebar-link">
                     <span class="link-icon">👁️</span>
                     <span>Watchlist</span>
                 </a>
-                <a href="account/alerts.html" class="sidebar-link">
+                <a href="../alerts/" class="sidebar-link">
                     <span class="link-icon">🔔</span>
                     <span>Alerts</span>
                 </a>
-                <a href="account/settings.html" class="sidebar-link">
+                <a href="../settings/" class="sidebar-link">
                     <span class="link-icon">⚙️</span>
                     <span>Settings</span>
                 </a>
@@ -267,6 +267,35 @@
             </section>
         </div>
     </main>
+
+    <!-- Add Holding Modal -->
+    <div id="addHoldingModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add New Holding</h3>
+                <button id="closeModalBtn" class="close-btn">✕</button>
+            </div>
+            <div class="modal-body">
+                <form id="addHoldingForm">
+                    <div class="form-group">
+                        <label for="holdingTicker">Ticker Symbol</label>
+                        <input type="text" id="holdingTicker" name="ticker" required placeholder="e.g., TSLY">
+                    </div>
+                    <div class="form-group">
+                        <label for="holdingShares">Number of Shares</label>
+                        <input type="number" id="holdingShares" name="shares" step="any" required placeholder="e.g., 100">
+                    </div>
+                    <div class="form-group">
+                        <label for="holdingCost">Average Cost Per Share</label>
+                        <input type="number" id="holdingCost" name="avg_cost" step="any" required placeholder="e.g., 15.50">
+                    </div>
+                    <button type="submit" class="submit-btn">Add to Portfolio</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast" class="toast"></div>
 
     <!-- Footer -->
     <footer class="footer">
@@ -855,5 +884,9 @@
             alert('Premium upgrade page would open here');
         });
     </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="../layout.js"></script>
+    <script src="dashboard.js"></script>
 </body>
 </html>

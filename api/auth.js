@@ -77,8 +77,8 @@ router.post('/register', async (req, res) => {
 
         // Create user
         const result = await db.query(
-            `INSERT INTO users (email, password_hash, full_name, verification_token)
-             VALUES ($1, $2, $3, $4)
+            `INSERT INTO users (email, password_hash, full_name, verification_token, email_verified)
+             VALUES ($1, $2, $3, $4, true)
              RETURNING id, email, full_name`,
             [email.toLowerCase(), passwordHash, fullName, verificationToken]
         );
@@ -86,7 +86,7 @@ router.post('/register', async (req, res) => {
         const user = result.rows[0];
 
         // Send verification email
-        await sendVerificationEmail(email, verificationToken);
+        // await sendVerificationEmail(email, verificationToken);
 
         // Generate JWT token
         const token = generateToken(user);
@@ -154,11 +154,11 @@ router.post('/login', async (req, res) => {
         }
 
         // Check if email is verified (optional - you can remove this check)
-        if (!user.email_verified) {
-            return res.status(403).json({ 
-                error: 'Please verify your email first' 
-            });
-        }
+        // if (!user.email_verified) {
+        //     return res.status(403).json({ 
+        //         error: 'Please verify your email first' 
+        //     });
+        // }
 
         // Generate JWT token
         const token = generateToken(user);

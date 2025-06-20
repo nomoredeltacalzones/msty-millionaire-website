@@ -297,53 +297,81 @@ router.get('/yieldmax/yields', generalLimiter, async (req, res) => {
 router.get('/company/:ticker', generalLimiter, async (req, res) => {
     const { ticker } = req.params;
     const upperTicker = ticker.toUpperCase();
+    const cacheKey = `company:${upperTicker}`;
+
+    try {
+        const cached = await cache.get(cacheKey);
+        if (cached) return res.json(JSON.parse(cached));
+
+        const response = await axios.get('https://finnhub.io/api/v1/stock/profile2', {
+            params: { symbol: upperTicker, token: process.env.FINNHUB_KEY }
+        });
+
+        await cache.setex(cacheKey, 86400, JSON.stringify(response.data)); // Cache for 24 hours
+        res.json(response.data);
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to fetch company profile' });
+    }
+});
+
+// Historical data (candles)
+router.get('/historical/:ticker', generalLimiter, async (req, res) => {
+    const { ticker } = req.params;
+    const { resolution = 'D', days = 365 } = req.query; // 'D' for daily, 'W' for weekly, 'M' for monthly
+    const upperTicker = ticker.toUpperCase();
+    const cacheKey = `historical:${upperTicker}:${resolution}:${days}`;
     
     try {
-        const cacheKey = `company:${upperTicker}`;
         const cached = await cache.get(cacheKey);
-        if (cached) {
-            return res.json(JSON.parse(cached));
-        }
+        if (cached) return res.json(JSON.parse(cached));
 
-        // Try Finnhub company profile
-        const response = await axios.get('https://finnhub.io/api/v1/stock/profile2', {
+        const to = Math.floor(Date.now() / 1000);
+        const from = to - (days * 24 * 60 * 60);
+
+        const response = await axios.get('https://finnhub.io/api/v1/stock/candle', {
             params: {
                 symbol: upperTicker,
+                resolution,
+                from,
+                to,
                 token: process.env.FINNHUB_KEY
-            },
-            timeout: 5000
+            }
         });
 
-        if (!response.data || Object.keys(response.data).length === 0) {
-            throw new Error('No company data available');
-        }
-
-        const data = {
-            ticker: upperTicker,
-            name: response.data.name,
-            exchange: response.data.exchange,
-            industry: response.data.finnhubIndustry,
-            logo: response.data.logo,
-            weburl: response.data.weburl,
-            marketCap: response.data.marketCapitalization,
-            shareOutstanding: response.data.shareOutstanding,
-            country: response.data.country,
-            currency: response.data.currency,
-            ipo: response.data.ipo,
-            timestamp: new Date()
-        };
-
-        // Cache for 1 hour
-        await cache.setex(cacheKey, 3600, JSON.stringify(data));
-        
-        res.json(data);
-
+        await cache.setex(cacheKey, 3600, JSON.stringify(response.data)); // Cache for 1 hour
+        res.json(response.data);
     } catch (error) {
-        console.error('Company profile error:', error);
-        res.status(500).json({ 
-            error: 'Failed to fetch company profile',
-            ticker: upperTicker 
+        res.status(500).json({ error: 'Failed to fetch historical data' });
+    }
+});
+
+// Company news
+router.get('/news/:ticker', generalLimiter, async (req, res) => {
+    const { ticker } = req.params;
+    const upperTicker = ticker.toUpperCase();
+    const cacheKey = `news:${upperTicker}`;
+
+    try {
+        const cached = await cache.get(cacheKey);
+        if (cached) return res.json(JSON.parse(cached));
+
+        const to = new Date().toISOString().slice(0, 10);
+        const from = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10); // 30 days ago
+
+        const response = await axios.get('https://finnhub.io/api/v1/company-news', {
+            params: {
+                symbol: upperTicker,
+                from,
+                to,
+                token: process.env.FINNHUB_KEY
+            }
         });
+        
+        const news = response.data.slice(0, 10); // Limit to 10 articles
+        await cache.setex(cacheKey, 3600, JSON.stringify(news)); // Cache for 1 hour
+        res.json(news);
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to fetch company news' });
     }
 });
 
@@ -380,68 +408,6 @@ router.get('/news/:category?', generalLimiter, async (req, res) => {
     } catch (error) {
         console.error('News fetch error:', error);
         res.status(500).json({ error: 'Failed to fetch news' });
-    }
-});
-
-// Historical data (Alpha Vantage only)
-router.get('/historical/:ticker/:range', strictLimiter, async (req, res) => {
-    const { ticker, range } = req.params;
-    const upperTicker = ticker.toUpperCase();
-    
-    try {
-        const cacheKey = `historical:${upperTicker}:${range}`;
-        const cached = await cache.get(cacheKey);
-        if (cached) {
-            return res.json(JSON.parse(cached));
-        }
-
-        checkAlphaVantageLimit();
-
-        const functions = {
-            '1D': 'TIME_SERIES_INTRADAY',
-            '1W': 'TIME_SERIES_DAILY',
-            '1M': 'TIME_SERIES_DAILY',
-            '3M': 'TIME_SERIES_DAILY',
-            '1Y': 'TIME_SERIES_DAILY'
-        };
-
-        const params = {
-            function: functions[range] || 'TIME_SERIES_DAILY',
-            symbol: upperTicker,
-            apikey: process.env.ALPHA_VANTAGE_KEY
-        };
-
-        if (range === '1D') {
-            params.interval = '5min';
-        }
-
-        const response = await axios.get('https://www.alphavantage.co/query', {
-            params,
-            timeout: 10000
-        });
-
-        // Process and limit data based on range
-        const data = processHistoricalData(response.data, range);
-
-        // Cache for different durations based on range
-        const cacheDurations = {
-            '1D': 300,    // 5 minutes
-            '1W': 900,    // 15 minutes
-            '1M': 1800,   // 30 minutes
-            '3M': 3600,   // 1 hour
-            '1Y': 7200    // 2 hours
-        };
-
-        await cache.setex(cacheKey, cacheDurations[range] || 1800, JSON.stringify(data));
-        
-        res.json(data);
-
-    } catch (error) {
-        console.error('Historical data error:', error);
-        res.status(500).json({ 
-            error: 'Failed to fetch historical data',
-            message: error.message 
-        });
     }
 });
 
@@ -520,40 +486,6 @@ function getLastDistribution(ticker) {
         amount: Math.random() * 2,
         exDate: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000),
         payDate: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000)
-    };
-}
-
-function processHistoricalData(data, range) {
-    // Extract and format time series data
-    const timeSeries = data['Time Series (Daily)'] || 
-                      data['Time Series (5min)'] || 
-                      data['Time Series (Weekly)'] || 
-                      data['Time Series (Monthly)'] || 
-                      {};
-    
-    const entries = Object.entries(timeSeries);
-    
-    // Limit data points based on range
-    const limits = {
-        '1D': 78,    // ~6.5 hours of 5-min data
-        '1W': 5,     // 5 days
-        '1M': 22,    // ~1 month of trading days
-        '3M': 65,    // ~3 months
-        '1Y': 252    // ~1 year of trading days
-    };
-    
-    const limited = entries.slice(0, limits[range] || 100);
-    
-    return {
-        range,
-        data: limited.map(([date, values]) => ({
-            date,
-            open: parseFloat(values['1. open']),
-            high: parseFloat(values['2. high']),
-            low: parseFloat(values['3. low']),
-            close: parseFloat(values['4. close']),
-            volume: parseInt(values['5. volume'])
-        }))
     };
 }
 
