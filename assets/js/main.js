@@ -38,6 +38,10 @@ document.addEventListener('DOMContentLoaded', function() {
     // Set active nav link based on current page
     setActiveNavLink();
     
+    // Set market status indicator
+    updateMarketStatus();
+    setInterval(updateMarketStatus, 60000); // Check every minute
+
     // Initialize any other components
     initializeComponents();
 });
@@ -256,4 +260,50 @@ window.MSTYMillionaire = {
     loadFromStorage,
     apiRequest
 };
+
+function updateMarketStatus() {
+    const marketStatusDot = document.getElementById('marketStatusDot');
+    const marketStatusText = document.getElementById('marketStatusText');
+
+    if (!marketStatusDot || !marketStatusText) {
+        return;
+    }
+
+    const now = new Date();
+    // Important: The user is in an arbitrary timezone, but the market is in New York.
+    // We must get the time in the 'America/New_York' timezone for an accurate check.
+    const estTime = new Date(now.toLocaleString('en-US', { timeZone: 'America/New_York' }));
+
+    const day = estTime.getDay(); // Sunday = 0, Monday = 1, etc.
+    const hour = estTime.getHours();
+    const minute = estTime.getMinutes();
+    const month = estTime.getMonth(); // January = 0
+    const date = estTime.getDate();
+
+    // Key US stock market holidays (needs to be updated annually)
+    const holidays = [
+        { month: 0, date: 1 },   // New Year's Day
+        { month: 0, date: 15 },  // Martin Luther King, Jr. Day
+        { month: 1, date: 19 },  // Presidents' Day
+        { month: 2, date: 29 },  // Good Friday
+        { month: 4, date: 27 },  // Memorial Day
+        { month: 5, date: 19 },  // Juneteenth
+        { month: 6, date: 4 },   // Independence Day
+        { month: 8, date: 2 },   // Labor Day
+        { month: 10, date: 28 }, // Thanksgiving Day
+        { month: 11, date: 25 }  // Christmas Day
+    ];
+
+    const isHoliday = holidays.some(holiday => holiday.month === month && holiday.date === date);
+    const isWeekday = day >= 1 && day <= 5; // Monday to Friday
+    const isMarketHours = (hour > 9 || (hour === 9 && minute >= 30)) && hour < 16; // 9:30 AM to 4:00 PM
+
+    if (isWeekday && !isHoliday && isMarketHours) {
+        marketStatusDot.classList.add('open');
+        marketStatusText.textContent = 'Live';
+    } else {
+        marketStatusDot.classList.remove('open');
+        marketStatusText.textContent = 'Closed';
+    }
+}
 
