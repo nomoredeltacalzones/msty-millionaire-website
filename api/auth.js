@@ -7,6 +7,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const db = require('./config/database');
 const { sendVerificationEmail, sendPasswordResetEmail } = require('./services/email');
+const { authenticateToken } = require('./middleware/auth');
 
 // Middleware to validate email format
 const validateEmail = (email) => {
@@ -477,11 +478,4 @@ router.post('/change-password', authenticateToken, async (req, res) => {
     }
 });
 
-// Middleware for protected routes
-function authenticateToken(req, res, next) {
-    const authHeader = req.headers['authorization'];
-    const token = authHeader && authHeader.split(' ')[1];
-
-    if (!token) {
-        return res.status(401).json({ 
-            error: 'Access token require
+module.exports = router;
