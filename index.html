@@ -10,29 +10,34 @@
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-YOUR-ADSENSE-ID" crossorigin="anonymous"></script>
     
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/market-status.css">
 </head>
 <body>
     <div class="bg-animation"></div>
 
-    <!-- Header -->
+    <!-- Updated Header Structure for All Pages -->
     <header class="header">
         <div class="container">
             <div class="header-content">
-                <div class="logo">
-                    <h1>MSTY Millionaire</h1>
-                    <div class="live-indicator">
-                        <span class="live-dot" id="marketStatusDot"></span>
-                        <span id="marketStatusText">Live</span>
+                <div class="logo-section">
+                    <div class="logo">
+                        <a href="/index.html" style="text-decoration: none;">
+                            <h1>MSTY Millionaire</h1>
+                        </a>
+                    </div>
+                    <div class="market-indicator">
+                        <span class="market-status-dot"></span>
+                        <span class="market-status-text">Live</span>
                     </div>
                 </div>
                 
                 <nav class="nav-menu" id="navMenu">
-                    <a href="/" class="nav-link active">Dashboard</a>
-                    <a href="/calculator/" class="nav-link" >Calculator</a>
-                    <a href="/education/" class="nav-link" >Learn</a>
-                    <a href="/portfolio/" class="nav-link" >Portfolio</a>
-                    <a href="/faq/" class="nav-link" >FAQ</a>
-                    <a href="/contact/" class="nav-link" >Contact</a>
+                    <a href="/index.html" class="nav-link">Dashboard</a>
+                    <a href="/calculator/" class="nav-link">Calculator</a>
+                    <a href="/education/" class="nav-link">Learn</a>
+                    <a href="/portfolio/" class="nav-link">Portfolio</a>
+                    <a href="/faq/" class="nav-link">FAQ</a>
+                    <a href="/contact/" class="nav-link">Contact</a>
                 </nav>
                 
                 <button class="mobile-menu-toggle" onclick="toggleMenu()">☰</button>
@@ -232,6 +237,51 @@
         // Initialize
         updateQuickCalc();
         setInterval(updatePrices, 60000); // Update every minute
+
+        function updateMarketStatus() {
+            const now = new Date();
+            const easternTime = new Date(now.toLocaleString("en-US", {timeZone: "America/New_York"}));
+            const easternHours = easternTime.getHours();
+            const easternMinutes = easternTime.getMinutes();
+            const easternTime24 = easternHours + easternMinutes / 60;
+            const easternDay = easternTime.getDay();
+            
+            const isWeekday = easternDay >= 1 && easternDay <= 5;
+            const isMarketHours = easternTime24 >= 9.5 && easternTime24 < 16;
+            const isMarketOpen = isWeekday && isMarketHours;
+            
+            const statusDot = document.querySelector('.market-status-dot');
+            const statusText = document.querySelector('.market-status-text');
+            const indicator = document.querySelector('.market-indicator');
+            
+            if (statusDot && statusText && indicator) {
+                if (isMarketOpen) {
+                    statusDot.style.background = '#22c55e';
+                    statusDot.style.animation = 'blink 2s infinite';
+                    statusText.textContent = 'Live';
+                    indicator.style.background = 'rgba(34, 197, 94, 0.2)';
+                } else {
+                    statusDot.style.background = '#ef4444';
+                    statusDot.style.animation = 'none';
+                    statusText.textContent = 'Markets Closed';
+                    indicator.style.background = 'rgba(239, 68, 68, 0.2)';
+                }
+            }
+        }
+
+        updateMarketStatus();
+        setInterval(updateMarketStatus, 60000);
+
+        document.addEventListener('visibilitychange', () => {
+            if (!document.hidden) {
+                updateMarketStatus();
+            }
+        });
+
+        function toggleMenu() {
+            const navMenu = document.getElementById('navMenu');
+            navMenu.classList.toggle('active');
+        }
     </script>
 
     <style>
@@ -481,6 +531,93 @@
                 flex-direction: column;
             }
         }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .market-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(34, 197, 94, 0.2);
+            padding: 5px 15px;
+            border-radius: 20px;
+            transition: background 0.3s ease;
+        }
+
+        .market-status-dot {
+            width: 8px;
+            height: 8px;
+            background: #22c55e;
+            border-radius: 50%;
+            transition: background 0.3s ease;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        .market-status-text {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #e4e8f1;
+        }
+
+        .nav-link {
+            color: #94a3b8;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-link:hover {
+            color: #6366f1;
+        }
+
+        .nav-link.active {
+            color: #6366f1;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #6366f1, #8b5cf6);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            width: 100%;
+        }
+
+        @media (max-width: 768px) {
+            .logo-section {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            
+            .market-indicator {
+                font-size: 0.8rem;
+                padding: 4px 12px;
+            }
+            
+            .market-status-dot {
+                width: 6px;
+                height: 6px;
+            }
+        }
     </style>
+
+    <script src="/js/market-status.js"></script>
 </body>
 </html>

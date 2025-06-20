@@ -262,6 +262,10 @@ h1 {
     .calc-inline {
         flex-direction: column;
     }
+    
+    .logo-section { flex-direction: column; align-items: flex-start; gap: 10px; }
+    .market-indicator { font-size: 0.8rem; padding: 4px 12px; }
+    .market-status-dot { width: 6px; height: 6px; }
 }
 
 
@@ -643,4 +647,18 @@ h1 {
         min-width: 600px;
     }
 }
+
+/* --- MSTY Millionaire: Header & Navigation Enhancements --- */
+.logo-section { display: flex; align-items: center; gap: 20px; }
+
+.market-indicator { display: inline-flex; align-items: center; gap: 8px; background: rgba(34, 197, 94, 0.2); padding: 5px 15px; border-radius: 20px; transition: background 0.3s ease; }
+
+.market-status-dot { width: 8px; height: 8px; background: #22c55e; border-radius: 50%; transition: background 0.3s ease; animation: blink 1.2s infinite; }
+
+@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+.nav-link { position: relative; }
+.nav-link::after { content: ''; position: absolute; bottom: -5px; left: 0; width: 0; height: 2px; background: linear-gradient(90deg, #6366f1, #8b5cf6); transition: width 0.3s ease; }
+.nav-link:hover::after, .nav-link.active::after { width: 100%; }
+.nav-link:hover, .nav-link.active { color: #6366f1; }
 

@@ -15,27 +15,29 @@
 <body>
     <div class="bg-animation"></div>
 
-    <!-- Header -->
+    <!-- Updated Header Structure for All Pages -->
     <header class="header">
         <div class="container">
             <div class="header-content">
-                <div class="logo">
-                    <h1>MSTY Millionaire</h1>
-                    <div class="live-indicator">
-                        <span class="live-dot"></span>
-                        <span>Live</span>
+                <div class="logo-section">
+                    <div class="logo">
+                        <a href="/index.html" style="text-decoration: none;">
+                            <h1>MSTY Millionaire</h1>
+                        </a>
+                    </div>
+                    <div class="market-indicator">
+                        <span class="market-status-dot"></span>
+                        <span class="market-status-text">Live</span>
                     </div>
                 </div>
-                
                 <nav class="nav-menu" id="navMenu">
-                    <a href="/" class="nav-link">Dashboard</a>
+                    <a href="/index.html" class="nav-link">Dashboard</a>
                     <a href="/calculator/" class="nav-link">Calculator</a>
                     <a href="/education/" class="nav-link">Learn</a>
                     <a href="/portfolio/" class="nav-link">Portfolio</a>
                     <a href="/faq/" class="nav-link">FAQ</a>
                     <a href="/contact/" class="nav-link">Contact</a>
                 </nav>
-                
                 <button class="mobile-menu-toggle" onclick="toggleMenu()">☰</button>
             </div>
         </div>
@@ -540,7 +542,7 @@
             text-align: center;
         }
 
-        .live-indicator {
+        .market-indicator {
             display: inline-flex;
             align-items: center;
             gap: 8px;
@@ -549,7 +551,7 @@
             border-radius: 20px;
         }
 
-        .live-dot {
+        .market-status-dot {
             width: 8px;
             height: 8px;
             background: #22c55e;
@@ -620,5 +622,7 @@
             }, 1000);
         });
     </script>
+
+    <script src="/js/market-status.js"></script>
 </body>
 </html>

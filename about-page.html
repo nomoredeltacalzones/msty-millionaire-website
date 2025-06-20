@@ -482,23 +482,24 @@
 <body>
     <div class="bg-animation"></div>
 
-    <!-- Header -->
+    <!-- Updated Header Structure for All Pages -->
     <header class="header">
         <div class="container">
             <div class="header-content">
-                <div class="logo">
-                    <a href="index.html" style="text-decoration: none;">
-                        <h1>MSTY Millionaire</h1>
-                    </a>
-                </div>
-                
-                <div class="live-indicator">
-                    <span class="live-dot" id="marketStatusDot"></span>
-                    <span id="marketStatusText">Live</span>
+                <div class="logo-section">
+                    <div class="logo">
+                        <a href="/index.html" style="text-decoration: none;">
+                            <h1>MSTY Millionaire</h1>
+                        </a>
+                    </div>
+                    <div class="market-indicator">
+                        <span class="market-status-dot"></span>
+                        <span class="market-status-text">Live</span>
+                    </div>
                 </div>
                 
                 <nav class="nav-menu" id="navMenu">
-                    <a href="/" class="nav-link">Dashboard</a>
+                    <a href="/index.html" class="nav-link">Dashboard</a>
                     <a href="/calculator/" class="nav-link">Calculator</a>
                     <a href="/education/" class="nav-link">Learn</a>
                     <a href="/portfolio/" class="nav-link">Portfolio</a>
@@ -639,5 +640,6 @@
             navMenu.classList.toggle('active');
         }
     </script>
+    <script src="/js/market-status.js"></script>
 </body>
 </html>

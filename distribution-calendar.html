@@ -9,6 +9,9 @@
     <!-- Google AdSense -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-PLACEHOLDER-ID" crossorigin="anonymous"></script>
     
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/market-status.css">
+    
     <style>
         * {
             margin: 0;
@@ -545,23 +548,24 @@
 <body>
     <div class="bg-animation"></div>
 
-    <!-- Header -->
+    <!-- Updated Header Structure for All Pages -->
     <header class="header">
         <div class="container">
             <div class="header-content">
-                <div class="logo">
-                    <a href="index.html" style="text-decoration: none;">
-                        <h1>MSTY Millionaire</h1>
-                    </a>
-                </div>
-                
-                <div class="live-indicator">
-                    <span class="live-dot" id="marketStatusDot"></span>
-                    <span id="marketStatusText">Live</span>
+                <div class="logo-section">
+                    <div class="logo">
+                        <a href="/index.html" style="text-decoration: none;">
+                            <h1>MSTY Millionaire</h1>
+                        </a>
+                    </div>
+                    <div class="market-indicator">
+                        <span class="market-status-dot"></span>
+                        <span class="market-status-text">Live</span>
+                    </div>
                 </div>
                 
                 <nav class="nav-menu" id="navMenu">
-                    <a href="/" class="nav-link">Dashboard</a>
+                    <a href="/index.html" class="nav-link">Dashboard</a>
                     <a href="/calculator/" class="nav-link">Calculator</a>
                     <a href="/education/" class="nav-link">Learn</a>
                     <a href="/portfolio/" class="nav-link">Portfolio</a>
@@ -855,5 +859,6 @@
         // Initialize calendar
         generateCalendar(currentMonth, currentYear);
     </script>
+    <script src="/js/market-status.js"></script>
 </body>
 </html>

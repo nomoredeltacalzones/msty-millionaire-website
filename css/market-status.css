@@ -1,0 +1,89 @@
+/* Logo and Market Status Container */
+.logo-section {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+/* Market Status Indicator */
+.market-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(34, 197, 94, 0.2);
+    padding: 5px 15px;
+    border-radius: 20px;
+    transition: background 0.3s ease;
+}
+
+.market-status-dot {
+    width: 8px;
+    height: 8px;
+    background: #22c55e;
+    border-radius: 50%;
+    transition: background 0.3s ease;
+}
+
+/* Blinking animation for live status */
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+}
+
+.market-status-text {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #e4e8f1;
+}
+
+/* Navigation Active States */
+.nav-link {
+    color: #94a3b8;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.nav-link:hover {
+    color: #6366f1;
+}
+
+.nav-link.active {
+    color: #6366f1;
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #6366f1, #8b5cf6);
+    transition: width 0.3s ease;
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
+    width: 100%;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+    .logo-section {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    
+    .market-indicator {
+        font-size: 0.8rem;
+        padding: 4px 12px;
+    }
+    
+    .market-status-dot {
+        width: 6px;
+        height: 6px;
+    }
+} 

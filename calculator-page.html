@@ -81,6 +81,12 @@
             gap: 20px;
         }
 
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
         .logo h1 {
             font-size: 2rem;
             background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
@@ -92,6 +98,24 @@
         @keyframes glow {
             0%, 100% { filter: brightness(1); }
             50% { filter: brightness(1.2); }
+        }
+
+        .market-indicator {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .market-status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: #22c55e;
+        }
+
+        .market-status-text {
+            font-size: 0.9rem;
+            color: #22c55e;
         }
 
         .nav-menu {
@@ -601,25 +625,29 @@
 <body>
     <div class="bg-animation"></div>
 
-    <!-- Header -->
+    <!-- Updated Header Structure for All Pages -->
     <header class="header">
         <div class="container">
             <div class="header-content">
-                <div class="logo">
-                    <a href="index.html" style="text-decoration: none;">
-                        <h1>MSTY Millionaire</h1>
-                    </a>
+                <div class="logo-section">
+                    <div class="logo">
+                        <a href="/index.html" style="text-decoration: none;">
+                            <h1>MSTY Millionaire</h1>
+                        </a>
+                    </div>
+                    <div class="market-indicator">
+                        <span class="market-status-dot"></span>
+                        <span class="market-status-text">Live</span>
+                    </div>
                 </div>
-                
                 <nav class="nav-menu" id="navMenu">
-                    <a href="/" class="nav-link">Dashboard</a>
-                    <a href="/calculator/" class="nav-link active">Calculator</a>
+                    <a href="/index.html" class="nav-link">Dashboard</a>
+                    <a href="/calculator/" class="nav-link">Calculator</a>
                     <a href="/education/" class="nav-link">Learn</a>
                     <a href="/portfolio/" class="nav-link">Portfolio</a>
                     <a href="/faq/" class="nav-link">FAQ</a>
                     <a href="/contact/" class="nav-link">Contact</a>
                 </nav>
-                
                 <button class="mobile-menu-toggle" onclick="toggleMenu()">☰</button>
             </div>
         </div>
@@ -939,5 +967,6 @@
         initChart();
         calculateIncome();
     </script>
+    <script src="/js/market-status.js"></script>
 </body>
 </html>
