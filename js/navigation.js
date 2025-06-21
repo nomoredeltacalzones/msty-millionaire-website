@@ -6,16 +6,16 @@ function updateNavigation() {
     
     navMenus.forEach(navMenu => {
         // Check if game link already exists
-        const existingGameLink = navMenu.querySelector('a[href*="/game/"]');
+        const existingGameLink = navMenu.querySelector('a[href*="/games/"]');
         if (existingGameLink) return;
         
         // Find the portfolio link to insert game link after it
         const portfolioLink = navMenu.querySelector('a[href*="/portfolio/"]');
         if (portfolioLink) {
             const gameLink = document.createElement('a');
-            gameLink.href = '/game/';
+            gameLink.href = '/games/';
             gameLink.className = 'nav-link';
-            gameLink.textContent = '🚀 Play';
+            gameLink.textContent = '🎮 Games';
             
             // Insert after portfolio link
             portfolioLink.parentNode.insertBefore(gameLink, portfolioLink.nextSibling);

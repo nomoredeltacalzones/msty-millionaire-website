@@ -367,7 +367,15 @@ const htmlRoutes = [
     { path: '/calculator/portfolio-optimizer', file: 'calculator/portfolio-optimizer/index.html' },
     { path: '/calculator/portfolio-optimizer/', file: 'calculator/portfolio-optimizer/index.html' },
     
-    // Game routes
+    // Game routes - Games Hub and Individual Games
+    { path: '/games', file: 'games/index.html' },
+    { path: '/games/', file: 'games/index.html' },
+    { path: '/games/yieldmax-rocket', file: 'games/yieldmax-rocket-game.html' },
+    { path: '/games/yieldmax-rocket/', file: 'games/yieldmax-rocket-game.html' },
+    { path: '/games/msty-dividend-defender', file: 'games/msty-dividend-defender/index.html' },
+    { path: '/games/msty-dividend-defender/', file: 'games/msty-dividend-defender/index.html' },
+    
+    // Legacy game routes for backward compatibility
     { path: '/game', file: 'games/yieldmax-rocket-game.html' },
     { path: '/game/', file: 'games/yieldmax-rocket-game.html' },
     { path: '/game/yieldmax-rocket.html', file: 'games/yieldmax-rocket-game.html' },
