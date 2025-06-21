@@ -11,7 +11,8 @@
     "build:js": "webpack --mode production",
     "test": "jest",
     "lint": "eslint .",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "setup:db": "node database/setup-game-db.js"
   },
   "keywords": [
     "yieldmax",

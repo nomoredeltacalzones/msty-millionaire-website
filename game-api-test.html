@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game API Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-section {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .test-section h2 {
+            color: #333;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 10px;
+        }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        .result {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            padding: 15px;
+            margin: 10px 0;
+            white-space: pre-wrap;
+            font-family: monospace;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .error {
+            background: #f8d7da;
+            border-color: #f5c6cb;
+            color: #721c24;
+        }
+        .success {
+            background: #d4edda;
+            border-color: #c3e6cb;
+            color: #155724;
+        }
+        input, select {
+            padding: 8px;
+            margin: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .form-group {
+            margin: 10px 0;
+        }
+        label {
+            display: inline-block;
+            width: 120px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>🎮 Enhanced Game API Test</h1>
+    
+    <div class="test-section">
+        <h2>Authentication</h2>
+        <div class="form-group">
+            <label>Auth Token:</label>
+            <input type="text" id="authToken" placeholder="Enter JWT token (optional)" style="width: 300px;">
+        </div>
+        <button onclick="setAuthToken()">Set Token</button>
+        <button onclick="clearAuthToken()">Clear Token</button>
+        <div id="authResult" class="result"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>Submit Score</h2>
+        <div class="form-group">
+            <label>Player Name:</label>
+            <input type="text" id="playerName" value="TestPlayer">
+        </div>
+        <div class="form-group">
+            <label>Score:</label>
+            <input type="number" id="score" value="5000">
+        </div>
+        <div class="form-group">
+            <label>Level:</label>
+            <input type="number" id="level" value="5">
+        </div>
+        <div class="form-group">
+            <label>ETFs Collected:</label>
+            <input type="number" id="etfsCollected" value="25">
+        </div>
+        <div class="form-group">
+            <label>Max Yield:</label>
+            <input type="number" id="maxYield" value="75.5" step="0.1">
+        </div>
+        <button onclick="submitScore()">Submit Score</button>
+        <div id="scoreResult" class="result"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>Leaderboard</h2>
+        <div class="form-group">
+            <label>Period:</label>
+            <select id="leaderboardPeriod">
+                <option value="all">All Time</option>
+                <option value="today">Today</option>
+                <option value="week">This Week</option>
+                <option value="month">This Month</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Limit:</label>
+            <input type="number" id="leaderboardLimit" value="10" min="1" max="50">
+        </div>
+        <button onclick="getLeaderboard()">Get Leaderboard</button>
+        <div id="leaderboardResult" class="result"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>Daily Challenge</h2>
+        <button onclick="getDailyChallenge()">Get Daily Challenge</button>
+        <div id="challengeResult" class="result"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>Achievements (Authenticated)</h2>
+        <button onclick="getAchievements()">Get Achievements</button>
+        <div id="achievementsResult" class="result"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>Player Progress (Authenticated)</h2>
+        <button onclick="getProgress()">Get Progress</button>
+        <div id="progressResult" class="result"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>Powerups (Authenticated)</h2>
+        <button onclick="getPowerups()">Get Powerups</button>
+        <div id="powerupsResult" class="result"></div>
+    </div>
+
+    <script>
+        const API_BASE = '/api/game';
+        
+        function getAuthHeaders() {
+            const token = document.getElementById('authToken').value;
+            const headers = {
+                'Content-Type': 'application/json'
+            };
+            if (token) {
+                headers['Authorization'] = `Bearer ${token}`;
+            }
+            return headers;
+        }
+
+        function setAuthToken() {
+            const token = document.getElementById('authToken').value;
+            if (token) {
+                localStorage.setItem('authToken', token);
+                showResult('authResult', 'Token set successfully!', 'success');
+            } else {
+                showResult('authResult', 'Please enter a token', 'error');
+            }
+        }
+
+        function clearAuthToken() {
+            localStorage.removeItem('authToken');
+            document.getElementById('authToken').value = '';
+            showResult('authResult', 'Token cleared', 'success');
+        }
+
+        async function submitScore() {
+            const data = {
+                playerName: document.getElementById('playerName').value,
+                score: parseInt(document.getElementById('score').value),
+                level: parseInt(document.getElementById('level').value),
+                etfsCollected: parseInt(document.getElementById('etfsCollected').value),
+                maxYield: parseFloat(document.getElementById('maxYield').value)
+            };
+
+            try {
+                const response = await fetch(`${API_BASE}/score`, {
+                    method: 'POST',
+                    headers: getAuthHeaders(),
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+                
+                if (response.ok) {
+                    showResult('scoreResult', JSON.stringify(result, null, 2), 'success');
+                } else {
+                    showResult('scoreResult', `Error: ${result.error}`, 'error');
+                }
+            } catch (error) {
+                showResult('scoreResult', `Error: ${error.message}`, 'error');
+            }
+        }
+
+        async function getLeaderboard() {
+            const period = document.getElementById('leaderboardPeriod').value;
+            const limit = document.getElementById('leaderboardLimit').value;
+
+            try {
+                const response = await fetch(`${API_BASE}/leaderboard?period=${period}&limit=${limit}`);
+                const result = await response.json();
+                
+                if (response.ok) {
+                    showResult('leaderboardResult', JSON.stringify(result, null, 2), 'success');
+                } else {
+                    showResult('leaderboardResult', `Error: ${result.error}`, 'error');
+                }
+            } catch (error) {
+                showResult('leaderboardResult', `Error: ${error.message}`, 'error');
+            }
+        }
+
+        async function getDailyChallenge() {
+            try {
+                const response = await fetch(`${API_BASE}/daily-challenge`);
+                const result = await response.json();
+                
+                if (response.ok) {
+                    showResult('challengeResult', JSON.stringify(result, null, 2), 'success');
+                } else {
+                    showResult('challengeResult', `Error: ${result.error}`, 'error');
+                }
+            } catch (error) {
+                showResult('challengeResult', `Error: ${error.message}`, 'error');
+            }
+        }
+
+        async function getAchievements() {
+            try {
+                const response = await fetch(`${API_BASE}/achievements`, {
+                    headers: getAuthHeaders()
+                });
+                const result = await response.json();
+                
+                if (response.ok) {
+                    showResult('achievementsResult', JSON.stringify(result, null, 2), 'success');
+                } else {
+                    showResult('achievementsResult', `Error: ${result.error}`, 'error');
+                }
+            } catch (error) {
+                showResult('achievementsResult', `Error: ${error.message}`, 'error');
+            }
+        }
+
+        async function getProgress() {
+            try {
+                const response = await fetch(`${API_BASE}/progress`, {
+                    headers: getAuthHeaders()
+                });
+                const result = await response.json();
+                
+                if (response.ok) {
+                    showResult('progressResult', JSON.stringify(result, null, 2), 'success');
+                } else {
+                    showResult('progressResult', `Error: ${result.error}`, 'error');
+                }
+            } catch (error) {
+                showResult('progressResult', `Error: ${error.message}`, 'error');
+            }
+        }
+
+        async function getPowerups() {
+            try {
+                const response = await fetch(`${API_BASE}/powerups`, {
+                    headers: getAuthHeaders()
+                });
+                const result = await response.json();
+                
+                if (response.ok) {
+                    showResult('powerupsResult', JSON.stringify(result, null, 2), 'success');
+                } else {
+                    showResult('powerupsResult', `Error: ${result.error}`, 'error');
+                }
+            } catch (error) {
+                showResult('powerupsResult', `Error: ${error.message}`, 'error');
+            }
+        }
+
+        function showResult(elementId, message, type = '') {
+            const element = document.getElementById(elementId);
+            element.textContent = message;
+            element.className = `result ${type}`;
+        }
+
+        // Load saved token on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedToken = localStorage.getItem('authToken');
+            if (savedToken) {
+                document.getElementById('authToken').value = savedToken;
+            }
+        });
+    </script>
+</body>
+</html> 

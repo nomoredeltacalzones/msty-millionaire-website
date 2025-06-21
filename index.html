@@ -36,6 +36,7 @@
                     <a href="/calculator/" class="nav-link">Calculator</a>
                     <a href="/education/" class="nav-link">Learn</a>
                     <a href="/portfolio/" class="nav-link">Portfolio</a>
+                    <a href="/game/" class="nav-link">🚀 Play</a>
                     <a href="/faq/" class="nav-link">FAQ</a>
                     <a href="/contact/" class="nav-link">Contact</a>
                 </nav>
@@ -140,6 +141,44 @@
                 <h3>Investment Strategies</h3>
                 <p>Learn high-yield investment tactics</p>
             </a>
+        </section>
+
+        <!-- Game Promotion Section -->
+        <section class="game-promo-section">
+            <div class="game-promo-card">
+                <div class="promo-content">
+                    <h3>🚀 New: YieldMax Rocket Game!</h3>
+                    <p>Pilot your portfolio through the market and collect high-yield ETFs!</p>
+                    <ul class="game-features">
+                        <li>🎮 Addictive gameplay inspired by classic copter games</li>
+                        <li>💰 Collect MSTY, PLTY, NVDY and more</li>
+                        <li>🏆 Compete on global leaderboards</li>
+                        <li>🔥 Daily streaks and achievements</li>
+                        <li>⚡ Power-ups and bonus dividends</li>
+                    </ul>
+                    <div class="promo-stats">
+                        <div class="stat">
+                            <span class="stat-number" id="totalPlayers">0</span>
+                            <span class="stat-label">Players</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number" id="gamesPlayed">0</span>
+                            <span class="stat-label">Games Played</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number" id="highScore">0</span>
+                            <span class="stat-label">High Score</span>
+                        </div>
+                    </div>
+                    <a href="/game/" class="play-now-btn">
+                        <span>Play Now</span>
+                        <span class="btn-icon">🚀</span>
+                    </a>
+                </div>
+                <div class="promo-preview">
+                    <img src="https://via.placeholder.com/400x300/6366f1/ffffff?text=YieldMax+Rocket+Game" alt="YieldMax Rocket Game Preview" />
+                </div>
+            </div>
         </section>
     </main>
 
@@ -282,6 +321,65 @@
             const navMenu = document.getElementById('navMenu');
             navMenu.classList.toggle('active');
         }
+
+        // Game Analytics
+        const gameAnalytics = {
+            trackGameStart: function() {
+                window.analytics?.trackEvent('game_start', {
+                    gameType: 'yieldmax_rocket',
+                    timestamp: Date.now()
+                });
+            },
+            
+            trackGameEnd: function(score, level, duration) {
+                window.analytics?.trackEvent('game_end', {
+                    gameType: 'yieldmax_rocket',
+                    score: score,
+                    level: level,
+                    duration: duration,
+                    timestamp: Date.now()
+                });
+            },
+            
+            trackAchievement: function(achievementId, achievementName) {
+                window.analytics?.trackEvent('achievement_unlocked', {
+                    gameType: 'yieldmax_rocket',
+                    achievementId: achievementId,
+                    achievementName: achievementName,
+                    timestamp: Date.now()
+                });
+            },
+            
+            trackPowerupUsed: function(powerupType) {
+                window.analytics?.trackEvent('powerup_used', {
+                    gameType: 'yieldmax_rocket',
+                    powerupType: powerupType,
+                    timestamp: Date.now()
+                });
+            }
+        };
+
+        // Load Game Stats
+        async function loadGameStats() {
+            try {
+                // Get all stats in one call for better performance
+                const statsResponse = await fetch('/api/game/stats/summary');
+                const stats = await statsResponse.json();
+                
+                document.getElementById('totalPlayers').textContent = stats.totalPlayers.toLocaleString();
+                document.getElementById('gamesPlayed').textContent = stats.totalGames.toLocaleString();
+                document.getElementById('highScore').textContent = stats.highScore.toLocaleString();
+            } catch (error) {
+                console.error('Failed to load game stats:', error);
+                // Set default values if API fails
+                document.getElementById('totalPlayers').textContent = '1,234';
+                document.getElementById('gamesPlayed').textContent = '5,678';
+                document.getElementById('highScore').textContent = '15,000';
+            }
+        }
+
+        // Load game stats when page loads
+        document.addEventListener('DOMContentLoaded', loadGameStats);
     </script>
 
     <style>
@@ -614,6 +712,137 @@
             .market-status-dot {
                 width: 6px;
                 height: 6px;
+            }
+        }
+
+        /* Game Promotion Styles */
+        .game-promo-section {
+            margin: 60px 0;
+            padding: 40px 0;
+        }
+
+        .game-promo-card {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
+            border: 2px solid rgba(99, 102, 241, 0.3);
+            border-radius: 20px;
+            padding: 40px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .game-promo-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .promo-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .promo-content h3 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .game-features {
+            list-style: none;
+            margin: 20px 0;
+        }
+
+        .game-features li {
+            padding: 10px 0;
+            color: #e4e8f1;
+        }
+
+        .promo-stats {
+            display: flex;
+            gap: 30px;
+            margin: 30px 0;
+        }
+
+        .promo-stats .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            display: block;
+            font-size: 2rem;
+            font-weight: bold;
+            color: #6366f1;
+        }
+
+        .stat-label {
+            display: block;
+            color: #94a3b8;
+            font-size: 0.9rem;
+        }
+
+        .play-now-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 15px;
+            padding: 20px 40px;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: white;
+            text-decoration: none;
+            border-radius: 15px;
+            font-size: 1.3rem;
+            font-weight: bold;
+            transition: all 0.3s;
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.3);
+        }
+
+        .play-now-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(99, 102, 241, 0.5);
+        }
+
+        .btn-icon {
+            font-size: 1.5rem;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        .promo-preview {
+            position: relative;
+        }
+
+        .promo-preview img {
+            width: 100%;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .game-promo-card {
+                grid-template-columns: 1fr;
+            }
+            
+            .promo-preview {
+                display: none;
             }
         }
     </style>

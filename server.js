@@ -367,6 +367,10 @@ const htmlRoutes = [
     { path: '/calculator/portfolio-optimizer', file: 'calculator/portfolio-optimizer/index.html' },
     { path: '/calculator/portfolio-optimizer/', file: 'calculator/portfolio-optimizer/index.html' },
     
+    // Game routes
+    { path: '/game', file: 'games/yieldmax-rocket-game.html' },
+    { path: '/game/', file: 'games/yieldmax-rocket-game.html' },
+    
     // Other main sections
     { path: '/portfolio', file: 'portfolio/index.html' },
     { path: '/portfolio/', file: 'portfolio/index.html' },

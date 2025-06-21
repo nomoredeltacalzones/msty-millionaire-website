@@ -3,14 +3,120 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MSTY Dividend Defender</title>
+    <title>MSTY Dividend Defender | MSTY Millionaire</title>
     <link rel="stylesheet" href="style.css">
+    <!-- Add your site's fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <h1 style="color: #FFF; text-align: center; font-family: 'Courier New', Courier, monospace;">MSTY Dividend Defender</h1>
-    <div id="game-container">
-        <canvas id="gameCanvas" width="320" height="200"></canvas>
-    </div>
+    <!-- Site Header -->
+    <header class="site-header">
+        <div class="container">
+            <div class="logo">
+                <a href="/">MSTY<span class="accent">Millionaire</span></a>
+            </div>
+            <nav class="main-nav">
+                <a href="/dashboard">Dashboard</a>
+                <a href="/education">Learn</a>
+                <a href="/tools">Tools</a>
+                <a href="/games" class="active">Games</a>
+                <a href="/community">Community</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Game Section -->
+    <main class="game-page">
+        <div class="game-header">
+            <h1>MSTY Dividend Defender</h1>
+            <p class="subtitle">Learn dividend investing through retro gaming</p>
+        </div>
+
+        <div class="game-wrapper">
+            <!-- Game Stats Panel -->
+            <div class="stats-panel">
+                <div class="stat-card">
+                    <h3>High Score</h3>
+                    <div class="stat-value" id="highScore">0</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Games Played</h3>
+                    <div class="stat-value" id="gamesPlayed">0</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Current Streak</h3>
+                    <div class="stat-value"><span id="currentStreak">0</span> 🔥</div>
+                </div>
+            </div>
+
+            <!-- Game Container -->
+            <div id="game-container">
+                <canvas id="gameCanvas" width="320" height="200"></canvas>
+                <div class="game-controls">
+                    <div class="control-hint">
+                        <kbd>←</kbd> <kbd>→</kbd> or <kbd>A</kbd> <kbd>D</kbd> to move
+                    </div>
+                    <div class="control-hint">
+                        <kbd>Enter</kbd> to start/continue
+                    </div>
+                    <div class="control-hint">
+                        <kbd>L</kbd> for leaderboard
+                    </div>
+                </div>
+            </div>
+
+            <!-- Instructions Panel -->
+            <div class="instructions-panel">
+                <h3>How to Play</h3>
+                <div class="instruction-grid">
+                    <div class="instruction-item">
+                        <span class="game-icon dividend">$</span>
+                        <p><strong>Dividends:</strong> Catch these for points!</p>
+                    </div>
+                    <div class="instruction-item">
+                        <span class="game-icon volatility">V</span>
+                        <p><strong>Volatility:</strong> Avoid market swings</p>
+                    </div>
+                    <div class="instruction-item">
+                        <span class="game-icon premium">P</span>
+                        <p><strong>Premiums:</strong> Bonus points!</p>
+                    </div>
+                    <div class="instruction-item">
+                        <span class="game-icon assignment">!</span>
+                        <p><strong>Assignments:</strong> Major health loss</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Educational Content -->
+        <section class="education-section">
+            <h2>What You're Learning</h2>
+            <div class="learning-cards">
+                <div class="learning-card">
+                    <h4>Dividend Income</h4>
+                    <p>MSTY generates monthly income through dividends, represented by the $ symbols you catch.</p>
+                </div>
+                <div class="learning-card">
+                    <h4>Market Volatility</h4>
+                    <p>Red volatility symbols represent market downturns that can impact your portfolio value.</p>
+                </div>
+                <div class="learning-card">
+                    <h4>Option Premiums</h4>
+                    <p>Yellow premium symbols show additional income from MSTY's covered call strategy.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Site Footer -->
+    <footer class="site-footer">
+        <div class="container">
+            <p>&copy; 2024 MSTY Millionaire. Educational content only. Not financial advice.</p>
+        </div>
+    </footer>
+
     <script src="game.js"></script>
+    <script src="site-integration.js"></script>
 </body>
 </html> 
