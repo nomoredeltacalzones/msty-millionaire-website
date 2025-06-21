@@ -12,7 +12,7 @@ Disallow: /.netlify/
 
 # Allow important pages
 Allow: /index.html
-Allow: /calculator-page.html
+Allow: /calculator.html
 Allow: /education-v2.html
 Allow: /portfolio-v2.html
 Allow: /faq-page.html

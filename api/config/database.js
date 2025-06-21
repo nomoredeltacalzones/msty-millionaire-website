@@ -1,11 +1,12 @@
 const { Pool } = require('pg');
+require('dotenv').config();
+
+const IS_PRODUCTION = process.env.NODE_ENV === 'production';
 
 // Database connection pool
 const pool = new Pool({
     connectionString: process.env.DATABASE_URL,
-    ssl: process.env.NODE_ENV === 'production' 
-        ? { rejectUnauthorized: false } 
-        : false,
+    ssl: IS_PRODUCTION ? { rejectUnauthorized: false } : false,
     max: 20, // Maximum number of clients in the pool
     idleTimeoutMillis: 30000, // How long a client is allowed to remain idle
     connectionTimeoutMillis: 2000, // How long to wait for a connection
@@ -35,6 +36,29 @@ async function testConnection() {
 
 // Initialize connection test
 testConnection();
+
+// Create high_scores table if it doesn't exist
+const initializeDatabase = async () => {
+    const createTableQuery = `
+        CREATE TABLE IF NOT EXISTS high_scores (
+            id SERIAL PRIMARY KEY,
+            player_name VARCHAR(50) NOT NULL,
+            score INTEGER NOT NULL,
+            level INTEGER NOT NULL,
+            created_at TIMESTAMP DEFAULT NOW()
+        );
+    `;
+    try {
+        const client = await pool.connect();
+        await client.query(createTableQuery);
+        client.release();
+        console.log('Database initialized: high_scores table is ready.');
+    } catch (err) {
+        console.error('Error initializing database:', err);
+    }
+};
+
+initializeDatabase();
 
 module.exports = {
     query: (text, params) => pool.query(text, params),

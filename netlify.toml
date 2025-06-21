@@ -1,16 +1,43 @@
+# Build settings for a Next.js project
 [build]
-  # Build command (empty for static sites)
-  command = ""
-  
-  # Directory to publish
-  publish = "."
-  
-  # Functions directory (for future serverless functions)
+  command = "next build"
+  publish = ".next"
   functions = "netlify/functions"
 
 [build.environment]
-  # Node version for build process
   NODE_VERSION = "18"
+
+# --- API Proxy Redirect ---
+# This rule is crucial for connecting the frontend (Netlify) to the backend (Railway).
+# It forwards any request made to /api/* on your Netlify site to your Railway service.
+# 
+# IMPORTANT: Replace the placeholder URL with your actual Railway app URL.
+[[redirects]]
+  from = "/api/*"
+  to = "https://your-backend-app.up.railway.app/api/:splat" # <-- IMPORTANT: CHANGE THIS URL
+  status = 200
+  force = true # Ensures this rule is applied before any other routing
+
+# The Next.js plugin handles all other routing, including 404s, so
+# the previous /* redirects are no longer needed.
+
+# --- Security Headers ---
+# These headers help protect your site from common web vulnerabilities.
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+
+# --- Netlify Plugin for Next.js ---
+# This plugin is essential for deploying Next.js sites on Netlify.
+# It automatically handles server-side rendering, API routes, and more.
+# You will need to install it: npm install @netlify/plugin-nextjs
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
 
 # Redirect rules for clean URLs and SPA behavior
 [[redirects]]
@@ -20,7 +47,7 @@
 
 [[redirects]]
   from = "/calculator"
-  to = "/calculator-page.html"
+  to = "/calculator.html"
   status = 200
 
 [[redirects]]
@@ -97,22 +124,6 @@
   from = "/disclaimer"
   to = "/investment-disclaimer.html"
   status = 200
-
-# Handle 404 errors
-[[redirects]]
-  from = "/*"
-  to = "/404-error-page.html"
-  status = 404
-
-# Security headers
-[[headers]]
-  for = "/*"
-  [headers.values]
-    X-Frame-Options = "DENY"
-    X-XSS-Protection = "1; mode=block"
-    X-Content-Type-Options = "nosniff"
-    Referrer-Policy = "strict-origin-when-cross-origin"
-    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
 
 # Cache static assets
 [[headers]]

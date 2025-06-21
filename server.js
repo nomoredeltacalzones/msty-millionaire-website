@@ -59,6 +59,7 @@ app.use('/api/portfolio', require('./api/portfolio'));
 app.use('/api/newsletter', require('./api/newsletter'));
 app.use('/api/user', require('./api/user'));
 app.use('/api/watchlist', require('./api/watchlist'));
+app.use('/api/game', require('./api/game'));
 
 // Uncomment these as you implement them
 app.use('/api/auth', require('./api/auth'));
@@ -353,14 +354,14 @@ const htmlRoutes = [
     { path: '/', file: 'index.html' },
     
     // Calculator main page and subpages
-    { path: '/calculator', file: 'calculator/index.html' },
-    { path: '/calculator/', file: 'calculator/index.html' },
+    { path: '/calculator', file: 'calculator.html' },
+    { path: '/calculator/', file: 'calculator.html' },
     { path: '/calculator/income', file: 'calculator/income-calculator/index.html' },
     { path: '/calculator/income/', file: 'calculator/income-calculator/index.html' },
-    { path: '/calculator/compound', file: 'calculator/compound-calculator/index.html' },
-    { path: '/calculator/compound/', file: 'calculator/compound-calculator/index.html' },
-    { path: '/calculator/tax', file: 'calculator/tax-calculator/index.html' },
-    { path: '/calculator/tax/', file: 'calculator/tax-calculator/index.html' },
+    { path: '/calculator/compound', file: 'compound-calculator.html' },
+    { path: '/calculator/compound/', file: 'compound-calculator.html' },
+    { path: '/calculator/tax', file: 'tax-calculator.html' },
+    { path: '/calculator/tax/', file: 'tax-calculator.html' },
     { path: '/calculator/risk-assessment', file: 'calculator/risk-assessment/index.html' },
     { path: '/calculator/risk-assessment/', file: 'calculator/risk-assessment/index.html' },
     { path: '/calculator/portfolio-optimizer', file: 'calculator/portfolio-optimizer/index.html' },

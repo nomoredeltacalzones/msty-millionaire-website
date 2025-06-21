@@ -43,9 +43,9 @@ msty-millionaire-website/
 
 ### Core Pages
 - `index.html` - Main dashboard
-- `calculator-page.html` - Investment calculator
-- `education-v2.html` - Learning center
-- `portfolio-v2.html` - Portfolio tracker
+- `calculator.html` - Investment calculator
+- `education-v2.html` - Main educational hub
+- `portfolio-v2.html` - User portfolio tracking page
 - `faq-page.html` - Frequently asked questions
 - `contact-page.html` - Contact form
 

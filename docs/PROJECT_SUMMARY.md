@@ -45,7 +45,7 @@ The MSTY Millionaire website has been successfully prepared for GitHub repositor
 
 #### Core Pages (6)
 - `index.html` - Main dashboard with live ETF data
-- `calculator-page.html` - Advanced investment calculator
+- `calculator.html` - Advanced investment calculator
 - `education-v2.html` - Learning center hub
 - `portfolio-v2.html` - Portfolio tracking tools
 - `faq-page.html` - Frequently asked questions

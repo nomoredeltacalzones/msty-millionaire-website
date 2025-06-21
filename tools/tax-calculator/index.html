@@ -248,98 +248,55 @@
             right: 20px;
             top: 50%;
             transform: translateY(-50%);
-            color: #6366f1;
-            font-weight: bold;
-        }
-
-        .input-wrapper input {
-            padding-left: 40px;
-        }
-
-        .input-wrapper input.with-suffix {
-            padding-right: 60px;
-        }
-
-        /* Tax Bracket Section */
-        .tax-brackets {
-            background: rgba(99, 102, 241, 0.05);
-            border: 1px solid rgba(99, 102, 241, 0.3);
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 25px;
-        }
-
-        .tax-brackets h3 {
-            color: #6366f1;
-            margin-bottom: 15px;
-            font-size: 1.2rem;
-        }
-
-        .bracket-info {
-            display: flex;
-            justify-content: space-between;
-            padding: 10px 0;
-            border-bottom: 1px solid rgba(99, 102, 241, 0.1);
-        }
-
-        .bracket-info:last-child {
-            border-bottom: none;
-        }
-
-        .bracket-label {
             color: #94a3b8;
         }
 
-        .bracket-value {
-            color: #e4e8f1;
-            font-weight: 600;
+        .form-group input[type="number"] {
+            padding-left: 35px;
         }
 
-        /* Distribution Breakdown */
-        .distribution-breakdown {
-            background: rgba(22, 32, 51, 0.6);
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 25px;
+        /* Tooltip */
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+            margin-left: 10px;
+            color: #6366f1;
         }
 
-        .breakdown-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-
-        .breakdown-header h4 {
-            color: #8b5cf6;
-        }
-
-        .breakdown-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 10px 0;
-            border-bottom: 1px solid rgba(99, 102, 241, 0.1);
-        }
-
-        .breakdown-item:last-child {
-            border-bottom: none;
-        }
-
-        .breakdown-label {
-            color: #94a3b8;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .breakdown-input {
-            width: 80px;
-            padding: 5px 10px;
-            background: rgba(99, 102, 241, 0.1);
-            border: 1px solid rgba(99, 102, 241, 0.3);
-            border-radius: 6px;
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 250px;
+            background-color: #334155;
             color: #fff;
-            text-align: right;
+            text-align: left;
+            border-radius: 8px;
+            padding: 10px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -125px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .tooltip .tooltiptext::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: #334155 transparent transparent transparent;
+        }
+
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
         }
 
         /* Calculate Button */
@@ -347,49 +304,36 @@
             width: 100%;
             padding: 20px;
             background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
-            color: white;
             border: none;
             border-radius: 12px;
-            font-weight: bold;
+            color: #fff;
             font-size: 1.2rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
             cursor: pointer;
             transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-            margin-top: 30px;
-        }
-
-        .btn-calculate::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 50%;
-            transform: translate(-50%, -50%);
-            transition: all 0.6s ease;
-        }
-
-        .btn-calculate:hover::before {
-            width: 100%;
-            height: 100%;
+            box-shadow: 0 10px 20px rgba(99, 102, 241, 0.2);
         }
 
         .btn-calculate:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.4);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 25px rgba(99, 102, 241, 0.3);
         }
 
+        .btn-calculate:active {
+            transform: translateY(-1px);
+        }
+        
         /* Results Section */
         .results-section {
             background: rgba(22, 32, 51, 0.8);
             border: 1px solid rgba(99, 102, 241, 0.3);
             border-radius: 20px;
             padding: 40px;
-            animation: fadeIn 0.8s ease-out 0.5s both;
-            min-height: 600px;
+            animation: fadeIn 0.8s ease-out 0.6s both;
+            position: relative;
+            overflow: hidden;
         }
 
         .results-section h2 {
@@ -397,611 +341,321 @@
             color: #6366f1;
             margin-bottom: 30px;
         }
-
-        .tax-summary {
+        
+        .results-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 20px;
-            margin-bottom: 30px;
+            margin-top: 30px;
         }
 
-        .summary-card {
-            background: rgba(99, 102, 241, 0.05);
-            border: 1px solid rgba(99, 102, 241, 0.3);
-            border-radius: 15px;
-            padding: 25px;
+        .result-item {
+            background: rgba(99, 102, 241, 0.1);
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            border: 2px solid transparent;
             transition: all 0.3s ease;
         }
 
-        .summary-card:hover {
-            background: rgba(99, 102, 241, 0.1);
-            transform: translateX(5px);
+        .result-item:hover {
+            transform: translateY(-5px);
+            border-color: #6366f1;
         }
-
-        .summary-label {
+        
+        .result-item h3 {
             color: #94a3b8;
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            font-size: 1rem;
             margin-bottom: 10px;
+            text-transform: uppercase;
+            font-weight: 600;
         }
 
-        .summary-value {
-            font-size: 2rem;
+        .result-item .value {
+            font-size: 1.8rem;
             font-weight: bold;
             color: #fff;
         }
 
-        .summary-value.tax {
-            color: #ef4444;
+        #chart-container {
+            margin-top: 40px;
         }
 
-        .summary-value.after-tax {
-            color: #22c55e;
-        }
-
-        /* Detailed Breakdown */
-        .tax-breakdown-table {
-            width: 100%;
-            margin-top: 30px;
-            background: rgba(22, 32, 51, 0.4);
+        /* Disclaimer */
+        .disclaimer-section {
+            margin: 60px 0;
+            padding: 30px;
+            background: rgba(22, 32, 51, 0.5);
             border-radius: 15px;
-            overflow: hidden;
-        }
-
-        .tax-breakdown-table th {
-            background: rgba(99, 102, 241, 0.2);
-            padding: 15px;
-            text-align: left;
-            color: #6366f1;
-            font-weight: 600;
-        }
-
-        .tax-breakdown-table td {
-            padding: 15px;
-            border-bottom: 1px solid rgba(99, 102, 241, 0.1);
-            color: #94a3b8;
-        }
-
-        .tax-breakdown-table tr:hover {
-            background: rgba(99, 102, 241, 0.05);
-        }
-
-        .tax-breakdown-table tr:last-child td {
-            border-bottom: none;
-            font-weight: 600;
-        }
-
-        /* Info Box */
-        .info-box {
-            background: rgba(99, 102, 241, 0.1);
-            border: 1px solid rgba(99, 102, 241, 0.3);
-            border-radius: 12px;
-            padding: 20px;
-            margin-top: 30px;
-        }
-
-        .info-box h3 {
-            color: #6366f1;
-            margin-bottom: 15px;
-        }
-
-        .info-box p {
-            color: #94a3b8;
-            margin-bottom: 10px;
-        }
-
-        .info-box ul {
-            color: #94a3b8;
-            margin-left: 20px;
-        }
-
-        .info-box li {
-            margin-bottom: 8px;
-        }
-
-        /* Warning Box */
-        .warning-box {
-            background: rgba(239, 68, 68, 0.1);
-            border: 1px solid rgba(239, 68, 68, 0.3);
-            border-radius: 10px;
-            padding: 20px;
-            margin-top: 30px;
-        }
-
-        .warning-box h3 {
-            color: #ef4444;
-            margin-bottom: 10px;
-        }
-
-        .warning-box p {
-            color: #fca5a5;
-        }
-
-        /* Ad Container */
-        .ad-container {
-            background: rgba(22, 32, 51, 0.6);
-            border: 1px solid rgba(99, 102, 241, 0.2);
-            border-radius: 15px;
-            padding: 20px;
-            margin: 40px 0;
             text-align: center;
-            min-height: 100px;
-            position: relative;
         }
 
-        .ad-container::before {
-            content: 'Advertisement';
-            position: absolute;
-            top: 5px;
-            left: 10px;
-            font-size: 0.7rem;
-            color: #64748b;
-            background: rgba(0, 0, 0, 0.5);
-            padding: 2px 8px;
-            border-radius: 4px;
+        .disclaimer-section p {
+            font-size: 0.9rem;
+            color: #94a3b8;
+            line-height: 1.6;
         }
 
         /* Footer */
         .footer {
-            background: rgba(22, 32, 51, 0.9);
+            background: #0a0e1a;
             padding: 40px 0;
-            margin-top: 100px;
-            text-align: center;
-            border-top: 1px solid rgba(99, 102, 241, 0.3);
+            border-top: 1px solid rgba(99, 102, 241, 0.2);
+            font-size: 0.9rem;
+            color: #94a3b8;
         }
 
-        .footer a {
-            color: #6366f1;
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .footer-links a {
+            color: #94a3b8;
             text-decoration: none;
+            transition: color 0.3s ease;
         }
 
-        .footer a:hover {
-            color: #8b5cf6;
-        }
-
-        /* Mobile Menu */
-        .mobile-menu-toggle {
-            display: none;
-            background: none;
-            border: none;
-            color: #e4e8f1;
-            font-size: 1.5rem;
-            cursor: pointer;
+        .footer-links a:hover {
+            color: #6366f1;
         }
 
         /* Responsive */
-        @media (max-width: 1024px) {
+        @media (max-width: 992px) {
             .calculator-layout {
                 grid-template-columns: 1fr;
             }
         }
 
         @media (max-width: 768px) {
-            .nav-menu {
-                display: none;
-                position: absolute;
-                top: 100%;
-                left: 0;
-                right: 0;
-                background: rgba(22, 32, 51, 0.95);
+            .header-content {
                 flex-direction: column;
-                padding: 20px;
-                border-bottom: 1px solid rgba(99, 102, 241, 0.3);
             }
-            
-            .nav-menu.active {
-                display: flex;
+
+            .nav-menu {
+                margin-top: 20px;
             }
-            
-            .mobile-menu-toggle {
-                display: block;
-            }
-            
+
             .page-title {
-                font-size: 2rem;
-            }
-            
-            .tax-summary {
-                grid-template-columns: 1fr;
+                font-size: 2.5rem;
             }
         }
+
     </style>
-    <script src="js/main.js" defer></script>
 </head>
 <body>
     <div class="bg-animation"></div>
 
-    <!-- Header -->
     <header class="header">
         <div class="container">
             <div class="header-content">
                 <div class="logo">
-                    <a href="../index.html" style="text-decoration: none;">
-                        <h1>MSTY Millionaire</h1>
-                    </a>
+                    <h1><a href="/" style="text-decoration: none; color: inherit;">MSTY Millionaire</a></h1>
                 </div>
-                
-                <nav class="nav-menu" id="navMenu">
-                    <a href="../index.html" class="nav-link" >Dashboard</a>
-                    <a href="../calculator/index.html" class="nav-link" >Calculator</a>
-                    <a href="../education/index.html" class="nav-link" >Learn</a>
-                    <a href="../portfolio/index.html" class="nav-link" >Portfolio</a>
-                    <a href="../faq/index.html" class="nav-link" >FAQ</a>
-                    <a href="../contact/index.html" class="nav-link" >Contact</a>
+                <nav class="nav-menu">
+                    <a href="/" class="nav-link">Home</a>
+                    <a href="/education/" class="nav-link">Education</a>
+                    <a href="/calculator.html" class="nav-link active">Calculators</a>
+                    <a href="/community/" class="nav-link">Community</a>
+                    <a href="/account/" class="nav-link">Account</a>
                 </nav>
-                
-                <button class="mobile-menu-toggle" onclick="toggleMenu()">☰</button>
             </div>
         </div>
     </header>
 
-    <!-- Main Content -->
     <main class="container">
         <div class="page-header">
-            <h1 class="page-title">Tax Calculator</h1>
-            <p class="page-subtitle">Estimate taxes on YieldMax ETF distributions and understand the impact of ROC</p>
+            <h1 class="page-title">YieldMax ETF Tax Calculator</h1>
+            <p class="page-subtitle">Estimate the tax implications of your YieldMax investments.</p>
         </div>
 
         <div class="calculator-layout">
-            <!-- Calculator Input Section -->
             <section class="calculator-section">
-                <h2>Tax Information</h2>
-                
-                <form id="taxForm">
+                <h2>Your Investment</h2>
+                <form id="tax-form">
                     <div class="form-group">
-                        <label for="annualDistributions">Annual Distributions Received</label>
-                        <div class="input-wrapper">
-                            <span class="input-prefix">$</span>
-                            <input type="number" id="annualDistributions" value="12000" min="0" step="100">
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="filingStatus">Filing Status</label>
-                        <select id="filingStatus">
-                            <option value="single">Single</option>
-                            <option value="married-joint">Married Filing Jointly</option>
-                            <option value="married-separate">Married Filing Separately</option>
-                            <option value="head">Head of Household</option>
+                        <label for="etf">Select ETF <span class="tooltip">?<span class="tooltiptext">Choose the YieldMax ETF you hold. Tax characteristics vary by fund.</span></span></label>
+                        <select id="etf" name="etf">
+                            <option value="MSTY">MSTY</option>
+                            <option value="TSLY">TSLY</option>
+                            <option value="NVDY">NVDY</option>
+                            <!-- Add other YieldMax ETFs as needed -->
                         </select>
                     </div>
-
                     <div class="form-group">
-                        <label for="taxableIncome">Other Taxable Income (Excluding Distributions)</label>
+                        <label for="shares">Number of Shares <span class="tooltip">?<span class="tooltiptext">Enter the total number of shares you own.</span></span></label>
+                        <input type="number" id="shares" name="shares" placeholder="e.g., 500" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="total-distribution">Total Distribution Received <span class="tooltip">?<span class="tooltiptext">Enter the total cash distribution you received for the period.</span></span></label>
                         <div class="input-wrapper">
                             <span class="input-prefix">$</span>
-                            <input type="number" id="taxableIncome" value="60000" min="0" step="1000">
+                            <input type="number" id="total-distribution" name="total-distribution" placeholder="e.g., 1000" required style="padding-left: 25px;">
                         </div>
                     </div>
-
                     <div class="form-group">
-                        <label for="state">State</label>
-                        <select id="state">
-                            <option value="0">No State Income Tax</option>
-                            <option value="5">5% State Tax</option>
-                            <option value="6">6% State Tax</option>
-                            <option value="7">7% State Tax</option>
-                            <option value="8">8% State Tax</option>
-                            <option value="9">9% State Tax</option>
-                            <option value="10">10% State Tax</option>
-                            <option value="13.3">California (13.3%)</option>
-                            <option value="10.9">New York (10.9%)</option>
-                        </select>
-                    </div>
-
-                    <div class="distribution-breakdown">
-                        <div class="breakdown-header">
-                            <h4>Distribution Breakdown</h4>
-                            <span style="color: #94a3b8; font-size: 0.9rem;">Total: 100%</span>
-                        </div>
-                        
-                        <div class="breakdown-item">
-                            <div class="breakdown-label">
-                                <span>📊</span>
-                                <span>Ordinary Income</span>
-                            </div>
-                            <div>
-                                <input type="number" id="ordinaryPercent" class="breakdown-input" value="15" min="0" max="100" step="1">
-                                <span style="color: #6366f1;">%</span>
-                            </div>
-                        </div>
-                        
-                        <div class="breakdown-item">
-                            <div class="breakdown-label">
-                                <span>💸</span>
-                                <span>Return of Capital (ROC)</span>
-                            </div>
-                            <div>
-                                <input type="number" id="rocPercent" class="breakdown-input" value="85" min="0" max="100" step="1">
-                                <span style="color: #6366f1;">%</span>
-                            </div>
-                        </div>
-                        
-                        <div class="breakdown-item">
-                            <div class="breakdown-label">
-                                <span>📈</span>
-                                <span>Capital Gains</span>
-                            </div>
-                            <div>
-                                <input type="number" id="capitalGainsPercent" class="breakdown-input" value="0" min="0" max="100" step="1">
-                                <span style="color: #6366f1;">%</span>
-                            </div>
+                        <label for="roc-percentage">Return of Capital (ROC) % <span class="tooltip">?<span class="tooltiptext">The portion of the distribution considered a return of your initial investment. Find this in your broker's tax details. Typically high for YieldMax.</span></span></label>
+                        <div class="input-wrapper">
+                           <input type="number" id="roc-percentage" name="roc-percentage" value="85" required>
+                           <span class="input-suffix">%</span>
                         </div>
                     </div>
-
-                    <div class="tax-brackets">
-                        <h3>Your Tax Brackets</h3>
-                        <div class="bracket-info">
-                            <span class="bracket-label">Federal Tax Bracket:</span>
-                            <span class="bracket-value" id="federalBracket">22%</span>
-                        </div>
-                        <div class="bracket-info">
-                            <span class="bracket-label">State Tax Rate:</span>
-                            <span class="bracket-value" id="stateBracket">0%</span>
-                        </div>
-                        <div class="bracket-info">
-                            <span class="bracket-label">Combined Rate:</span>
-                            <span class="bracket-value" id="combinedBracket">22%</span>
+                    <div class="form-group">
+                        <label for="tax-rate">Ordinary Income Tax Rate <span class="tooltip">?<span class="tooltiptext">Your marginal federal income tax rate. The non-ROC portion is taxed at this rate.</span></span></label>
+                         <div class="input-wrapper">
+                            <input type="number" id="tax-rate" name="tax-rate" placeholder="e.g., 24" required>
+                            <span class="input-suffix">%</span>
                         </div>
                     </div>
-
-                    <button type="button" class="btn-calculate" onclick="calculateTax()">
-                        Calculate Tax Impact
-                    </button>
+                    <button type="submit" class="btn-calculate">Calculate Tax Impact</button>
                 </form>
             </section>
 
-            <!-- Results Section -->
             <section class="results-section">
-                <h2>Tax Analysis</h2>
-                
-                <div id="resultsContainer">
-                    <div class="tax-summary">
-                        <div class="summary-card">
-                            <div class="summary-label">Total Tax Owed</div>
-                            <div class="summary-value tax" id="totalTax">$0</div>
+                <h2>Estimated Tax Impact</h2>
+                <div id="results-output" style="display: none;">
+                     <div class="results-grid">
+                        <div class="result-item">
+                            <h3>Total Taxable Income</h3>
+                            <p class="value" id="taxable-income-result">$0.00</p>
                         </div>
-                        
-                        <div class="summary-card">
-                            <div class="summary-label">After-Tax Income</div>
-                            <div class="summary-value after-tax" id="afterTaxIncome">$0</div>
+                        <div class="result-item">
+                            <h3>Estimated Tax Owed</h3>
+                            <p class="value" id="estimated-tax-result">$0.00</p>
                         </div>
-                        
-                        <div class="summary-card">
-                            <div class="summary-label">Effective Tax Rate</div>
-                            <div class="summary-value" id="effectiveRate">0%</div>
+                        <div class="result-item">
+                            <h3>Return of Capital (Non-Taxable)</h3>
+                            <p class="value" id="roc-amount-result">$0.00</p>
                         </div>
-                        
-                        <div class="summary-card">
-                            <div class="summary-label">Tax Deferred (ROC)</div>
-                            <div class="summary-value" id="taxDeferred">$0</div>
+                        <div class="result-item">
+                            <h3>Adjusted Cost Basis</h3>
+                            <p class="value" id="cost-basis-impact-result">--</p>
                         </div>
                     </div>
-                    
-                    <table class="tax-breakdown-table">
-                        <thead>
-                            <tr>
-                                <th>Distribution Type</th>
-                                <th>Amount</th>
-                                <th>Tax Rate</th>
-                                <th>Tax Owed</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Ordinary Income</td>
-                                <td id="ordinaryAmount">$0</td>
-                                <td id="ordinaryRate">0%</td>
-                                <td id="ordinaryTax">$0</td>
-                            </tr>
-                            <tr>
-                                <td>Return of Capital</td>
-                                <td id="rocAmount">$0</td>
-                                <td>0% (Deferred)</td>
-                                <td>$0</td>
-                            </tr>
-                            <tr>
-                                <td>Capital Gains</td>
-                                <td id="capitalAmount">$0</td>
-                                <td id="capitalRate">0%</td>
-                                <td id="capitalTax">$0</td>
-                            </tr>
-                            <tr style="background: rgba(99, 102, 241, 0.1);">
-                                <td><strong>Total</strong></td>
-                                <td id="totalAmount"><strong>$0</strong></td>
-                                <td>-</td>
-                                <td id="totalTaxRow"><strong>$0</strong></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    
-                    <div class="info-box">
-                        <h3>Understanding Return of Capital (ROC)</h3>
-                        <p>Return of Capital is not immediately taxable, but it has important implications:</p>
-                        <ul>
-                            <li>ROC reduces your cost basis in the ETF shares</li>
-                            <li>When you sell, you'll pay capital gains tax on the reduced basis</li>
-                            <li>If your basis reaches $0, additional ROC becomes taxable</li>
-                            <li>Keep detailed records of all ROC distributions</li>
-                        </ul>
+                    <div id="chart-container">
+                        <canvas id="tax-chart"></canvas>
                     </div>
-                    
-                    <div class="warning-box">
-                        <h3>⚠️ Important Tax Disclaimer</h3>
-                        <p>This calculator provides estimates only. Actual tax liability depends on many factors not included here. Always consult with a qualified tax professional for accurate tax planning and advice.</p>
-                    </div>
+                </div>
+                 <div id="results-placeholder">
+                    <p>Enter your investment details to see the estimated tax breakdown.</p>
                 </div>
             </section>
         </div>
 
-        <!-- Ad Banner -->
-        <div class="ad-container">
-            <ins class="adsbygoogle"
-                 style="display:block"
-                 data-ad-client="ca-pub-PLACEHOLDER-ID"
-                 data-ad-slot="1234567890"
-                 data-ad-format="auto"
-                 data-full-width-responsive="true"></ins>
-            <script>
-                 (adsbygoogle = window.adsbygoogle || []).push({});
-            </script>
-        </div>
+        <section class="disclaimer-section">
+            <h2>Disclaimer</h2>
+            <p>This calculator is for informational and educational purposes only and should not be considered tax advice. The tax characteristics of YieldMax ETFs can be complex and may change. Always consult with a qualified tax professional regarding your specific financial situation.</p>
+        </section>
+
     </main>
 
-    <!-- Footer -->
     <footer class="footer">
         <div class="container">
-            <p>&copy; 2025 MSTY Millionaire. Tax calculator for educational purposes only.</p>
-            <p>Not tax advice. Consult a tax professional.</p>
+            <div class="footer-content">
+                <p>&copy; 2024 MSTY Millionaire. All Rights Reserved.</p>
+                <div class="footer-links">
+                    <a href="/privacy-policy.html">Privacy Policy</a>
+                    <a href="/terms-of-service.html">Terms of Service</a>
+                    <a href="/investment-disclaimer.html">Disclaimer</a>
+                </div>
+            </div>
         </div>
     </footer>
 
-    <script src="/js/market-status.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-        // Federal tax brackets 2025 (estimated)
-        const federalBrackets = {
-            single: [
-                { min: 0, max: 11600, rate: 0.10 },
-                { min: 11600, max: 47150, rate: 0.12 },
-                { min: 47150, max: 100525, rate: 0.22 },
-                { min: 100525, max: 191950, rate: 0.24 },
-                { min: 191950, max: 243725, rate: 0.32 },
-                { min: 243725, max: 609350, rate: 0.35 },
-                { min: 609350, max: Infinity, rate: 0.37 }
-            ],
-            'married-joint': [
-                { min: 0, max: 23200, rate: 0.10 },
-                { min: 23200, max: 94300, rate: 0.12 },
-                { min: 94300, max: 201050, rate: 0.22 },
-                { min: 201050, max: 383900, rate: 0.24 },
-                { min: 383900, max: 487450, rate: 0.32 },
-                { min: 487450, max: 731200, rate: 0.35 },
-                { min: 731200, max: Infinity, rate: 0.37 }
-            ]
-        };
+        document.getElementById('tax-form').addEventListener('submit', function(e) {
+            e.preventDefault();
 
-        // Update distribution percentages
-        function updateDistributionPercentages() {
-            const ordinary = parseInt(document.getElementById('ordinaryPercent').value) || 0;
-            const roc = parseInt(document.getElementById('rocPercent').value) || 0;
-            const capital = parseInt(document.getElementById('capitalGainsPercent').value) || 0;
-            
-            const total = ordinary + roc + capital;
-            
-            // Auto-adjust to ensure total equals 100%
-            if (total !== 100) {
-                const diff = 100 - total;
-                if (this.id === 'ordinaryPercent') {
-                    document.getElementById('rocPercent').value = Math.max(0, parseInt(document.getElementById('rocPercent').value) + diff);
-                } else if (this.id === 'rocPercent') {
-                    document.getElementById('ordinaryPercent').value = Math.max(0, parseInt(document.getElementById('ordinaryPercent').value) + diff);
-                } else {
-                    document.getElementById('rocPercent').value = Math.max(0, parseInt(document.getElementById('rocPercent').value) + diff);
-                }
+            // Get form values
+            const shares = parseFloat(document.getElementById('shares').value);
+            const totalDistribution = parseFloat(document.getElementById('total-distribution').value);
+            const rocPercentage = parseFloat(document.getElementById('roc-percentage').value);
+            const taxRate = parseFloat(document.getElementById('tax-rate').value);
+
+            // Basic validation
+            if (isNaN(shares) || isNaN(totalDistribution) || isNaN(rocPercentage) || isNaN(taxRate)) {
+                alert("Please fill out all fields with valid numbers.");
+                return;
             }
-        }
 
-        // Add event listeners for percentage inputs
-        document.getElementById('ordinaryPercent').addEventListener('input', updateDistributionPercentages);
-        document.getElementById('rocPercent').addEventListener('input', updateDistributionPercentages);
-        document.getElementById('capitalGainsPercent').addEventListener('input', updateDistributionPercentages);
+            // Calculations
+            const rocAmount = totalDistribution * (rocPercentage / 100);
+            const taxableIncome = totalDistribution - rocAmount;
+            const estimatedTax = taxableIncome * (taxRate / 100);
+            
+            // Display results
+            document.getElementById('taxable-income-result').textContent = `$${taxableIncome.toFixed(2)}`;
+            document.getElementById('estimated-tax-result').textContent = `$${estimatedTax.toFixed(2)}`;
+            document.getElementById('roc-amount-result').textContent = `$${rocAmount.toFixed(2)}`;
+            document.getElementById('cost-basis-impact-result').textContent = `-$${rocAmount.toFixed(2)}`;
 
-        // Update tax brackets display
-        function updateTaxBrackets() {
-            const income = parseFloat(document.getElementById('taxableIncome').value) || 0;
-            const status = document.getElementById('filingStatus').value;
-            const stateRate = parseFloat(document.getElementById('state').value) || 0;
+
+            document.getElementById('results-output').style.display = 'block';
+            document.getElementById('results-placeholder').style.display = 'none';
             
-            const brackets = federalBrackets[status] || federalBrackets['single'];
-            let federalRate = 0;
+            // Update or create chart
+            updateChart(taxableIncome, rocAmount);
+        });
+
+        let taxChart;
+        function updateChart(taxable, roc) {
+            const ctx = document.getElementById('tax-chart').getContext('2d');
             
-            for (const bracket of brackets) {
-                if (income >= bracket.min && income <= bracket.max) {
-                    federalRate = bracket.rate * 100;
-                    break;
-                }
+            if (taxChart) {
+                taxChart.destroy();
             }
-            
-            document.getElementById('federalBracket').textContent = federalRate.toFixed(0) + '%';
-            document.getElementById('stateBracket').textContent = stateRate.toFixed(1) + '%';
-            document.getElementById('combinedBracket').textContent = (federalRate + stateRate).toFixed(1) + '%';
-        }
 
-        // Add event listeners for bracket updates
-        document.getElementById('taxableIncome').addEventListener('input', updateTaxBrackets);
-        document.getElementById('filingStatus').addEventListener('change', updateTaxBrackets);
-        document.getElementById('state').addEventListener('change', updateTaxBrackets);
-
-        // Calculate tax
-        function calculateTax() {
-            const distributions = parseFloat(document.getElementById('annualDistributions').value) || 0;
-            const income = parseFloat(document.getElementById('taxableIncome').value) || 0;
-            const status = document.getElementById('filingStatus').value;
-            const stateRate = parseFloat(document.getElementById('state').value) / 100 || 0;
-            
-            const ordinaryPercent = parseFloat(document.getElementById('ordinaryPercent').value) / 100 || 0;
-            const rocPercent = parseFloat(document.getElementById('rocPercent').value) / 100 || 0;
-            const capitalPercent = parseFloat(document.getElementById('capitalGainsPercent').value) / 100 || 0;
-            
-            // Calculate amounts
-            const ordinaryAmount = distributions * ordinaryPercent;
-            const rocAmount = distributions * rocPercent;
-            const capitalAmount = distributions * capitalPercent;
-            
-            // Get tax rates
-            const brackets = federalBrackets[status] || federalBrackets['single'];
-            const totalIncome = income + ordinaryAmount;
-            
-            let federalRate = 0;
-            for (const bracket of brackets) {
-                if (totalIncome >= bracket.min && totalIncome <= bracket.max) {
-                    federalRate = bracket.rate;
-                    break;
+            taxChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Taxable Income', 'Return of Capital (Non-Taxable)'],
+                    datasets: [{
+                        data: [taxable, roc],
+                        backgroundColor: [
+                            'rgba(239, 68, 68, 0.7)', // Red for taxable
+                            'rgba(34, 197, 94, 0.7)'  // Green for non-taxable
+                        ],
+                        borderColor: [
+                             'rgba(239, 68, 68, 1)',
+                             'rgba(34, 197, 94, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                            labels: {
+                                color: '#e4e8f1',
+                                font: {
+                                    size: 14
+                                }
+                            }
+                        },
+                        title: {
+                            display: true,
+                            text: 'Distribution Breakdown',
+                            color: '#e4e8f1',
+                            font: {
+                                size: 18
+                            }
+                        }
+                    }
                 }
-            }
-            
-            // Capital gains rate (simplified)
-            const capitalGainsRate = income < 47025 ? 0 : (income < 518900 ? 0.15 : 0.20);
-            
-            // Calculate taxes
-            const ordinaryTax = ordinaryAmount * (federalRate + stateRate);
-            const capitalTax = capitalAmount * (capitalGainsRate + stateRate);
-            const totalTax = ordinaryTax + capitalTax;
-            
-            const afterTax = distributions - totalTax;
-            const effectiveRate = (totalTax / distributions) * 100;
-            
-            // Update display
-            document.getElementById('totalTax').textContent = '$' + totalTax.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-            document.getElementById('afterTaxIncome').textContent = '$' + afterTax.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-            document.getElementById('effectiveRate').textContent = effectiveRate.toFixed(1) + '%';
-            document.getElementById('taxDeferred').textContent = '$' + rocAmount.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-            
-            // Update table
-            document.getElementById('ordinaryAmount').textContent = '$' + ordinaryAmount.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-            document.getElementById('ordinaryRate').textContent = ((federalRate + stateRate) * 100).toFixed(1) + '%';
-            document.getElementById('ordinaryTax').textContent = '$' + ordinaryTax.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-            
-            document.getElementById('rocAmount').textContent = '$' + rocAmount.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-            
-            document.getElementById('capitalAmount').textContent = '$' + capitalAmount.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-            document.getElementById('capitalRate').textContent = ((capitalGainsRate + stateRate) * 100).toFixed(1) + '%';
-            document.getElementById('capitalTax').textContent = '$' + capitalTax.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-            
-            document.getElementById('totalAmount').innerHTML = '<strong>$' + distributions.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ',') + '</strong>';
-            document.getElementById('totalTaxRow').innerHTML = '<strong>$' + totalTax.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ',') + '</strong>';
+            });
         }
-
-        // Mobile menu
-        function toggleMenu() {
-            const navMenu = document.getElementById('navMenu');
-            navMenu.classList.toggle('active');
-        }
-
-        // Initialize
-        updateTaxBrackets();
-        calculateTax();
     </script>
+
 </body>
 </html>
