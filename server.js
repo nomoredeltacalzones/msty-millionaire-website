@@ -370,6 +370,8 @@ const htmlRoutes = [
     // Game routes
     { path: '/game', file: 'games/yieldmax-rocket-game.html' },
     { path: '/game/', file: 'games/yieldmax-rocket-game.html' },
+    { path: '/game/yieldmax-rocket.html', file: 'games/yieldmax-rocket-game.html' },
+    { path: '/game/yieldmax-rocket', file: 'games/yieldmax-rocket-game.html' },
     
     // Other main sections
     { path: '/portfolio', file: 'portfolio/index.html' },
